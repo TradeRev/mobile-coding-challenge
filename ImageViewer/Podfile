@@ -1,0 +1,21 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+
+# ignore all warnings from all pods
+#inhibit_all_warnings!
+
+use_frameworks!
+
+def import_pods
+  pod 'R.swift', '4.0.0'
+  pod 'XCGLogger', '6.0.1'
+end
+
+workspace 'ImageViewer.xcworkspace'
+project 'ImageViewer.xcodeproj'
+
+target 'ImageViewer' do
+  project 'ImageViewer'
+  import_pods
+end
+  
