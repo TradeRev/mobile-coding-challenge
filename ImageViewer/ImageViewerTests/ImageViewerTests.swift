@@ -21,16 +21,17 @@ class ImageViewerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testAuthentication() {
+      let authServ = UnsplashAuthenticationService()
+      
+      let fulfill = expectation("test")
+      authServ.authorize(applicationID: "bfd715955275ab1cb898a4b5841009491fbc9d24e46f0cdcd5252b694b2e426f").then { (Void) -> Void in
+          fulfill()
+        }.catch { (err) in
+          Log.error("ERROR: \((err as? IVError)?.description)")
+          return XCTFail()
+      }
+      
+      XCTAssert(wait() == nil)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

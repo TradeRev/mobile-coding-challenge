@@ -7,7 +7,20 @@
 		<key>ImageViewer.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>11</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>07AA442F1FDAF66F00D2DC86</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>07AA44431FDAF66F00D2DC86</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

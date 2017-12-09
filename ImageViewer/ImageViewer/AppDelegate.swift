@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import XCGLogger
+
+var Log = XCGLogger()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+    
+    guard let rootController = self.window?.rootViewController as? UINavigationController else {
+      Log.error("FAILED TO LOAD ROOT CONTROLLER")
+      return false
+    }
+    
+    if let vc = R.storyboard.main().instantiateViewController(withIdentifier: "LoginViewControllerID") as? LoginViewController {
+      rootController.setViewControllers([vc], animated: true)
+    }
+    
     return true
   }
 
