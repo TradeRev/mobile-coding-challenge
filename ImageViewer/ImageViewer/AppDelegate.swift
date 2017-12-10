@@ -18,14 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    
-    guard let rootController = self.window?.rootViewController as? UINavigationController else {
-      Log.error("FAILED TO LOAD ROOT CONTROLLER")
+    guard let _ = UIApplication.shared.instantiateAndShow(controllerID: "LoginViewControllerID") else {
+      Log.error("FAILED TO LOAD VIEW CONTROLLER USING \"LoginViewControllerID\" as ID")
       return false
-    }
-    
-    if let vc = R.storyboard.main().instantiateViewController(withIdentifier: "LoginViewControllerID") as? LoginViewController {
-      rootController.setViewControllers([vc], animated: true)
     }
     
     return true

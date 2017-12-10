@@ -11,10 +11,12 @@
 //
 
 import UIKit
+import UnsplashKit
 
 protocol PhotoGridPresentationLogic
 {
-  func presentSomething(response: PhotoGrid.Something.Response)
+  func presentPhotos(response:PhotoGrid.Response)
+  func presentError(error: PhotoGrid.Error)
 }
 
 class PhotoGridPresenter: PhotoGridPresentationLogic
@@ -23,9 +25,17 @@ class PhotoGridPresenter: PhotoGridPresentationLogic
   
   // MARK: Do something
   
-  func presentSomething(response: PhotoGrid.Something.Response)
+  func presentPhotos(response:PhotoGrid.Response) {
+    DispatchQueue.main.async {
+      self.viewController?.displayPhotos(photos: response.photos)
+    }
+  }
+  
+  
+  func presentError(error: PhotoGrid.Error)
   {
-    let viewModel = PhotoGrid.Something.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
+    DispatchQueue.main.async {
+      self.viewController?.displayError(error)
+    }
   }
 }

@@ -11,31 +11,58 @@
 //
 
 import UIKit
+import UnsplashKit
 
 protocol PhotoGridBusinessLogic
 {
-  func doSomething(request: PhotoGrid.Something.Request)
+  func doWithdrawPhotos(request: PhotoGrid.Request)
 }
 
 protocol PhotoGridDataStore
 {
-  //var name: String { get set }
+  var photos: [Photo] { get }
 }
 
 class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
 {
   var presenter: PhotoGridPresentationLogic?
-  var worker: PhotoGridWorker?
-  //var name: String = ""
+  
+  var photos = [Photo]()
   
   // MARK: Do something
   
-  func doSomething(request: PhotoGrid.Something.Request)
+  func doWithdrawPhotos(request: PhotoGrid.Request)
   {
-    worker = PhotoGridWorker()
-    worker?.doSomeWork()
+    guard let token = Settings.shared.token else {
+      presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: "TOKEN IS NOT AVAILABLE")))
+      return
+    }
     
-    let response = PhotoGrid.Something.Response()
-    presenter?.presentSomething(response: response)
+    let client = UnsplashClient { request -> [String: String] in
+      return [ "Authorization": "Bearer \(token)"]
+    }
+    
+    let photos = Photo.list(page: 1, perPage: 30, orderBy: .latest)
+    client.execute(resource: photos) { (result) in
+      guard nil == result.error else {
+        self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: result.error!.description)))
+        return
+      }
+      
+      guard let photos = result.value?.object else {
+        self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: "No available photos")))
+        return
+      }
+      
+      self.photos = photos
+      self.presenter?.presentPhotos(response: PhotoGrid.Response(photos: photos))
+      
+//      for var item in (result.value?.object)! {
+//          print(item)
+//      }
+      
+    }
+//    let response = PhotoGrid.Response()
+//    presenter?.presentSomething(response: response)
   }
 }

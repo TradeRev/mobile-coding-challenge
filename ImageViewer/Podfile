@@ -10,10 +10,12 @@ def import_pods
   pod 'R.swift', '4.0.0'
   pod 'XCGLogger' , '5.0.5'
   pod 'Alamofire'
+  pod 'AlamofireImage'
   pod 'UnsplashKit/API' # Official API
   pod 'UnsplashKit/Source' # Source API
   pod 'PromiseKit'
   pod 'SwiftyJSON'
+  pod 'PagedArray'
 end
 
 workspace 'ImageViewer.xcworkspace'

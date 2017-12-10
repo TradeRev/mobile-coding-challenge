@@ -11,21 +11,25 @@
 //
 
 import UIKit
+import UnsplashKit
 
 enum PhotoGrid
 {
   // MARK: Use cases
   
-  enum Something
+  struct Request
   {
-    struct Request
-    {
-    }
-    struct Response
-    {
-    }
-    struct ViewModel
-    {
-    }
+  }
+  struct Response
+  {
+    let photos:[Photo]
+  }
+  struct ViewModelProgress
+  {
+    let message: String
+  }
+  struct Error
+  {
+    let error: IVError
   }
 }

@@ -11,17 +11,30 @@
 //
 
 import UIKit
+import UnsplashKit
+import PagedArray
 
 protocol PhotoGridDisplayLogic: class
 {
-  func displaySomething(viewModel: PhotoGrid.Something.ViewModel)
+  func displayPhotos(photos: [Photo])
+  func displayProgress(viewModel: PhotoGrid.ViewModelProgress)
+  func displayError(_ error: PhotoGrid.Error)
 }
+
 
 class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
 {
   var interactor: PhotoGridBusinessLogic?
   var router: (NSObjectProtocol & PhotoGridRoutingLogic & PhotoGridDataPassing)?
 
+  
+  fileprivate let itemsPerRow: CGFloat = 2
+  fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+  
+  fileprivate var activityIndicator: UIActivityIndicatorView?
+  
+  fileprivate var dataModel = [Photo]()
+  
   // MARK: Object lifecycle
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -52,38 +65,179 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
     router.dataStore = interactor
   }
   
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
-  }
-  
   // MARK: View lifecycle
   
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    doSomething()
+    
+    //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    
+    doWithdrawPhotos()
   }
   
   // MARK: Do something
   
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func doSomething()
+  func doWithdrawPhotos()
   {
-    let request = PhotoGrid.Something.Request()
-    interactor?.doSomething(request: request)
+    displayProgress(viewModel: PhotoGrid.ViewModelProgress(message: "Withdrawing photos..."))
+    
+    let request = PhotoGrid.Request()
+    interactor?.doWithdrawPhotos(request: request)
   }
   
-  func displaySomething(viewModel: PhotoGrid.Something.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
+  // MARK: PhotoGridDisplayLogic
+  
+  func displayPhotos(photos: [Photo]) {
+    dataModel = photos
+    stopProgress()
+    collectionView?.reloadData()
+  }
+  
+  
+  func displayProgress(viewModel: PhotoGrid.ViewModelProgress) {
+    // TODO
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    activityIndicator.color = .gray
+    activityIndicator.frame = (collectionView?.bounds)!
+    
+    collectionView?.addSubview(activityIndicator)
+    activityIndicator.startAnimating()
+    
+    self.activityIndicator = activityIndicator // To stop it somewhere
+  }
+  
+  
+  fileprivate func stopProgress() {
+    if let ai = self.activityIndicator {
+      ai.removeFromSuperview()
+    }
+  }
+  
+  
+  func displayError(_ error: PhotoGrid.Error) {
+    // TODO
+  }
+  
+  // MARK: UICollectionViewDataSource
+  
+  override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  
+  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return dataModel.count
+  }
+  
+  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCellID", for: indexPath) as! PhotoCell
+    cell.backgroundColor = UIColor.white
+    let photo = dataModel[indexPath.row]
+    cell.configureCell(with: photo.urls!.small, placeholderImage: UIImage())
+    
+    return cell
+  }
+  
+  // MARK: UICollectionViewDelegate
+  
+  /*
+   // Uncomment this method to specify if the specified item should be highlighted during tracking
+   override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
+   return true
+   }
+   */
+  
+  /*
+   // Uncomment this method to specify if the specified item should be selected
+   override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+   return true
+   }
+   */
+  
+  /*
+   // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
+   override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+   return false
+   }
+   
+   override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+   return false
+   }
+   
+   override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+   
+   }
+   */
+}
+
+
+extension PhotoGridViewController : UICollectionViewDelegateFlowLayout {
+  
+//  func collectionView(_ collectionView: UICollectionView, targetContentOffsetForProposedContentOffset proposedContentOffset: CGPoint) -> CGPoint {
+//    if let cv = self.collectionView {
+//
+//      let cvBounds = cv.bounds
+//      let halfWidth = cvBounds.size.width * 0.5;
+//      let proposedContentOffsetCenterX = proposedContentOffset.x + halfWidth;
+//
+//      //self.collectionView?.layoutAttributesForItem(at: <#T##IndexPath#>))
+//      if let attributesForVisibleCells = self.layoutAttributesForElementsInRect(cvBounds) as? [UICollectionViewLayoutAttributes] {
+//
+//        var candidateAttributes : UICollectionViewLayoutAttributes?
+//        for attributes in attributesForVisibleCells {
+//
+//          // == Skip comparison with non-cell items (headers and footers) == //
+//          if attributes.representedElementCategory != UICollectionElementCategory.Cell {
+//            continue
+//          }
+//
+//          if let candAttrs = candidateAttributes {
+//
+//            let a = attributes.center.x - proposedContentOffsetCenterX
+//            let b = candAttrs.center.x - proposedContentOffsetCenterX
+//
+//            if fabsf(Float(a)) < fabsf(Float(b)) {
+//              candidateAttributes = attributes;
+//            }
+//
+//          }
+//          else { // == First time in the loop == //
+//
+//            candidateAttributes = attributes;
+//            continue;
+//          }
+//
+//
+//        }
+//
+//        return CGPoint(x : candidateAttributes!.center.x - halfWidth, y : proposedContentOffset.y);
+//      }
+//    }
+//
+//    return super.collectionView(collectionView, targetContentOffsetForProposedContentOffset: proposedContentOffset)
+//  }
+  
+//  override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+//    // Fallback
+//    return super.targetContentOffsetForProposedContentOffset(proposedContentOffset)
+//  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+    let availableWidth = view.frame.width - paddingSpace
+    let widthPerItem = availableWidth / itemsPerRow
+    
+    return CGSize(width: widthPerItem, height: widthPerItem)
+  }
+  
+
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    return sectionInsets
+  }
+  
+
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return sectionInsets.left
   }
 }

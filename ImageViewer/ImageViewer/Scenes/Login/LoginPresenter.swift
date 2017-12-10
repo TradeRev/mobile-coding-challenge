@@ -14,7 +14,6 @@ import UIKit
 
 protocol LoginPresentationLogic
 {
-  func presentSomething(response: Login.Response)
   func presentPhotGrid()
   func presentError(error: Login.LoginError)
 }
@@ -24,12 +23,6 @@ class LoginPresenter: LoginPresentationLogic
   weak var viewController: LoginDisplayLogic?
   
   // MARK: Do something
-  
-  func presentSomething(response: Login.Response)
-  {
-    let viewModel = Login.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
   
   func presentPhotGrid() {
     DispatchQueue.main.async {
