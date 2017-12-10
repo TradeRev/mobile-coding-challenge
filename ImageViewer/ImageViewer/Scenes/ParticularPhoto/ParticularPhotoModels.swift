@@ -18,6 +18,7 @@ enum ParticularPhoto
   
   struct Request
   {
+    var idx: Int
   }
   struct Response
   {

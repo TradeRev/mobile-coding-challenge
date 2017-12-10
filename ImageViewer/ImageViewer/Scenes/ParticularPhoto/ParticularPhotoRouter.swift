@@ -14,12 +14,13 @@ import UIKit
 
 @objc protocol ParticularPhotoRoutingLogic
 {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func routeToTheNext(_ indexPath: IndexPath)
+  func routeToThePrevious(_ indexPath: IndexPath)
 }
 
 protocol ParticularPhotoDataPassing
 {
-  var dataStore: ParticularPhotoDataStore? { get }
+  var dataStore: ParticularPhotoDataStore? { get set }
 }
 
 class ParticularPhotoRouter: NSObject, ParticularPhotoRoutingLogic, ParticularPhotoDataPassing
@@ -28,6 +29,15 @@ class ParticularPhotoRouter: NSObject, ParticularPhotoRoutingLogic, ParticularPh
   var dataStore: ParticularPhotoDataStore?
   
   // MARK: Routing
+  
+  func routeToTheNext(_ indexPath: IndexPath) {
+    
+  }
+  
+  
+  func routeToThePrevious(_ indexPath: IndexPath) {
+    
+  }
   
   //func routeToSomewhere(segue: UIStoryboardSegue?)
   //{

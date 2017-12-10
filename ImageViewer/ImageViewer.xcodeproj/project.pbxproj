@@ -20,6 +20,7 @@
 		0769CD1F1FDDB2410093E4C8 /* ParticularPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD191FDDB2410093E4C8 /* ParticularPhotoViewController.swift */; };
 		0769CD201FDDB2410093E4C8 /* ParticularPhotoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD1A1FDDB2410093E4C8 /* ParticularPhotoPresenter.swift */; };
 		0769CD211FDDB2410093E4C8 /* ParticularPhotoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD1B1FDDB2410093E4C8 /* ParticularPhotoInteractor.swift */; };
+		0769CD241FDDC4CC0093E4C8 /* PhotoDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD231FDDC4CC0093E4C8 /* PhotoDataStorage.swift */; };
 		07AA44341FDAF66F00D2DC86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */; };
 		07AA44391FDAF66F00D2DC86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07AA44371FDAF66F00D2DC86 /* Main.storyboard */; };
 		07AA443B1FDAF66F00D2DC86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AA443A1FDAF66F00D2DC86 /* Assets.xcassets */; };
@@ -64,6 +65,7 @@
 		0769CD191FDDB2410093E4C8 /* ParticularPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoViewController.swift; sourceTree = "<group>"; };
 		0769CD1A1FDDB2410093E4C8 /* ParticularPhotoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoPresenter.swift; sourceTree = "<group>"; };
 		0769CD1B1FDDB2410093E4C8 /* ParticularPhotoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoInteractor.swift; sourceTree = "<group>"; };
+		0769CD231FDDC4CC0093E4C8 /* PhotoDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDataStorage.swift; sourceTree = "<group>"; };
 		07AA44301FDAF66F00D2DC86 /* ImageViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07AA44381FDAF66F00D2DC86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -137,6 +139,14 @@
 			path = ParticularPhoto;
 			sourceTree = "<group>";
 		};
+		0769CD221FDDC4AE0093E4C8 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				0769CD231FDDC4CC0093E4C8 /* PhotoDataStorage.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		07AA44271FDAF66F00D2DC86 = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +215,7 @@
 		07AA44631FDB8AB800D2DC86 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				0769CD221FDDC4AE0093E4C8 /* Common */,
 				0769CD151FDDB2410093E4C8 /* ParticularPhoto */,
 				0769CCD11FDC53A90093E4C8 /* PhotoGrid */,
 				07AA447C1FDB8B3700D2DC86 /* Login */,
@@ -535,6 +546,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0769CCDC1FDC53A90093E4C8 /* PhotoGridRouter.swift in Sources */,
+				0769CD241FDDC4CC0093E4C8 /* PhotoDataStorage.swift in Sources */,
 				0769CCDD1FDC53A90093E4C8 /* PhotoGridPresenter.swift in Sources */,
 				0769CD201FDDB2410093E4C8 /* ParticularPhotoPresenter.swift in Sources */,
 				0769CCD81FDC53A90093E4C8 /* PhotoGridInteractor.swift in Sources */,

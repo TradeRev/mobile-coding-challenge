@@ -11,26 +11,70 @@
 //
 
 import UIKit
+import UnsplashKit
+import PagedArray
 
 protocol ParticularPhotoBusinessLogic
 {
-  func doSomething(request: ParticularPhoto.Request)
+  func doGetNextPhoto() -> Photo?
+  func doGetPreviousPhoto() -> Photo?
+  func doGetCurrentPhoto() -> Photo?
 }
 
 protocol ParticularPhotoDataStore
 {
-  //var name: String { get set }
+  var photoStorage: PhotoDataStorage? { get set }
+  var currentIndex: Int? { get set }
 }
 
 class ParticularPhotoInteractor: ParticularPhotoBusinessLogic, ParticularPhotoDataStore
 {
   var presenter: ParticularPhotoPresentationLogic?
   
-  // MARK: Do something
+  var photoStorage: PhotoDataStorage?
+  var currentIndex: Int?
   
-  func doSomething(request: ParticularPhoto.Request)
-  {
-    let response = ParticularPhoto.Response()
-    presenter?.presentSomething(response: response)
+  // MARK: ParticularPhotoBusinessLogic
+  
+  func doGetNextPhoto() -> Photo? {
+    guard var idx = currentIndex else {
+      return nil
+    }
+
+    if let photoCount = photoStorage?.photos?.count {
+      if idx < photoCount - 1 {
+        idx = idx + 1
+        
+        photoStorage?.loadPhotosIfNeededForIndex(idx)
+        currentIndex = idx
+        return photoStorage?.photos?[idx]
+      }
+    }
+    
+    return nil
+  }
+  
+  func doGetPreviousPhoto() -> Photo? {
+    guard var idx = currentIndex else {
+      return nil
+    }
+    
+    if idx > 0 {
+      idx = idx - 1
+      
+      photoStorage?.loadPhotosIfNeededForIndex(idx)
+      currentIndex = idx
+      return photoStorage?.photos?[idx]
+    }
+    return nil
+  }
+  
+  func doGetCurrentPhoto() -> Photo? {
+    guard let idx = currentIndex else {
+      return nil
+    }
+
+    photoStorage?.loadPhotosIfNeededForIndex(idx)
+    return photoStorage?.photos?[idx]
   }
 }

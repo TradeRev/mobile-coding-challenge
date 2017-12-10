@@ -26,8 +26,6 @@ class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLog
 
   @IBOutlet weak var photoImage: UIImageView!
   
-  var photo: Photo?
-  
   // MARK: Object lifecycle
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -76,26 +74,67 @@ class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLog
   {
     super.viewDidLoad()
     
-    if let fullURL = photo?.urls?.full {
-      photoImage.af_setImage(withURL: URL(string: fullURL)!, placeholderImage: UIImage(), imageTransition: .crossDissolve(0.2)
-      )
+    let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+    swipeLeft.direction = .left
+    self.view.addGestureRecognizer(swipeLeft)
+    
+    let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
+    swipeRight.direction = .right
+    self.view.addGestureRecognizer(swipeRight)
+    
+    if let photo = interactor?.doGetCurrentPhoto() {
+      showPhoto(photo)
     }
-
-    doSomething()
   }
   
   // MARK: Do something
   
   //@IBOutlet weak var nameTextField: UITextField!
   
-  func doSomething()
-  {
-    let request = ParticularPhoto.Request()
-    interactor?.doSomething(request: request)
-  }
-  
   func displaySomething(viewModel: ParticularPhoto.ViewModel)
   {
     //nameTextField.text = viewModel.name
+  }
+  
+  // MARK: Private
+  
+  @objc fileprivate func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+    if gesture.direction == UISwipeGestureRecognizerDirection.right {
+      if let photo = interactor?.doGetPreviousPhoto() {
+        self.photoImage.leftRightAnimation(toRight: false)
+        showPhoto(photo)
+      }
+    }
+    else if gesture.direction == UISwipeGestureRecognizerDirection.left {
+      if let photo = interactor?.doGetNextPhoto() {
+        self.photoImage.leftRightAnimation(toRight: true)
+        showPhoto(photo)
+      }
+    }
+  }
+  
+  fileprivate func showPhoto(_ photo: Photo) {
+    if let fullURL = photo.urls?.full {
+      photoImage.af_setImage(withURL: URL(string: fullURL)!, placeholderImage: UIImage(), imageTransition: .crossDissolve(0.2))
+    }
+  }
+}
+
+extension UIView {
+  func leftRightAnimation(toRight: Bool, duration: TimeInterval = 0.5, completionDelegate: AnyObject? = nil) {
+    
+    let leftToRightTransition = CATransition()
+    
+    if let delegate: AnyObject = completionDelegate {
+      leftToRightTransition.delegate = delegate as? CAAnimationDelegate
+    }
+    
+    leftToRightTransition.type = kCATransitionPush
+    leftToRightTransition.subtype = toRight ? kCATransitionFromRight : kCATransitionFromLeft
+    leftToRightTransition.duration = duration
+    leftToRightTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+    leftToRightTransition.fillMode = kCAFillModeRemoved
+    
+    self.layer.add(leftToRightTransition, forKey: "leftToRightTransition")
   }
 }

@@ -23,9 +23,11 @@ protocol PhotoGridBusinessLogic
   func doLoadPhotosIfNeededForRow(request: PhotoGrid.LoadDataRequet)
 }
 
-protocol PhotoGridDataStore
+protocol PhotoGridDataStore: PhotoDataStorage
 {
-  var photos: PagedArray<Photo>? { get }
+//  var photos: PagedArray<Photo>? { get }
+//
+//  func loadPhotosIfNeededForIndex(_ idx: Int)
 }
 
 class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
@@ -54,30 +56,28 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
   func doLoadPhotosIfNeededForRow(request: PhotoGrid.LoadDataRequet) {
     if nil == photos {
       retrieveMaxNumberOfPhotos().then(execute: { (numberOfPhotos) -> Void in
-        self.doLoadPhotosIfNeededForRow2(request)
+        self.loadPhotosIfNeededForIndex(request.row)
       }).catch(execute: { (error) in
         self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: error.localizedDescription)))
       })
     } else {
-      doLoadPhotosIfNeededForRow2(request)
+      loadPhotosIfNeededForIndex(request.row)
     }
   }
   
-  // MARK: Private
   
-  
-  fileprivate func doLoadPhotosIfNeededForRow2(_ request: PhotoGrid.LoadDataRequet) {
+  func loadPhotosIfNeededForIndex(_ idx: Int) {
     guard nil != photos else {
       Log.error("PHOTOS CONTAINER IS IN INVALID STATE")
       return
     }
     
-    let currentPage = photos!.page(for: request.row)
+    let currentPage = photos!.page(for: idx)
     if needsLoadDataForPage(currentPage) {
       loadDataForPage(currentPage)
     }
     
-    let preloadIndex = request.row + PhotoGridInteractor.preloadMargin
+    let preloadIndex = idx + PhotoGridInteractor.preloadMargin
     if preloadIndex < photos!.endIndex {
       let preloadPage = photos!.page(for: preloadIndex)
       if preloadPage > currentPage && needsLoadDataForPage(preloadPage) {
@@ -86,6 +86,7 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
     }
   }
   
+  // MARK: Private
   
   fileprivate func needsLoadDataForPage(_ page: Int) -> Bool {
     return photos!.elements[page] == nil && dataLoadingOperations[page] == nil

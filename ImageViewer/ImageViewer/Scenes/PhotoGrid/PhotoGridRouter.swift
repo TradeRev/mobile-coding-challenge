@@ -31,7 +31,12 @@ class PhotoGridRouter: NSObject, PhotoGridRoutingLogic, PhotoGridDataPassing
   
   func routeToParticularPhoto(_ indexPath: IndexPath) {
     guard let _ = UIApplication.shared.instantiateAndPush(controllerID: "ParticularPhotoViewControllerID", animated: true, initializer: { (vc) in
-      (vc as? ParticularPhotoViewController)?.photo = self.dataStore?.photos?[indexPath.row]
+      if let destinationVC = vc as? ParticularPhotoViewController {
+        var destinationDS = destinationVC.router!.dataStore!
+        
+        destinationDS.photoStorage = self.dataStore
+        destinationDS.currentIndex = indexPath.row
+      }
     }) else {
       viewController?.displayError(PhotoGrid.Error(error: IVError(desc: "FAILED TO LOAD VIEW CONTROLLER USING \"ParticularPhotoViewControllerID\" as ID")))
       return
@@ -62,8 +67,8 @@ class PhotoGridRouter: NSObject, PhotoGridRoutingLogic, PhotoGridDataPassing
   
   // MARK: Passing data
   
-  //func passDataToSomewhere(source: PhotoGridDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+//  func passDataToParticularPhoto(source: PhotoGridDataStore, destination: inout ParticularPhotoDataStore)
+//  {
+//    destination.photos = source.photos
+//  }
 }
