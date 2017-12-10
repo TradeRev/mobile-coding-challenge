@@ -18,7 +18,23 @@ extension UIApplication {
     
     if let vc = R.storyboard.main().instantiateViewController(withIdentifier: controllerID) as? T {
       initializer?(vc)
-      rootController.setViewControllers([vc], animated: true)
+      rootController.setViewControllers([vc], animated: animated)
+      return vc
+    }
+    
+    return nil
+  }
+  
+  func instantiateAndPush<T: UIViewController>(controllerID: String, animated: Bool = true, initializer:((_ vc: T) -> Void)? = nil) -> T?
+  {
+    guard let rootController = (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController as? UINavigationController else {
+      Log.error("FAILED TO LOAD ROOT CONTROLLER")
+      return nil
+    }
+    
+    if let vc = R.storyboard.main().instantiateViewController(withIdentifier: controllerID) as? T {
+      initializer?(vc)
+      rootController.pushViewController(vc, animated: animated)
       return vc
     }
     

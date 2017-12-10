@@ -18,7 +18,6 @@ protocol PhotoGridDisplayLogic: class
 {
   func displayPhotos(photos: [Photo])
   func displayRefresh(_ indexes: CountableRange<Int>)
-  func displayProgress(viewModel: PhotoGrid.ViewModelProgress)
   func displayError(_ error: PhotoGrid.Error)
 }
 
@@ -79,8 +78,6 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   
   func doWithdrawPhotos()
   {
-    displayProgress(viewModel: PhotoGrid.ViewModelProgress(message: "Withdrawing photos..."))
-    
     let request = PhotoGrid.Request()
     interactor?.doWithdrawPhotos(request: request)
   }
@@ -99,17 +96,17 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   }
   
   
-  func displayProgress(viewModel: PhotoGrid.ViewModelProgress) {
-    // TODO
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-    activityIndicator.color = .gray
-    activityIndicator.frame = (collectionView?.bounds)!
-    
-    collectionView?.addSubview(activityIndicator)
-    activityIndicator.startAnimating()
-    
-    self.activityIndicator = activityIndicator // To stop it somewhere
-  }
+//  func displayProgress(viewModel: PhotoGrid.ViewModelProgress) {
+//    // TODO
+//    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+//    activityIndicator.color = .gray
+//    activityIndicator.frame = (collectionView?.bounds)!
+//
+//    collectionView?.addSubview(activityIndicator)
+//    activityIndicator.startAnimating()
+//
+//    self.activityIndicator = activityIndicator // To stop it somewhere
+//  }
   
   
   fileprivate func stopProgress() {
@@ -147,6 +144,10 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   
   // MARK: UICollectionViewDelegate
   
+  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    router?.routeToParticularPhoto(indexPath)
+  }
+  
   /*
    // Uncomment this method to specify if the specified item should be highlighted during tracking
    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
@@ -179,55 +180,6 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
 
 
 extension PhotoGridViewController : UICollectionViewDelegateFlowLayout {
-  
-//  func collectionView(_ collectionView: UICollectionView, targetContentOffsetForProposedContentOffset proposedContentOffset: CGPoint) -> CGPoint {
-//    if let cv = self.collectionView {
-//
-//      let cvBounds = cv.bounds
-//      let halfWidth = cvBounds.size.width * 0.5;
-//      let proposedContentOffsetCenterX = proposedContentOffset.x + halfWidth;
-//
-//      //self.collectionView?.layoutAttributesForItem(at: <#T##IndexPath#>))
-//      if let attributesForVisibleCells = self.layoutAttributesForElementsInRect(cvBounds) as? [UICollectionViewLayoutAttributes] {
-//
-//        var candidateAttributes : UICollectionViewLayoutAttributes?
-//        for attributes in attributesForVisibleCells {
-//
-//          // == Skip comparison with non-cell items (headers and footers) == //
-//          if attributes.representedElementCategory != UICollectionElementCategory.Cell {
-//            continue
-//          }
-//
-//          if let candAttrs = candidateAttributes {
-//
-//            let a = attributes.center.x - proposedContentOffsetCenterX
-//            let b = candAttrs.center.x - proposedContentOffsetCenterX
-//
-//            if fabsf(Float(a)) < fabsf(Float(b)) {
-//              candidateAttributes = attributes;
-//            }
-//
-//          }
-//          else { // == First time in the loop == //
-//
-//            candidateAttributes = attributes;
-//            continue;
-//          }
-//
-//
-//        }
-//
-//        return CGPoint(x : candidateAttributes!.center.x - halfWidth, y : proposedContentOffset.y);
-//      }
-//    }
-//
-//    return super.collectionView(collectionView, targetContentOffsetForProposedContentOffset: proposedContentOffset)
-//  }
-  
-//  override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
-//    // Fallback
-//    return super.targetContentOffsetForProposedContentOffset(proposedContentOffset)
-//  }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let paddingSpace = sectionInsets.left * (itemsPerRow + 1)

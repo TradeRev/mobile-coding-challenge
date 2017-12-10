@@ -121,10 +121,15 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let loginViewControllerID = StoryboardViewControllerResource<LoginViewController>(identifier: "LoginViewControllerID")
       let name = "Main"
+      let particularPhotoViewControllerID = StoryboardViewControllerResource<ParticularPhotoViewController>(identifier: "ParticularPhotoViewControllerID")
       let photoGridViewControllerID = StoryboardViewControllerResource<PhotoGridViewController>(identifier: "PhotoGridViewControllerID")
       
       func loginViewControllerID(_: Void = ()) -> LoginViewController? {
         return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: loginViewControllerID)
+      }
+      
+      func particularPhotoViewControllerID(_: Void = ()) -> ParticularPhotoViewController? {
+        return UIKit.UIStoryboard(resource: self).instantiateViewController(withResource: particularPhotoViewControllerID)
       }
       
       func photoGridViewControllerID(_: Void = ()) -> PhotoGridViewController? {
@@ -134,6 +139,7 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if _R.storyboard.main().loginViewControllerID() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'loginViewControllerID' could not be loaded from storyboard 'Main' as 'LoginViewController'.") }
         if _R.storyboard.main().photoGridViewControllerID() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'photoGridViewControllerID' could not be loaded from storyboard 'Main' as 'PhotoGridViewController'.") }
+        if _R.storyboard.main().particularPhotoViewControllerID() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'particularPhotoViewControllerID' could not be loaded from storyboard 'Main' as 'ParticularPhotoViewController'.") }
       }
       
       fileprivate init() {}

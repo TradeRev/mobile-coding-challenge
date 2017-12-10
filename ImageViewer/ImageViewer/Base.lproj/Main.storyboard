@@ -87,5 +87,34 @@
             </objects>
             <point key="canvasLocation" x="349.60000000000002" y="827.13643178410803"/>
         </scene>
+        <!--Particular Photo View Controller-->
+        <scene sceneID="hcK-7u-ovU">
+            <objects>
+                <viewController storyboardIdentifier="ParticularPhotoViewControllerID" id="OXw-UO-vVN" customClass="ParticularPhotoViewController" customModule="ImageViewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9SX-Yq-1cb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8ZV-6E-ce2">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="8ZV-6E-ce2" firstAttribute="top" secondItem="wVj-BO-6NP" secondAttribute="top" id="MGG-BS-6sM"/>
+                            <constraint firstItem="8ZV-6E-ce2" firstAttribute="leading" secondItem="wVj-BO-6NP" secondAttribute="leading" id="SDA-ez-im4"/>
+                            <constraint firstItem="wVj-BO-6NP" firstAttribute="trailing" secondItem="8ZV-6E-ce2" secondAttribute="trailing" id="WpW-cr-xh5"/>
+                            <constraint firstItem="wVj-BO-6NP" firstAttribute="bottom" secondItem="8ZV-6E-ce2" secondAttribute="bottom" id="ZIu-hI-16V"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wVj-BO-6NP"/>
+                    </view>
+                    <connections>
+                        <outlet property="photoImage" destination="8ZV-6E-ce2" id="xVP-2v-QJc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gsp-1O-ZTr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1106" y="828"/>
+        </scene>
     </scenes>
 </document>

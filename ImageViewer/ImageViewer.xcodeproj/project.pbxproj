@@ -15,6 +15,11 @@
 		0769CCE21FDC5F5C0093E4C8 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CCE11FDC5F5B0093E4C8 /* R.generated.swift */; };
 		0769CCE41FDC649D0093E4C8 /* UIApplication+iv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CCE31FDC649D0093E4C8 /* UIApplication+iv.swift */; };
 		0769CCE81FDC7A710093E4C8 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CCE71FDC7A710093E4C8 /* PhotoCell.swift */; };
+		0769CD1C1FDDB2410093E4C8 /* ParticularPhotoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD161FDDB2410093E4C8 /* ParticularPhotoModels.swift */; };
+		0769CD1E1FDDB2410093E4C8 /* ParticularPhotoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD181FDDB2410093E4C8 /* ParticularPhotoRouter.swift */; };
+		0769CD1F1FDDB2410093E4C8 /* ParticularPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD191FDDB2410093E4C8 /* ParticularPhotoViewController.swift */; };
+		0769CD201FDDB2410093E4C8 /* ParticularPhotoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD1A1FDDB2410093E4C8 /* ParticularPhotoPresenter.swift */; };
+		0769CD211FDDB2410093E4C8 /* ParticularPhotoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD1B1FDDB2410093E4C8 /* ParticularPhotoInteractor.swift */; };
 		07AA44341FDAF66F00D2DC86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */; };
 		07AA44391FDAF66F00D2DC86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07AA44371FDAF66F00D2DC86 /* Main.storyboard */; };
 		07AA443B1FDAF66F00D2DC86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AA443A1FDAF66F00D2DC86 /* Assets.xcassets */; };
@@ -54,6 +59,11 @@
 		0769CCE11FDC5F5B0093E4C8 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		0769CCE31FDC649D0093E4C8 /* UIApplication+iv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+iv.swift"; sourceTree = "<group>"; };
 		0769CCE71FDC7A710093E4C8 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		0769CD161FDDB2410093E4C8 /* ParticularPhotoModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoModels.swift; sourceTree = "<group>"; };
+		0769CD181FDDB2410093E4C8 /* ParticularPhotoRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoRouter.swift; sourceTree = "<group>"; };
+		0769CD191FDDB2410093E4C8 /* ParticularPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoViewController.swift; sourceTree = "<group>"; };
+		0769CD1A1FDDB2410093E4C8 /* ParticularPhotoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoPresenter.swift; sourceTree = "<group>"; };
+		0769CD1B1FDDB2410093E4C8 /* ParticularPhotoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoInteractor.swift; sourceTree = "<group>"; };
 		07AA44301FDAF66F00D2DC86 /* ImageViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07AA44381FDAF66F00D2DC86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -113,6 +123,18 @@
 				0769CCD71FDC53A90093E4C8 /* PhotoGridPresenter.swift */,
 			);
 			path = PhotoGrid;
+			sourceTree = "<group>";
+		};
+		0769CD151FDDB2410093E4C8 /* ParticularPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				0769CD161FDDB2410093E4C8 /* ParticularPhotoModels.swift */,
+				0769CD181FDDB2410093E4C8 /* ParticularPhotoRouter.swift */,
+				0769CD191FDDB2410093E4C8 /* ParticularPhotoViewController.swift */,
+				0769CD1A1FDDB2410093E4C8 /* ParticularPhotoPresenter.swift */,
+				0769CD1B1FDDB2410093E4C8 /* ParticularPhotoInteractor.swift */,
+			);
+			path = ParticularPhoto;
 			sourceTree = "<group>";
 		};
 		07AA44271FDAF66F00D2DC86 = {
@@ -183,6 +205,7 @@
 		07AA44631FDB8AB800D2DC86 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				0769CD151FDDB2410093E4C8 /* ParticularPhoto */,
 				0769CCD11FDC53A90093E4C8 /* PhotoGrid */,
 				07AA447C1FDB8B3700D2DC86 /* Login */,
 			);
@@ -513,8 +536,11 @@
 			files = (
 				0769CCDC1FDC53A90093E4C8 /* PhotoGridRouter.swift in Sources */,
 				0769CCDD1FDC53A90093E4C8 /* PhotoGridPresenter.swift in Sources */,
+				0769CD201FDDB2410093E4C8 /* ParticularPhotoPresenter.swift in Sources */,
 				0769CCD81FDC53A90093E4C8 /* PhotoGridInteractor.swift in Sources */,
+				0769CD1C1FDDB2410093E4C8 /* ParticularPhotoModels.swift in Sources */,
 				07AA44851FDB8B3700D2DC86 /* LoginViewController.swift in Sources */,
+				0769CD211FDDB2410093E4C8 /* ParticularPhotoInteractor.swift in Sources */,
 				07AA44881FDB8B3700D2DC86 /* LoginRouter.swift in Sources */,
 				0769CCE21FDC5F5C0093E4C8 /* R.generated.swift in Sources */,
 				0769CCE81FDC7A710093E4C8 /* PhotoCell.swift in Sources */,
@@ -523,10 +549,12 @@
 				0769CCDA1FDC53A90093E4C8 /* PhotoGridViewController.swift in Sources */,
 				07AA44581FDB0BAE00D2DC86 /* UnsplashAuthenticationService.swift in Sources */,
 				07AA44861FDB8B3700D2DC86 /* LoginPresenter.swift in Sources */,
+				0769CD1E1FDDB2410093E4C8 /* ParticularPhotoRouter.swift in Sources */,
 				07AA44831FDB8B3700D2DC86 /* LoginInteractor.swift in Sources */,
 				07AA44341FDAF66F00D2DC86 /* AppDelegate.swift in Sources */,
 				07AA44561FDB00BA00D2DC86 /* UnsplashService.swift in Sources */,
 				0769CCE41FDC649D0093E4C8 /* UIApplication+iv.swift in Sources */,
+				0769CD1F1FDDB2410093E4C8 /* ParticularPhotoViewController.swift in Sources */,
 				07AA448B1FDBC3B800D2DC86 /* URL+iv.swift in Sources */,
 				07AA445B1FDB0CEA00D2DC86 /* Settings.swift in Sources */,
 				07AA445D1FDB435D00D2DC86 /* IVError.swift in Sources */,
