@@ -76,6 +76,6 @@ class LoginViewController: UIViewController, LoginDisplayLogic
   
   
   func displayError(_ error: Login.LoginError) {
-    // TODO
+    self.displayError(error.err.description)
   }
 }

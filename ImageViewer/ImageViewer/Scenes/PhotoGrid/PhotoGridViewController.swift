@@ -16,7 +16,6 @@ import PagedArray
 
 protocol PhotoGridDisplayLogic: class
 {
-  func displayPhotos(photos: [Photo])
   func displayRefresh(_ indexes: CountableRange<Int>)
   func displayError(_ error: PhotoGrid.Error)
 }
@@ -30,10 +29,6 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   
   fileprivate let itemsPerRow: CGFloat = 2
   fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-  
-  fileprivate var activityIndicator: UIActivityIndicatorView?
-  
-  fileprivate var dataModel = [Photo]()
   
   // MARK: Object lifecycle
   
@@ -84,40 +79,29 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   
   // MARK: PhotoGridDisplayLogic
   
-  func displayPhotos(photos: [Photo]) {
-    dataModel = photos
-    stopProgress()
-    collectionView?.reloadData()
-  }
-  
-  
   func displayRefresh(_ indexes: CountableRange<Int>) {
+    
+//    if let ipVIsible = collectionView?.indexPathsForVisibleItems {
+//      let visibleIndexes = ipVIsible.filter({ (ip) -> Bool in
+//        indexes.contains(ip.row)
+//      })
+//
+//      if visibleIndexes.count > 0 {
+//        Log.info("REFRESH")
+//        collectionView?.reloadData()
+//      } else {
+//        Log.info("NOTHING TO REFRESH")
+//      }
+//    }
+    
+//    tableView.indexPathsForVisibleRows?.filter { indexes.contains(($0 as NSIndexPath).row) }
+//    self.tableView.reloadRows(at: indexPathsToReload, with: .automatic)
     collectionView?.reloadData()
-  }
-  
-  
-//  func displayProgress(viewModel: PhotoGrid.ViewModelProgress) {
-//    // TODO
-//    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-//    activityIndicator.color = .gray
-//    activityIndicator.frame = (collectionView?.bounds)!
-//
-//    collectionView?.addSubview(activityIndicator)
-//    activityIndicator.startAnimating()
-//
-//    self.activityIndicator = activityIndicator // To stop it somewhere
-//  }
-  
-  
-  fileprivate func stopProgress() {
-    if let ai = self.activityIndicator {
-      ai.removeFromSuperview()
-    }
   }
   
   
   func displayError(_ error: PhotoGrid.Error) {
-    // TODO
+    self.displayError(error.error.description)
   }
   
   // MARK: UICollectionViewDataSource
@@ -131,13 +115,16 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
     return router?.dataStore?.photos?.count ?? 0
   }
   
+  
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     interactor?.doLoadPhotosIfNeededForRow(request: PhotoGrid.LoadDataRequet(row: indexPath.row))
     
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCellID", for: indexPath) as! PhotoCell
-    cell.backgroundColor = UIColor.white
-    let photo = router?.dataStore?.photos?[indexPath.row]
-    cell.configureCell(with: photo!.urls!.small, placeholderImage: UIImage())
+    if let photo = router?.dataStore?.photos?[indexPath.row] {
+      cell.configureCell(with: photo.urls!.small, placeholderImage: UIImage())
+    } else {
+      Log.error("CAN\'T ACCESS PHOTO DATA, WHEN IT SUPPOSED TO BE AVAILABLE")
+    }
     
     return cell
   }
@@ -147,35 +134,6 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     router?.routeToParticularPhoto(indexPath)
   }
-  
-  /*
-   // Uncomment this method to specify if the specified item should be highlighted during tracking
-   override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-   return true
-   }
-   */
-  
-  /*
-   // Uncomment this method to specify if the specified item should be selected
-   override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-   return true
-   }
-   */
-  
-  /*
-   // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-   override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-   return false
-   }
-   
-   override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-   return false
-   }
-   
-   override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-   
-   }
-   */
 }
 
 

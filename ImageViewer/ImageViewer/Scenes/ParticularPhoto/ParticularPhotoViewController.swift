@@ -16,7 +16,6 @@ import AlamofireImage
 
 protocol ParticularPhotoDisplayLogic: class
 {
-  func displaySomething(viewModel: ParticularPhoto.ViewModel)
 }
 
 class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLogic
@@ -25,6 +24,8 @@ class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLog
   var router: (NSObjectProtocol & ParticularPhotoRoutingLogic & ParticularPhotoDataPassing)?
 
   @IBOutlet weak var photoImage: UIImageView!
+  
+  fileprivate var activityIndicator: UIActivityIndicatorView?
   
   // MARK: Object lifecycle
   
@@ -87,13 +88,13 @@ class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLog
     }
   }
   
-  // MARK: Do something
   
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-  func displaySomething(viewModel: ParticularPhoto.ViewModel)
-  {
-    //nameTextField.text = viewModel.name
+  override func willMove(toParentViewController parent: UIViewController?) {
+    super.willMove(toParentViewController: parent)
+    
+    if parent == nil{
+      router?.routeToPhotGrid()
+    }
   }
   
   // MARK: Private
@@ -101,13 +102,13 @@ class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLog
   @objc fileprivate func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
     if gesture.direction == UISwipeGestureRecognizerDirection.right {
       if let photo = interactor?.doGetPreviousPhoto() {
-        self.photoImage.leftRightAnimation(toRight: false)
+        self.photoImage.swipeAnimation(toRight: false)
         showPhoto(photo)
       }
     }
     else if gesture.direction == UISwipeGestureRecognizerDirection.left {
       if let photo = interactor?.doGetNextPhoto() {
-        self.photoImage.leftRightAnimation(toRight: true)
+        self.photoImage.swipeAnimation(toRight: true)
         showPhoto(photo)
       }
     }
@@ -115,26 +116,49 @@ class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLog
   
   fileprivate func showPhoto(_ photo: Photo) {
     if let fullURL = photo.urls?.full {
-      photoImage.af_setImage(withURL: URL(string: fullURL)!, placeholderImage: UIImage(), imageTransition: .crossDissolve(0.2))
+      displayProgress()
+      photoImage.af_setImage(withURL: URL(string: fullURL)!, placeholderImage: UIImage(), imageTransition: .crossDissolve(0.2)
+        , completion: { image in
+          self.stopProgress()
+      })
+    }
+  }
+
+  
+  fileprivate func displayProgress() {
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    activityIndicator.color = .gray
+    activityIndicator.frame = (photoImage?.bounds)!
+    
+    photoImage?.addSubview(activityIndicator)
+    activityIndicator.startAnimating()
+    
+    self.activityIndicator = activityIndicator // To stop it somewhere
+  }
+
+  
+  fileprivate func stopProgress() {
+    if let ai = self.activityIndicator {
+      ai.removeFromSuperview()
     }
   }
 }
 
 extension UIView {
-  func leftRightAnimation(toRight: Bool, duration: TimeInterval = 0.5, completionDelegate: AnyObject? = nil) {
+  func swipeAnimation(toRight: Bool, duration: TimeInterval = 0.5, completionDelegate: AnyObject? = nil) {
     
-    let leftToRightTransition = CATransition()
+    let swipeTransition = CATransition()
     
     if let delegate: AnyObject = completionDelegate {
-      leftToRightTransition.delegate = delegate as? CAAnimationDelegate
+      swipeTransition.delegate = delegate as? CAAnimationDelegate
     }
     
-    leftToRightTransition.type = kCATransitionPush
-    leftToRightTransition.subtype = toRight ? kCATransitionFromRight : kCATransitionFromLeft
-    leftToRightTransition.duration = duration
-    leftToRightTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-    leftToRightTransition.fillMode = kCAFillModeRemoved
+    swipeTransition.type = kCATransitionPush
+    swipeTransition.subtype = toRight ? kCATransitionFromRight : kCATransitionFromLeft
+    swipeTransition.duration = duration
+    swipeTransition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+    swipeTransition.fillMode = kCAFillModeRemoved
     
-    self.layer.add(leftToRightTransition, forKey: "leftToRightTransition")
+    self.layer.add(swipeTransition, forKey: "swipeTransition")
   }
 }

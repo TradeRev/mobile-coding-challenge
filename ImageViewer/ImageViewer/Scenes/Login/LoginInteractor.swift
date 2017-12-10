@@ -23,7 +23,7 @@ protocol LoginBusinessLogic
 
 protocol LoginDataStore
 {
-  //var name: String { get set }
+
 }
 
 class LoginInteractor: NSObject, LoginBusinessLogic, LoginDataStore

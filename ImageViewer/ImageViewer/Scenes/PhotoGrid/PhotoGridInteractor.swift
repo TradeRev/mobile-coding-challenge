@@ -25,9 +25,7 @@ protocol PhotoGridBusinessLogic
 
 protocol PhotoGridDataStore: PhotoDataStorage
 {
-//  var photos: PagedArray<Photo>? { get }
-//
-//  func loadPhotosIfNeededForIndex(_ idx: Int)
+
 }
 
 class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
@@ -81,7 +79,7 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
     if preloadIndex < photos!.endIndex {
       let preloadPage = photos!.page(for: preloadIndex)
       if preloadPage > currentPage && needsLoadDataForPage(preloadPage) {
-        loadDataForPage(preloadPage)
+        loadDataForPage(preloadPage, refreshPhotos: false)
       }
     }
   }
@@ -93,7 +91,7 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
   }
   
   
-  fileprivate func loadDataForPage(_ page: Int) {
+  fileprivate func loadDataForPage(_ page: Int, refreshPhotos: Bool = true) {
     guard nil != photos else {
       Log.error("PHOTOS CONTAINER IS IN INVALID STATE")
       return
@@ -106,7 +104,9 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
 
     let operation = PhotoLoadingOperation(token: token, page: page, success: { photos in
       self.photos!.set(photos, forPage: page)
-      self.presenter?.presentRefreshPhotos(self.photos!.indexes(for: page))
+      if refreshPhotos {
+        self.presenter?.presentRefreshPhotos(self.photos!.indexes(for: page))
+      }
       self.dataLoadingOperations[page] = nil
     }, failure: {error in
       self.dataLoadingOperations[page] = nil
@@ -184,11 +184,7 @@ class PhotoLoadingOperation: BlockOperation {
       }
       
       group.wait()
-    }
-    
-    completionBlock = {
-      
-    }
+    }    
   }
 }
 

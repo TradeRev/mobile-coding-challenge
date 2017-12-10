@@ -14,7 +14,6 @@ import UIKit
 
 protocol ParticularPhotoPresentationLogic
 {
-  func presentSomething(response: ParticularPhoto.Response)
 }
 
 class ParticularPhotoPresenter: ParticularPhotoPresentationLogic
@@ -23,9 +22,4 @@ class ParticularPhotoPresenter: ParticularPhotoPresentationLogic
   
   // MARK: Do something
   
-  func presentSomething(response: ParticularPhoto.Response)
-  {
-    let viewModel = ParticularPhoto.ViewModel()
-    viewController?.displaySomething(viewModel: viewModel)
-  }
 }

@@ -21,6 +21,7 @@
 		0769CD201FDDB2410093E4C8 /* ParticularPhotoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD1A1FDDB2410093E4C8 /* ParticularPhotoPresenter.swift */; };
 		0769CD211FDDB2410093E4C8 /* ParticularPhotoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD1B1FDDB2410093E4C8 /* ParticularPhotoInteractor.swift */; };
 		0769CD241FDDC4CC0093E4C8 /* PhotoDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD231FDDC4CC0093E4C8 /* PhotoDataStorage.swift */; };
+		0769CD261FDDECCF0093E4C8 /* UIViewController+iv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0769CD251FDDECCF0093E4C8 /* UIViewController+iv.swift */; };
 		07AA44341FDAF66F00D2DC86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */; };
 		07AA44391FDAF66F00D2DC86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07AA44371FDAF66F00D2DC86 /* Main.storyboard */; };
 		07AA443B1FDAF66F00D2DC86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AA443A1FDAF66F00D2DC86 /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		0769CD1A1FDDB2410093E4C8 /* ParticularPhotoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoPresenter.swift; sourceTree = "<group>"; };
 		0769CD1B1FDDB2410093E4C8 /* ParticularPhotoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticularPhotoInteractor.swift; sourceTree = "<group>"; };
 		0769CD231FDDC4CC0093E4C8 /* PhotoDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDataStorage.swift; sourceTree = "<group>"; };
+		0769CD251FDDECCF0093E4C8 /* UIViewController+iv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+iv.swift"; sourceTree = "<group>"; };
 		07AA44301FDAF66F00D2DC86 /* ImageViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07AA44381FDAF66F00D2DC86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			children = (
 				07AA448A1FDBC3B800D2DC86 /* URL+iv.swift */,
 				0769CCE31FDC649D0093E4C8 /* UIApplication+iv.swift */,
+				0769CD251FDDECCF0093E4C8 /* UIViewController+iv.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				07AA44581FDB0BAE00D2DC86 /* UnsplashAuthenticationService.swift in Sources */,
 				07AA44861FDB8B3700D2DC86 /* LoginPresenter.swift in Sources */,
 				0769CD1E1FDDB2410093E4C8 /* ParticularPhotoRouter.swift in Sources */,
+				0769CD261FDDECCF0093E4C8 /* UIViewController+iv.swift in Sources */,
 				07AA44831FDB8B3700D2DC86 /* LoginInteractor.swift in Sources */,
 				07AA44341FDAF66F00D2DC86 /* AppDelegate.swift in Sources */,
 				07AA44561FDB00BA00D2DC86 /* UnsplashService.swift in Sources */,

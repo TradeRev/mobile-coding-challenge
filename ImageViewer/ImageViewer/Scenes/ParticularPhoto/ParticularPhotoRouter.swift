@@ -14,8 +14,7 @@ import UIKit
 
 @objc protocol ParticularPhotoRoutingLogic
 {
-  func routeToTheNext(_ indexPath: IndexPath)
-  func routeToThePrevious(_ indexPath: IndexPath)
+  func routeToPhotGrid()
 }
 
 protocol ParticularPhotoDataPassing
@@ -30,13 +29,20 @@ class ParticularPhotoRouter: NSObject, ParticularPhotoRoutingLogic, ParticularPh
   
   // MARK: Routing
   
-  func routeToTheNext(_ indexPath: IndexPath) {
+  func routeToPhotGrid() {
+    guard let rootController = (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController as? UINavigationController else {
+      Log.error("FAILED TO LOAD ROOT CONTROLLER")
+      return
+    }
     
-  }
+    guard let photoGridVC = rootController.viewControllers.first as? PhotoGridViewController else {
+      Log.error("CAN\'T REACH PHOTO GRID CONTROLLER")
+      return
+    }
   
-  
-  func routeToThePrevious(_ indexPath: IndexPath) {
-    
+    let ip = IndexPath(row: dataStore?.currentIndex ?? 0, section: 0)
+    let rect = photoGridVC.collectionView?.layoutAttributesForItem(at: ip)?.frame
+    photoGridVC.collectionView?.scrollRectToVisible(rect!, animated: false)
   }
   
   //func routeToSomewhere(segue: UIStoryboardSegue?)
