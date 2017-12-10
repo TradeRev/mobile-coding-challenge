@@ -15,7 +15,7 @@ import UnsplashKit
 
 protocol PhotoGridPresentationLogic
 {
-  func presentPhotos(response:PhotoGrid.Response)
+  func presentRefreshPhotos(_ indexes: CountableRange<Int>)
   func presentError(error: PhotoGrid.Error)
 }
 
@@ -24,18 +24,18 @@ class PhotoGridPresenter: PhotoGridPresentationLogic
   weak var viewController: PhotoGridDisplayLogic?
   
   // MARK: Do something
-  
-  func presentPhotos(response:PhotoGrid.Response) {
-    DispatchQueue.main.async {
-      self.viewController?.displayPhotos(photos: response.photos)
-    }
-  }
-  
-  
+    
   func presentError(error: PhotoGrid.Error)
   {
     DispatchQueue.main.async {
       self.viewController?.displayError(error)
+    }
+  }
+  
+  
+  func presentRefreshPhotos(_ indexes: CountableRange<Int>) {
+    DispatchQueue.main.async {
+      self.viewController?.displayRefresh(indexes)
     }
   }
 }

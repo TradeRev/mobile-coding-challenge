@@ -17,6 +17,7 @@ import PagedArray
 protocol PhotoGridDisplayLogic: class
 {
   func displayPhotos(photos: [Photo])
+  func displayRefresh(_ indexes: CountableRange<Int>)
   func displayProgress(viewModel: PhotoGrid.ViewModelProgress)
   func displayError(_ error: PhotoGrid.Error)
 }
@@ -71,8 +72,6 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   {
     super.viewDidLoad()
     
-    //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-    
     doWithdrawPhotos()
   }
   
@@ -91,6 +90,11 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   func displayPhotos(photos: [Photo]) {
     dataModel = photos
     stopProgress()
+    collectionView?.reloadData()
+  }
+  
+  
+  func displayRefresh(_ indexes: CountableRange<Int>) {
     collectionView?.reloadData()
   }
   
@@ -127,14 +131,16 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return dataModel.count
+    return router?.dataStore?.photos?.count ?? 0
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    interactor?.doLoadPhotosIfNeededForRow(request: PhotoGrid.LoadDataRequet(row: indexPath.row))
+    
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCellID", for: indexPath) as! PhotoCell
     cell.backgroundColor = UIColor.white
-    let photo = dataModel[indexPath.row]
-    cell.configureCell(with: photo.urls!.small, placeholderImage: UIImage())
+    let photo = router?.dataStore?.photos?[indexPath.row]
+    cell.configureCell(with: photo!.urls!.small, placeholderImage: UIImage())
     
     return cell
   }

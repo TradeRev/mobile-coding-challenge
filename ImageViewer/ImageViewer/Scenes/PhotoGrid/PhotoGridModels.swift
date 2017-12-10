@@ -17,6 +17,9 @@ enum PhotoGrid
 {
   // MARK: Use cases
   
+  struct LoadDataRequet {
+    let row: Int
+  }
   struct Request
   {
   }

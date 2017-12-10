@@ -15,6 +15,8 @@ class Settings {
   let secret = "cce2077b319979bfe8f50c584da2e6e4390df39f2719b64a515be4771d1f78cd"
   var token: String?
   
+  let apiEndpoint = "https://api.unsplash.com"
+  
   let authorizationURL = "https://unsplash.com/oauth/authorize"
   let tokenURL = "https://unsplash.com/oauth/token"
   

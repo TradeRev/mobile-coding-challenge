@@ -12,57 +12,182 @@
 
 import UIKit
 import UnsplashKit
+import Alamofire
+import SwiftyJSON
+import PromiseKit
+import PagedArray
 
 protocol PhotoGridBusinessLogic
 {
   func doWithdrawPhotos(request: PhotoGrid.Request)
+  func doLoadPhotosIfNeededForRow(request: PhotoGrid.LoadDataRequet)
 }
 
 protocol PhotoGridDataStore
 {
-  var photos: [Photo] { get }
+  var photos: PagedArray<Photo>? { get }
 }
 
 class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
 {
   var presenter: PhotoGridPresentationLogic?
   
-  var photos = [Photo]()
+  fileprivate static let pageSize = 30
+  fileprivate static let preloadMargin = pageSize
+  
+  fileprivate let operationQueue = OperationQueue()
+  fileprivate var dataLoadingOperations = [Int: Operation]()
+  internal var photos: PagedArray<Photo>?
   
   // MARK: Do something
   
   func doWithdrawPhotos(request: PhotoGrid.Request)
   {
-    guard let token = Settings.shared.token else {
-      presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: "TOKEN IS NOT AVAILABLE")))
+    retrieveMaxNumberOfPhotos().then { (numberOfPhotos) -> Void in
+      self.loadDataForPage(0)
+      }.catch { (error) in
+        self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: error.localizedDescription)))
+    }
+  }
+
+  
+  func doLoadPhotosIfNeededForRow(request: PhotoGrid.LoadDataRequet) {
+    if nil == photos {
+      retrieveMaxNumberOfPhotos().then(execute: { (numberOfPhotos) -> Void in
+        self.doLoadPhotosIfNeededForRow2(request)
+      }).catch(execute: { (error) in
+        self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: error.localizedDescription)))
+      })
+    } else {
+      doLoadPhotosIfNeededForRow2(request)
+    }
+  }
+  
+  // MARK: Private
+  
+  
+  fileprivate func doLoadPhotosIfNeededForRow2(_ request: PhotoGrid.LoadDataRequet) {
+    guard nil != photos else {
+      Log.error("PHOTOS CONTAINER IS IN INVALID STATE")
       return
     }
     
-    let client = UnsplashClient { request -> [String: String] in
-      return [ "Authorization": "Bearer \(token)"]
+    let currentPage = photos!.page(for: request.row)
+    if needsLoadDataForPage(currentPage) {
+      loadDataForPage(currentPage)
     }
     
-    let photos = Photo.list(page: 1, perPage: 30, orderBy: .latest)
-    client.execute(resource: photos) { (result) in
-      guard nil == result.error else {
-        self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: result.error!.description)))
-        return
+    let preloadIndex = request.row + PhotoGridInteractor.preloadMargin
+    if preloadIndex < photos!.endIndex {
+      let preloadPage = photos!.page(for: preloadIndex)
+      if preloadPage > currentPage && needsLoadDataForPage(preloadPage) {
+        loadDataForPage(preloadPage)
       }
-      
-      guard let photos = result.value?.object else {
-        self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: "No available photos")))
-        return
-      }
-      
-      self.photos = photos
-      self.presenter?.presentPhotos(response: PhotoGrid.Response(photos: photos))
-      
-//      for var item in (result.value?.object)! {
-//          print(item)
-//      }
-      
     }
-//    let response = PhotoGrid.Response()
-//    presenter?.presentSomething(response: response)
+  }
+  
+  
+  fileprivate func needsLoadDataForPage(_ page: Int) -> Bool {
+    return photos!.elements[page] == nil && dataLoadingOperations[page] == nil
+  }
+  
+  
+  fileprivate func loadDataForPage(_ page: Int) {
+    guard nil != photos else {
+      Log.error("PHOTOS CONTAINER IS IN INVALID STATE")
+      return
+    }
+    
+    guard let token = Settings.shared.token else {
+      self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: "TOKEN IS NOT AVAILABLE")))
+      return
+    }
+
+    let operation = PhotoLoadingOperation(token: token, page: page, success: { photos in
+      self.photos!.set(photos, forPage: page)
+      self.presenter?.presentRefreshPhotos(self.photos!.indexes(for: page))
+      self.dataLoadingOperations[page] = nil
+    }, failure: {error in
+      self.dataLoadingOperations[page] = nil
+    })
+    
+    operationQueue.addOperation(operation)
+    dataLoadingOperations[page] = operation
+  }
+  
+  
+  fileprivate func retrieveMaxNumberOfPhotos() -> Promise<Int> {
+    return Promise { fulfill, reject in
+      guard let token = Settings.shared.token else {
+        reject(IVError(desc: "TOKEN IS NOT AVAILABLE"))
+        return
+      }
+      
+      Alamofire.request("\(Settings.shared.apiEndpoint)/stats/total", method: .get, parameters: [:], encoding: JSONEncoding.default, headers: ["Authorization": "Bearer \(token)"]).responseJSON {
+        response in
+        switch response.result {
+        case .success(_):
+          if let jsonData = response.data {
+            let json = JSON(data: jsonData)
+            let totalPhotos = json["total_photos"].intValue
+            
+            Log.info("TOTAL NUMBER OF PHOTOS: \(totalPhotos)")
+            
+            self.photos = PagedArray<Photo>(count: totalPhotos, pageSize: PhotoGridInteractor.pageSize)
+            fulfill(totalPhotos)
+          } else {
+            reject(IVError(desc: "FAILED TO PARSE RESPONSE"))
+          }
+        case .failure(let error):
+          reject(error)
+        }
+      }
+    }
   }
 }
+
+
+class PhotoLoadingOperation: BlockOperation {
+  
+  init(token: String , page: Int, success: @escaping ([Photo]) -> Void, failure: @escaping ((Error) -> Void)) {
+    super.init()
+    
+    addExecutionBlock {
+      let group = DispatchGroup()
+      group.enter()
+      
+      let client = UnsplashClient { request -> [String: String] in
+        return [ "Authorization": "Bearer \(token)"]
+      }
+      
+      let photos = Photo.list(page: page, perPage: PhotoGridInteractor.pageSize, orderBy: .latest)
+      client.execute(resource: photos) { (result) in
+        defer {
+          group.leave()
+        }
+        
+        guard nil == result.error else {
+          Log.error("FAILED TO LOAD PHOTOS FOR PAGE \(page): \(result.error.debugDescription)")
+          failure(result.error!)
+          return
+        }
+        
+        guard let photos = result.value?.object else {
+          Log.error("NO AVAILABLE PHOTOS FOR PAGE \(page)")
+          failure(IVError(desc: "No available photos"))
+          return
+        }
+        
+        Log.info("LOADED \(photos.count) PHOTOS FOR PAGE \(page)")
+        success(photos)
+      }
+      
+      group.wait()
+    }
+    
+    completionBlock = {
+      
+    }
+  }
+}
+
