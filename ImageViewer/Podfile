@@ -16,6 +16,7 @@ def import_pods
   pod 'PromiseKit'
   pod 'SwiftyJSON'
   pod 'PagedArray'
+  pod 'GreedoLayout'
 end
 
 workspace 'ImageViewer.xcworkspace'

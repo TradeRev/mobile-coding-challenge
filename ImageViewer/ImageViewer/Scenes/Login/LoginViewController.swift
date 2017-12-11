@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import WebKit
 
 protocol LoginDisplayLogic: class
 {
@@ -18,11 +19,14 @@ protocol LoginDisplayLogic: class
   func displayError(_ error: Login.LoginError)
 }
 
-class LoginViewController: UIViewController, LoginDisplayLogic
+class LoginViewController: UIViewController, LoginDisplayLogic, WKUIDelegate
 {
   var interactor: LoginBusinessLogic?
   var router: (NSObjectProtocol & LoginRoutingLogic & LoginDataPassing)?
 
+  //var webView: WKWebView!
+  @IBOutlet weak var webView: WKWebView_IBWrapper!
+  
   // MARK: Object lifecycle
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -55,6 +59,16 @@ class LoginViewController: UIViewController, LoginDisplayLogic
   
   // MARK: View lifecycle
   
+//  override func loadView() {
+//    // https://www.questarter.com/q/xcode-9-gm-wkwebview-nscoding-support-was-broken-in-previous-versions-27_46221577.html
+//    // http://www.openradar.me/34791377
+//    let webConfiguration = WKWebViewConfiguration()
+//    webView = WKWebView(frame: .zero, configuration: webConfiguration)
+//    webView.uiDelegate = self
+//    webView.translatesAutoresizingMaskIntoConstraints = false
+//    view = webView
+//  }
+  
   override func viewDidLoad()
   {
     super.viewDidLoad()
@@ -65,7 +79,7 @@ class LoginViewController: UIViewController, LoginDisplayLogic
   
   fileprivate func doAuthenticate()
   {
-    let request = Login.AuthenticateRequest(clientArea: self.view)
+    let request = Login.AuthenticateRequest(clientArea: self.webView)
     interactor?.doAuthenticate(request: request)
   }
   
@@ -77,5 +91,15 @@ class LoginViewController: UIViewController, LoginDisplayLogic
   
   func displayError(_ error: Login.LoginError) {
     self.displayError(error.err.description)
+  }
+}
+
+// http://ioscake.com/wkwebview-in-interface-builder.html
+class WKWebView_IBWrapper: WKWebView {
+  required convenience init?(coder: NSCoder) {
+    let config = WKWebViewConfiguration()
+    //config.suppressesIncrementalRendering = true //any custom config you want to add
+    self.init(frame: .zero, configuration: config)
+    self.translatesAutoresizingMaskIntoConstraints = false
   }
 }

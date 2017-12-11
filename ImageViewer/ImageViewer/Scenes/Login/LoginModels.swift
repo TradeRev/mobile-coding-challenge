@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import WebKit
 
 enum Login
 {
@@ -18,9 +19,9 @@ enum Login
   
   class AuthenticateRequest
   {
-    weak var clientArea: UIView?
+    var clientArea: WKWebView
     
-    init(clientArea: UIView?) {
+    init(clientArea: WKWebView) {
       self.clientArea = clientArea
     }
   }

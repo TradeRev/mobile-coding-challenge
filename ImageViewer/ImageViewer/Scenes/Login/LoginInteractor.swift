@@ -34,22 +34,13 @@ class LoginInteractor: NSObject, LoginBusinessLogic, LoginDataStore
   
   func doAuthenticate(request: Login.AuthenticateRequest)
   {
-    guard let webViewSuperview = request.clientArea else {
-      presenter?.presentError(error: Login.LoginError(err: IVError(desc: "Please provide UIView reference")))
-      return
-    }
-    let webView = WKWebView(frame: webViewSuperview.bounds)
-    webViewSuperview.addSubview(webView)
-    
-    webView.translatesAutoresizingMaskIntoConstraints = false
-    webView.navigationDelegate = self
-    
     guard let authorizationURL = self.authorizationURL() else {
       presenter?.presentError(error: Login.LoginError(err: IVError(desc: "Failed to construct Authorization URL")))
       return
     }
     
-    webView.load(authorizationURL)
+    request.clientArea.navigationDelegate = self
+    request.clientArea.load(authorizationURL)
   }
 
   
@@ -110,7 +101,7 @@ class LoginInteractor: NSObject, LoginBusinessLogic, LoginDataStore
 }
 
 
-extension LoginInteractor : WKNavigationDelegate {
+extension LoginInteractor : WKNavigationDelegate, WKUIDelegate {
 
   public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void)
   {
@@ -118,11 +109,11 @@ extension LoginInteractor : WKNavigationDelegate {
     {
       // TODO: process case when deny pressed
       if self.checkIfRedirectUrl(url: requestURL) {
-        self.requestToken(url: requestURL).then(execute: { (token) -> Void in
+        self.requestToken(url: requestURL).then(execute: { [unowned self] (token) -> Void in
           Log.info("TOKEN: \(token)")
           Settings.shared.token = token
           self.presenter?.presentPhotGrid()
-        }).catch(execute: { (err) in
+        }).catch(execute: { [unowned self] (err) in
           Log.error("FAILED GETTING A TOKEN: \(err)")
           self.presenter?.presentError(error: Login.LoginError(err: IVError(desc: err.localizedDescription)))
         })

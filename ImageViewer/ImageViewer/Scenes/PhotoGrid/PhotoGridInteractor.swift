@@ -43,9 +43,9 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
   
   func doWithdrawPhotos(request: PhotoGrid.Request)
   {
-    retrieveMaxNumberOfPhotos().then { (numberOfPhotos) -> Void in
+    retrieveMaxNumberOfPhotos().then { [unowned self] (numberOfPhotos) -> Void in
       self.loadDataForPage(0)
-      }.catch { (error) in
+      }.catch { [unowned self] (error) in
         self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: error.localizedDescription)))
     }
   }
@@ -53,9 +53,9 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
   
   func doLoadPhotosIfNeededForRow(request: PhotoGrid.LoadDataRequet) {
     if nil == photos {
-      retrieveMaxNumberOfPhotos().then(execute: { (numberOfPhotos) -> Void in
+      retrieveMaxNumberOfPhotos().then(execute: { [unowned self] (numberOfPhotos) -> Void in
         self.loadPhotosIfNeededForIndex(request.row)
-      }).catch(execute: { (error) in
+      }).catch(execute: { [unowned self] (error) in
         self.presenter?.presentError(error: PhotoGrid.Error(error: IVError(desc: error.localizedDescription)))
       })
     } else {
@@ -102,7 +102,7 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
       return
     }
 
-    let operation = PhotoLoadingOperation(token: token, page: page, success: { photos in
+    let operation = PhotoLoadingOperation(token: token, page: page, success: { [unowned self] photos in
       self.photos!.set(photos, forPage: page)
       if refreshPhotos {
         self.presenter?.presentRefreshPhotos(self.photos!.indexes(for: page))
@@ -125,7 +125,7 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
       }
       
       Alamofire.request("\(Settings.shared.apiEndpointURL)/stats/total", method: .get, parameters: [:], encoding: JSONEncoding.default, headers: ["Authorization": "Bearer \(token)"]).responseJSON {
-        response in
+        [unowned self] response in
         switch response.result {
         case .success(_):
           if let jsonData = response.data {

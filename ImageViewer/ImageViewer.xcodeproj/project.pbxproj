@@ -35,6 +35,7 @@
 		07AA44861FDB8B3700D2DC86 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44801FDB8B3700D2DC86 /* LoginPresenter.swift */; };
 		07AA44881FDB8B3700D2DC86 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44821FDB8B3700D2DC86 /* LoginRouter.swift */; };
 		07AA448B1FDBC3B800D2DC86 /* URL+iv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA448A1FDBC3B800D2DC86 /* URL+iv.swift */; };
+		07B3C6D61FDF0BFE0089D49A /* UIView+iv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B3C6D51FDF0BFE0089D49A /* UIView+iv.swift */; };
 		ECA7CF6003C37BC4B09A88C7 /* Pods_ImageViewerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30001063F22C50AE9B110E64 /* Pods_ImageViewerTests.framework */; };
 		FE7D8C4440C12DAE9B8D1C16 /* Pods_ImageViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3082F1B480DCFBD689382556 /* Pods_ImageViewer.framework */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		07AA44801FDB8B3700D2DC86 /* LoginPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		07AA44821FDB8B3700D2DC86 /* LoginRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		07AA448A1FDBC3B800D2DC86 /* URL+iv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+iv.swift"; sourceTree = "<group>"; };
+		07B3C6D51FDF0BFE0089D49A /* UIView+iv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+iv.swift"; sourceTree = "<group>"; };
 		0D826E31B813C0DC627EB1D4 /* Pods-ImageViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImageViewerTests/Pods-ImageViewerTests.release.xcconfig"; sourceTree = "<group>"; };
 		30001063F22C50AE9B110E64 /* Pods_ImageViewerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageViewerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3082F1B480DCFBD689382556 /* Pods_ImageViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,6 +228,7 @@
 				07AA448A1FDBC3B800D2DC86 /* URL+iv.swift */,
 				0769CCE31FDC649D0093E4C8 /* UIApplication+iv.swift */,
 				0769CD251FDDECCF0093E4C8 /* UIViewController+iv.swift */,
+				07B3C6D51FDF0BFE0089D49A /* UIView+iv.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/CarambaKit/CarambaKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GreedoLayout/GreedoLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/HTTPStatusCodes/HTTPStatusCodes.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
@@ -396,6 +400,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CarambaKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GreedoLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTTPStatusCodes.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
@@ -456,6 +461,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/CarambaKit/CarambaKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GreedoLayout/GreedoLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/HTTPStatusCodes/HTTPStatusCodes.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
@@ -473,6 +479,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CarambaKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GreedoLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTTPStatusCodes.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
@@ -554,6 +561,7 @@
 				07AA448B1FDBC3B800D2DC86 /* URL+iv.swift in Sources */,
 				07AA445B1FDB0CEA00D2DC86 /* Settings.swift in Sources */,
 				07AA445D1FDB435D00D2DC86 /* IVError.swift in Sources */,
+				07B3C6D61FDF0BFE0089D49A /* UIView+iv.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

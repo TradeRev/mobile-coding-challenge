@@ -106,7 +106,7 @@ class ParticularPhotoViewController: UIViewController, ParticularPhotoDisplayLog
     if let fullURL = photo.urls?.full {
       displayProgress()
       photoImage.af_setImage(withURL: URL(string: fullURL)!, placeholderImage: UIImage(), imageTransition: .crossDissolve(0.2)
-        , completion: { image in
+        , completion: { [unowned self] image in
           self.stopProgress()
       })
     }

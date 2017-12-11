@@ -18,10 +18,9 @@ class PhotoCell: UICollectionViewCell {
     
     backgroundColor = UIColor.white
     
-    let size = photoImage.frame.size
-    
-    photoImage.af_setImage(withURL: URL(string: URLString)!, placeholderImage: placeholderImage, filter: AspectScaledToFillSizeWithRoundedCornersFilter(size: size, radius: 20.0), imageTransition: .crossDissolve(0.2)
-    )
+    //let size = photoImage.frame.size
+    //photoImage.af_setImage(withURL: URL(string: URLString)!, placeholderImage: placeholderImage, filter: AspectScaledToFillSizeWithRoundedCornersFilter(size: size, radius: 20.0), imageTransition: .crossDissolve(0.2))
+    photoImage.af_setImage(withURL: URL(string: URLString)!, placeholderImage: placeholderImage, imageTransition: .crossDissolve(0.2))
   }
   
   override func prepareForReuse() {

@@ -13,6 +13,7 @@
 import UIKit
 import UnsplashKit
 import PagedArray
+import GreedoLayout
 
 protocol PhotoGridDisplayLogic: class
 {
@@ -29,6 +30,8 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   
   fileprivate let itemsPerRow: CGFloat = 2
   fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+  
+  //fileprivate var greedoLayout: GreedoCollectionViewLayout? = nil
   
   // MARK: Object lifecycle
   
@@ -65,6 +68,16 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   override func viewDidLoad()
   {
     super.viewDidLoad()
+    
+//    greedoLayout = GreedoCollectionViewLayout(collectionView: self.collectionView)
+//    greedoLayout?.dataSource = self
+    
+//    let layout = UICollectionViewFlowLayout()
+//    layout.minimumInteritemSpacing = 5.0;
+//    layout.minimumLineSpacing = 5.0;
+//    layout.sectionInset = UIEdgeInsetsMake(10.0, 5.0, 5.0, 5.0);
+//
+//    collectionView?.collectionViewLayout = layout
     
     doWithdrawPhotos()
   }
@@ -121,7 +134,21 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
 }
 
 
-extension PhotoGridViewController : UICollectionViewDelegateFlowLayout {
+extension PhotoGridViewController : UICollectionViewDelegateFlowLayout/*, GreedoCollectionViewLayoutDataSource*/ {
+  
+//  func greedoCollectionViewLayout(_ layout: GreedoCollectionViewLayout!, originalImageSizeAt indexPath: IndexPath!) -> CGSize {
+//    if indexPath.row < (router?.dataStore?.photos?.count)! {
+//      if let photo = router?.dataStore?.photos?[indexPath.row] {
+//        return CGSize(width: photo.width, height: photo.height)
+//      }
+//    }
+//    return CGSize(width: 0.1, height: 0.1)
+//  }
+//
+//
+//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//    return greedoLayout!.sizeForPhoto(at: indexPath)
+//  }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
