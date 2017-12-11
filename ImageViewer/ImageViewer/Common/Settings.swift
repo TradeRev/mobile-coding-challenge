@@ -21,12 +21,18 @@ class Settings {
 //  let applicationID = "5c725a427ad999bdb3c9e5d5fbe2bbbf318cf067d4df4fbd0903dc3f81c990dc"
 //  let secret = "475b40297f851137dc52cdf797d978a2da3bcfa257cc12052d49c64636d15597"
   
-  var token: String?
+  var token: String? {
+    get {
+      return UserDefaults.standard.object(forKey: "imageViewer.unsplash.token") as? String
+    }
+    
+    set {
+      UserDefaults.standard.set(newValue, forKey: "imageViewer.unsplash.token")
+    }
+  }
   
-  let apiEndpoint = "https://api.unsplash.com"
-  
+  let apiEndpointURL = "https://api.unsplash.com"
   let authorizationURL = "https://unsplash.com/oauth/authorize"
   let tokenURL = "https://unsplash.com/oauth/token"
-  
   let redirectURL = "https://zs-imageviewer.com/unsplash/callback"
 }

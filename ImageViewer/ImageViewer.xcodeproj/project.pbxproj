@@ -25,10 +25,7 @@
 		07AA44341FDAF66F00D2DC86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */; };
 		07AA44391FDAF66F00D2DC86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07AA44371FDAF66F00D2DC86 /* Main.storyboard */; };
 		07AA443B1FDAF66F00D2DC86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07AA443A1FDAF66F00D2DC86 /* Assets.xcassets */; };
-		07AA443E1FDAF66F00D2DC86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07AA443C1FDAF66F00D2DC86 /* LaunchScreen.storyboard */; };
 		07AA44491FDAF66F00D2DC86 /* ImageViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44481FDAF66F00D2DC86 /* ImageViewerTests.swift */; };
-		07AA44561FDB00BA00D2DC86 /* UnsplashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44551FDB00BA00D2DC86 /* UnsplashService.swift */; };
-		07AA44581FDB0BAE00D2DC86 /* UnsplashAuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44571FDB0BAE00D2DC86 /* UnsplashAuthenticationService.swift */; };
 		07AA445B1FDB0CEA00D2DC86 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA445A1FDB0CEA00D2DC86 /* Settings.swift */; };
 		07AA445D1FDB435D00D2DC86 /* IVError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA445C1FDB435D00D2DC86 /* IVError.swift */; };
 		07AA44621FDB459300D2DC86 /* XCTestCase+iv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA44611FDB459300D2DC86 /* XCTestCase+iv.swift */; };
@@ -72,13 +69,10 @@
 		07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07AA44381FDAF66F00D2DC86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		07AA443A1FDAF66F00D2DC86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		07AA443D1FDAF66F00D2DC86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		07AA443F1FDAF66F00D2DC86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07AA44441FDAF66F00D2DC86 /* ImageViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AA44481FDAF66F00D2DC86 /* ImageViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerTests.swift; sourceTree = "<group>"; };
 		07AA444A1FDAF66F00D2DC86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		07AA44551FDB00BA00D2DC86 /* UnsplashService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashService.swift; sourceTree = "<group>"; };
-		07AA44571FDB0BAE00D2DC86 /* UnsplashAuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAuthenticationService.swift; sourceTree = "<group>"; };
 		07AA445A1FDB0CEA00D2DC86 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		07AA445C1FDB435D00D2DC86 /* IVError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVError.swift; sourceTree = "<group>"; };
 		07AA44611FDB459300D2DC86 /* XCTestCase+iv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+iv.swift"; sourceTree = "<group>"; };
@@ -175,12 +169,10 @@
 				07AA44891FDBC39B00D2DC86 /* Extensions */,
 				07AA44631FDB8AB800D2DC86 /* Scenes */,
 				07AA44591FDB0CDC00D2DC86 /* Common */,
-				07AA44541FDB009300D2DC86 /* Services */,
 				07AA44331FDAF66F00D2DC86 /* AppDelegate.swift */,
 				0769CCE11FDC5F5B0093E4C8 /* R.generated.swift */,
 				07AA44371FDAF66F00D2DC86 /* Main.storyboard */,
 				07AA443A1FDAF66F00D2DC86 /* Assets.xcassets */,
-				07AA443C1FDAF66F00D2DC86 /* LaunchScreen.storyboard */,
 				07AA443F1FDAF66F00D2DC86 /* Info.plist */,
 			);
 			path = ImageViewer;
@@ -194,15 +186,6 @@
 				07AA44611FDB459300D2DC86 /* XCTestCase+iv.swift */,
 			);
 			path = ImageViewerTests;
-			sourceTree = "<group>";
-		};
-		07AA44541FDB009300D2DC86 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				07AA44551FDB00BA00D2DC86 /* UnsplashService.swift */,
-				07AA44571FDB0BAE00D2DC86 /* UnsplashAuthenticationService.swift */,
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		07AA44591FDB0CDC00D2DC86 /* Common */ = {
@@ -357,7 +340,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07AA443E1FDAF66F00D2DC86 /* LaunchScreen.storyboard in Resources */,
 				07AA443B1FDAF66F00D2DC86 /* Assets.xcassets in Resources */,
 				07AA44391FDAF66F00D2DC86 /* Main.storyboard in Resources */,
 			);
@@ -562,13 +544,11 @@
 				0769CCD91FDC53A90093E4C8 /* PhotoGridModels.swift in Sources */,
 				07AA44841FDB8B3700D2DC86 /* LoginModels.swift in Sources */,
 				0769CCDA1FDC53A90093E4C8 /* PhotoGridViewController.swift in Sources */,
-				07AA44581FDB0BAE00D2DC86 /* UnsplashAuthenticationService.swift in Sources */,
 				07AA44861FDB8B3700D2DC86 /* LoginPresenter.swift in Sources */,
 				0769CD1E1FDDB2410093E4C8 /* ParticularPhotoRouter.swift in Sources */,
 				0769CD261FDDECCF0093E4C8 /* UIViewController+iv.swift in Sources */,
 				07AA44831FDB8B3700D2DC86 /* LoginInteractor.swift in Sources */,
 				07AA44341FDAF66F00D2DC86 /* AppDelegate.swift in Sources */,
-				07AA44561FDB00BA00D2DC86 /* UnsplashService.swift in Sources */,
 				0769CCE41FDC649D0093E4C8 /* UIApplication+iv.swift in Sources */,
 				0769CD1F1FDDB2410093E4C8 /* ParticularPhotoViewController.swift in Sources */,
 				07AA448B1FDBC3B800D2DC86 /* URL+iv.swift in Sources */,
@@ -603,14 +583,6 @@
 				07AA44381FDAF66F00D2DC86 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		07AA443C1FDAF66F00D2DC86 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				07AA443D1FDAF66F00D2DC86 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

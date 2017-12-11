@@ -18,9 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    guard let _ = UIApplication.shared.instantiateAndShow(controllerID: "LoginViewControllerID") else {
-      Log.error("FAILED TO LOAD VIEW CONTROLLER USING \"LoginViewControllerID\" as ID")
-      return false
+    
+    if Settings.shared.token != nil {
+      guard let _ = UIApplication.shared.instantiateAndShow(controllerID: "PhotoGridViewControllerID") else {
+        Log.error("FAILED TO LOAD VIEW CONTROLLER USING \"PhotoGridViewControllerID\" as ID")
+        return false
+      }
+    } else {
+      guard let _ = UIApplication.shared.instantiateAndShow(controllerID: "LoginViewControllerID") else {
+        Log.error("FAILED TO LOAD VIEW CONTROLLER USING \"LoginViewControllerID\" as ID")
+        return false
+      }
     }
     
     return true

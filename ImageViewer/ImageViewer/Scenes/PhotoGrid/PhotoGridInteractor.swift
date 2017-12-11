@@ -124,7 +124,7 @@ class PhotoGridInteractor: PhotoGridBusinessLogic, PhotoGridDataStore
         return
       }
       
-      Alamofire.request("\(Settings.shared.apiEndpoint)/stats/total", method: .get, parameters: [:], encoding: JSONEncoding.default, headers: ["Authorization": "Bearer \(token)"]).responseJSON {
+      Alamofire.request("\(Settings.shared.apiEndpointURL)/stats/total", method: .get, parameters: [:], encoding: JSONEncoding.default, headers: ["Authorization": "Bearer \(token)"]).responseJSON {
         response in
         switch response.result {
         case .success(_):

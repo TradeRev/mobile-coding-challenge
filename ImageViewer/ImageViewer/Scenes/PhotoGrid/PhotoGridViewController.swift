@@ -80,22 +80,6 @@ class PhotoGridViewController: UICollectionViewController, PhotoGridDisplayLogic
   // MARK: PhotoGridDisplayLogic
   
   func displayRefresh(_ indexes: CountableRange<Int>) {
-    
-//    if let ipVIsible = collectionView?.indexPathsForVisibleItems {
-//      let visibleIndexes = ipVIsible.filter({ (ip) -> Bool in
-//        indexes.contains(ip.row)
-//      })
-//
-//      if visibleIndexes.count > 0 {
-//        Log.info("REFRESH")
-//        collectionView?.reloadData()
-//      } else {
-//        Log.info("NOTHING TO REFRESH")
-//      }
-//    }
-    
-//    tableView.indexPathsForVisibleRows?.filter { indexes.contains(($0 as NSIndexPath).row) }
-//    self.tableView.reloadRows(at: indexPathsToReload, with: .automatic)
     collectionView?.reloadData()
   }
   
