@@ -9,7 +9,7 @@
 import Alamofire
 import AlamofireObjectMapper
 
-typealias UnsplashAPIOnSuccessCompletion = (UnsplashResponse) -> Void
+typealias UnsplashAPIOnSuccessCompletion = ([UnsplashPhoto]) -> Void
 typealias UnsplashAPIOnFailureCompletion = (Error) -> Void
 
 class UnsplashAPI {
@@ -28,7 +28,8 @@ class UnsplashAPI {
         let photoUrl = APIConsole.baseUrl + APIConsole.Path.photos
         let params = ["client_id": APIConsole.clientId]
         
-        Alamofire.request(photoUrl, parameters: params).responseObject { (response: DataResponse<UnsplashResponse>) in
+        Alamofire.request(photoUrl, parameters: params).responseArray { (response: DataResponse<[UnsplashPhoto]>) in
+            
             switch response.result {
             case .success(let value):
                 onSuccess?(value)
