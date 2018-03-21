@@ -23,10 +23,13 @@ class UnsplashAPI {
         }
     }
     
-    static func fetchPhotos(onSuccess: UnsplashAPIOnSuccessCompletion?, onfailure: UnsplashAPIOnFailureCompletion?) {
+    static func fetchPhotos(page: Int = 1, onSuccess: UnsplashAPIOnSuccessCompletion?, onfailure: UnsplashAPIOnFailureCompletion?) {
         
         let photoUrl = APIConsole.baseUrl + APIConsole.Path.photos
-        let params = ["client_id": APIConsole.clientId]
+        let params: [String: Any] = [
+            "client_id": APIConsole.clientId,
+            "page": page
+        ]
         
         Alamofire.request(photoUrl, parameters: params).responseArray { (response: DataResponse<[UnsplashPhoto]>) in
             

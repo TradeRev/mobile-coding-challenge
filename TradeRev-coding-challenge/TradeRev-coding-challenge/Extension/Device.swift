@@ -9,6 +9,10 @@
 import UIKit
 
 struct Device {
-    static let screenWidth  = UIScreen.main.bounds.width
+    static let screenWidth = UIScreen.main.bounds.width
     static let screenHeight = UIScreen.main.bounds.height
+    
+    static var isPortrait: Bool {
+        return UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation)
+    }
 }

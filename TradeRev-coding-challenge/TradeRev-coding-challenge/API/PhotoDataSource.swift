@@ -11,11 +11,12 @@ import Foundation
 typealias PhotoOnSuccess = (PhotoDataSource) -> Void
 typealias PhotoOnFailure = (Error) -> Void
 
-protocol PhotoDataSource {
+protocol PhotoDataSource: class {
     
     var photos: [UnsplashPhoto] { get }
+    var currentItem: Int { get set }
     
     static func load(onSuccess: PhotoOnSuccess?, onFailure: PhotoOnFailure?)
     
-    func loadNextPage(onSuccess: PhotoOnSuccess?, onFailure: PhotoOnFailure?)
+    func loadNextPage(onCompletion: (() -> Void)?)
 }

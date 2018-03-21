@@ -8,14 +8,38 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+class GridCollectionViewCell: UICollectionViewCell, Reusable {
     
-    static let identifier = "gridCell"
+    lazy var gridImageView: UIImageView = {
+        let imageView                                       = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode                               = .scaleAspectFit
+        
+        return imageView
+    }()
     
-    @IBOutlet weak var gridImageView: UIImageView!
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        contentView.addSubview(gridImageView)
+        createConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func update(with imageUrl: String?) {
         gridImageView.loadImage(url: imageUrl)
+    }
+    
+    fileprivate func createConstraints() {
+        NSLayoutConstraint.activate([
+            gridImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            gridImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            gridImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            gridImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
     }
     
     override func prepareForReuse() {
