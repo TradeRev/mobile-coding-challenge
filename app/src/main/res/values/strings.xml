@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Photos Code Challenge</string>
+    <string name="TimeoutException">TimeoutException</string>
+    <string name="Error4XXException">Error4XXException</string>
+    <string name="NoNetworkException">NoNetworkException</string>
+    <string name="BadRequestException">BadRequestException</string>
+    <string name="NoDataException">NoDataException</string>
+    <string name="Error5XXException">Error5XXException</string>
+    <string name="GenericError">GenericError</string>
+</resources>
