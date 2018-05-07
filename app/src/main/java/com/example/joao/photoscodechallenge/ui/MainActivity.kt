@@ -1,12 +1,16 @@
 package com.example.joao.photoscodechallenge.ui
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.example.joao.photoscodechallenge.R
 import com.example.joao.photoscodechallenge.State
 import com.example.joao.photoscodechallenge.adapter.Listener
@@ -30,9 +34,13 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : AppCompatActivity() {
 
-    private var isLoading: Boolean = false
-
     private lateinit var myAdapter: MyImageAdapter
+
+    private var photoList = arrayListOf<Photo>()
+
+    private lateinit var customGridLayoutManager: GridLayoutManager
+
+    private val CACHED_PHOTOS = "CACHED_PHOTOS"
 
     private val disposables by lazy { CompositeDisposable() }
 
@@ -53,20 +61,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        disposables += viewModel.listPhotos()
-                .subscribe({
-                    status: State ->
+        if (savedInstanceState != null && savedInstanceState.containsKey(CACHED_PHOTOS)) {
+            photoList = savedInstanceState.getParcelableArrayList(CACHED_PHOTOS)
+        }
+    }
 
-                    when(status){
+    override fun onStart() {
+        super.onStart()
+        loadContent()
+    }
+
+    private fun loadContent() {
+        if (photoList.isNotEmpty()) {
+            hideLoading()
+            showImages(photoList)
+            return
+        }
+
+        disposables += viewModel.listPhotos()
+                .subscribe({ status: State ->
+
+                    when (status) {
 
                         is State.Loading -> showLoading()
 
                         is State.Error -> {
                             hideLoading()
 
-                            textError.visible()
+                            textError.visibility = View.VISIBLE
 
-                            when(status.exception){
+                            when (status.exception) {
                                 is TimeoutException -> textError.text = "TimeoutException"
                                 is Error4XXException -> textError.text = "Error4XXException"
                                 is NoNetworkException -> textError.text = "NoNetworkException"
@@ -79,47 +103,61 @@ class MainActivity : AppCompatActivity() {
 
                         is State.Success -> {
                             hideLoading()
+                            photoList.addAll(status.photos)
                             showImages(status.photos)
                         }
                     }
-                },{
-                    t -> t.printStackTrace()
+                }, { t ->
+                    t.printStackTrace()
                 })
 
     }
 
-    private fun loadMore(){
+    override fun onSaveInstanceState(outState: Bundle?) {
+        photoList.apply {
+            outState?.clear()
+            outState?.putParcelableArrayList(CACHED_PHOTOS, this)
+            return
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+
+    }
+
+    private fun loadMore() {
         disposables += viewModel.loadMore()
-                .subscribe({
-                    status: State ->
-                    hideFooterLoading()
-                    when(status){
+                .subscribe({ status: State ->
+                    when (status) {
                         is State.Error -> {
                             //TODO show message
                         }
 
                         is State.Success -> appendImages(status.photos)
                     }
-                },{
-                    t -> t.printStackTrace()
+                }, { t ->
+                    t.printStackTrace()
                 })
     }
 
-    private fun appendImages(photos: List<Photo>){
+    private fun appendImages(photos: List<Photo>) {
+        photoList.addAll(photos)
         myAdapter.appendImages(photos)
     }
 
-    private fun showImages(photos: List<Photo>){
+    private fun showImages(photos: List<Photo>) {
 
-        myAdapter = MyImageAdapter(photos.toMutableList(), object : Listener{
+        myAdapter = MyImageAdapter(photos.toMutableList(), object : Listener {
             override fun onItemClickAtPosition(position: Int) {
                 val photosDetailsList = arrayListOf<String>()
-                photos.mapTo(photosDetailsList){ it.regularUrl }
-                DetailsActivity.start(this@MainActivity, position, photosDetailsList)
+                photoList.mapTo(photosDetailsList) { it.regularUrl }
+                DetailsActivity.startActivityForResult(this@MainActivity, position, photosDetailsList)
             }
         })
 
-        val customGridLayoutManager = GridLayoutManager(this, 3)
+        customGridLayoutManager = GridLayoutManager(this, 3)
         customGridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
 
             override fun getSpanSize(position: Int): Int {
@@ -134,12 +172,16 @@ class MainActivity : AppCompatActivity() {
 
         val dimensionPixelSize = resources.getDimensionPixelSize(R.dimen.recycler_margin)
 
-        with(recyclerView){
+        with(recyclerView) {
             addItemDecoration(GridDividerItemDecoration(dimensionPixelSize, 3))
             layoutManager = customGridLayoutManager
             adapter = myAdapter
             visible()
-            addOnScrollListener(OnVerticalScrollListener())
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (cannotScrollVertically(recyclerView)) loadMore()
+                }
+            })
         }
     }
 
@@ -147,26 +189,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun showLoading() = progress.visible()
 
-    private fun hideFooterLoading() = footerProgress.gone()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-    private fun showFooterLoading() = footerProgress.visible()
+        if (requestCode == DetailsActivity.REQUEST_CODE
+                && resultCode == Activity.RESULT_OK) {
+
+            val position = data?.getIntExtra(DetailsActivity.CURRENT_POSITION, 0)
+
+            position?.let {
+                customGridLayoutManager.scrollToPosition(it)
+            }
+        }
+    }
 
     override fun onDestroy() {
         disposables.clear()
         super.onDestroy()
-    }
-
-    inner class OnVerticalScrollListener : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (cannotScrollVertically(recyclerView)) {
-                loadMore()
-                if (isLoading && dy > 0) {
-                    showFooterLoading()
-                    return
-                }
-            }
-            if (isLoading && dy < 0) hideFooterLoading()
-        }
     }
 
     private fun cannotScrollVertically(recyclerView: RecyclerView) =
