@@ -7,19 +7,21 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import com.example.joao.photoscodechallenge.R
 import com.example.joao.photoscodechallenge.State
 import com.example.joao.photoscodechallenge.adapter.Listener
 import com.example.joao.photoscodechallenge.adapter.MyImageAdapter
 import com.example.joao.photoscodechallenge.decorator.GridDividerItemDecoration
 import com.example.joao.photoscodechallenge.entry.Photo
-import com.example.joao.photoscodechallenge.entry.PhotoDetails
+import com.example.joao.photoscodechallenge.extensions.gone
+import com.example.joao.photoscodechallenge.extensions.visible
 import com.example.joao.photoscodechallenge.viewModel.MyViewModel
 import com.example.joao.photoscodechallenge.webservice.exceptions.*
 import com.github.salomonbrys.kodein.LazyKodein
 import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -27,9 +29,12 @@ import kotlinx.android.synthetic.main.activity_main.*
  * Created by Joao Alvares Neto on 05/05/2018.
  */
 class MainActivity : AppCompatActivity() {
+
     private var isLoading: Boolean = false
 
     private lateinit var myAdapter: MyImageAdapter
+
+    private val disposables by lazy { CompositeDisposable() }
 
     val kodein by lazy {
         LazyKodein(appKodein)
@@ -37,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
 
+        @Suppress("UNCHECKED_CAST")
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>) = kodein.value.instance<MyViewModel>() as T
         }
@@ -47,26 +53,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.listPhotos()
-                .subscribe({ status: State ->
+        disposables += viewModel.listPhotos()
+                .subscribe({
+                    status: State ->
 
-                    when (status) {
+                    when(status){
 
                         is State.Loading -> showLoading()
 
                         is State.Error -> {
                             hideLoading()
 
-                            textError.visibility = View.VISIBLE
+                            textError.visible()
 
-                            when (status.exception) {
-                                is TimeoutException -> textError.text = getString(R.string.TimeoutException)
-                                is Error4XXException -> textError.text = getString(R.string.Error4XXException)
-                                is NoNetworkException -> textError.text = getString(R.string.NoNetworkException)
-                                is BadRequestException -> textError.text = getString(R.string.BadRequestException)
-                                is NoDataException -> textError.text = getString(R.string.NoDataException)
-                                is Error5XXException -> textError.text = getString(R.string.Error5XXException)
-                                else -> textError.text = getString(R.string.GenericError)
+                            when(status.exception){
+                                is TimeoutException -> textError.text = "TimeoutException"
+                                is Error4XXException -> textError.text = "Error4XXException"
+                                is NoNetworkException -> textError.text = "NoNetworkException"
+                                is BadRequestException -> textError.text = "BadRequestException"
+                                is NoDataException -> textError.text = "NoDataException"
+                                is Error5XXException -> textError.text = "Error5XXException"
+                                else -> textError.text = "GenericError"
                             }
                         }
 
@@ -75,43 +82,39 @@ class MainActivity : AppCompatActivity() {
                             showImages(status.photos)
                         }
                     }
-                }, { t ->
-                    t.printStackTrace()
+                },{
+                    t -> t.printStackTrace()
                 })
 
     }
 
-    private fun loadMore() {
-        viewModel.loadMore()
-                .subscribe({ status: State ->
+    private fun loadMore(){
+        disposables += viewModel.loadMore()
+                .subscribe({
+                    status: State ->
                     hideFooterLoading()
-                    when (status) {
+                    when(status){
                         is State.Error -> {
                             //TODO show message
                         }
 
                         is State.Success -> appendImages(status.photos)
                     }
-                }, { t ->
-                    t.printStackTrace()
+                },{
+                    t -> t.printStackTrace()
                 })
     }
 
-    private fun appendImages(photos: List<Photo>) {
+    private fun appendImages(photos: List<Photo>){
         myAdapter.appendImages(photos)
     }
 
-    private fun showImages(photos: List<Photo>) {
+    private fun showImages(photos: List<Photo>){
 
-        myAdapter = MyImageAdapter(photos.toMutableList(), object : Listener {
+        myAdapter = MyImageAdapter(photos.toMutableList(), object : Listener{
             override fun onItemClickAtPosition(position: Int) {
-
-                val photosDetailsList = arrayListOf<PhotoDetails>()
-
-                for (item in photos) {
-                    photosDetailsList.add(PhotoDetails(item.regularUrl))
-                }
-
+                val photosDetailsList = arrayListOf<String>()
+                photos.mapTo(photosDetailsList){ it.regularUrl }
                 DetailsActivity.start(this@MainActivity, position, photosDetailsList)
             }
         })
@@ -131,53 +134,41 @@ class MainActivity : AppCompatActivity() {
 
         val dimensionPixelSize = resources.getDimensionPixelSize(R.dimen.recycler_margin)
 
-        with(recyclerView) {
+        with(recyclerView){
             addItemDecoration(GridDividerItemDecoration(dimensionPixelSize, 3))
             layoutManager = customGridLayoutManager
             adapter = myAdapter
-            visibility = android.view.View.VISIBLE
+            visible()
             addOnScrollListener(OnVerticalScrollListener())
         }
     }
 
-    private fun hideLoading() {
-        progress.visibility = View.GONE
-    }
+    private fun hideLoading() = progress.gone()
 
-    private fun showLoading() {
-        progress.visibility = View.VISIBLE
-    }
+    private fun showLoading() = progress.visible()
 
-    private fun hideFooterLoading() {
-        footerProgress.visibility = View.GONE
-    }
+    private fun hideFooterLoading() = footerProgress.gone()
 
-    private fun showFooterLoading() {
-        footerProgress.visibility = View.VISIBLE
+    private fun showFooterLoading() = footerProgress.visible()
+
+    override fun onDestroy() {
+        disposables.clear()
+        super.onDestroy()
     }
 
     inner class OnVerticalScrollListener : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (canScrollVertically(recyclerView)) {
-                if (isLoading) {
-                    if (dy < 0) {
-                        hideFooterLoading()
-                        return
-                    }
-                }
-                return
-            }
-            loadMore()
-            if (isLoading) {
-                if (dy > 0) {
+            if (cannotScrollVertically(recyclerView)) {
+                loadMore()
+                if (isLoading && dy > 0) {
                     showFooterLoading()
                     return
                 }
             }
+            if (isLoading && dy < 0) hideFooterLoading()
         }
     }
 
-    private fun canScrollVertically(recyclerView: RecyclerView): Boolean {
-        return recyclerView.canScrollVertically(1)
-    }
+    private fun cannotScrollVertically(recyclerView: RecyclerView) =
+            !recyclerView.canScrollVertically(1)
 }

@@ -4,10 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import com.example.joao.photoscodechallenge.R
 import com.example.joao.photoscodechallenge.adapter.MyImageDetailsAdapter
-import com.example.joao.photoscodechallenge.entry.PhotoDetails
+import com.example.joao.photoscodechallenge.extensions.visible
 import kotlinx.android.synthetic.main.activity_details.*
 
 /**
@@ -17,13 +18,17 @@ import kotlinx.android.synthetic.main.activity_details.*
 class DetailsActivity: AppCompatActivity() {
 
     companion object {
-        fun start(activity: Activity, position: Int, photoDetails: ArrayList<PhotoDetails>) {
+
+        private const val DETAILS = "details"
+        private const val POSITION = "position"
+
+        fun start(activity: Activity, position: Int, photoDetails: ArrayList<String>) {
 
             val intent = Intent(activity,DetailsActivity::class.java)
 
             val bundle = Bundle()
-            bundle.putParcelableArrayList("photoDetails", photoDetails)
-            bundle.putInt("position",position)
+            bundle.putStringArrayList(DETAILS, photoDetails)
+            bundle.putInt(POSITION,position)
 
             activity.startActivity(intent.putExtras(bundle))
         }
@@ -33,24 +38,18 @@ class DetailsActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val listPhotoDetails = intent.extras.getParcelableArrayList<PhotoDetails>("photoDetails")
-        val position = intent.extras.getInt("position")
-
-        val items = arrayListOf<String>()
-
-        for(item in listPhotoDetails){
-            items.add(item.url)
-        }
+        val listPhotoDetails = intent.extras.getStringArrayList(DETAILS)
+        val position = intent.extras.getInt(POSITION)
 
         LinearSnapHelper().attachToRecyclerView(detailsRecyclerView)
 
         with(detailsRecyclerView){
-            adapter = MyImageDetailsAdapter(items)
+            adapter = MyImageDetailsAdapter(listPhotoDetails)
             setHasFixedSize(true)
-            layoutManager = android.support.v7.widget.LinearLayoutManager(this@DetailsActivity,
-                    android.support.v7.widget.LinearLayoutManager.HORIZONTAL,
+            layoutManager = LinearLayoutManager(this@DetailsActivity,
+                    LinearLayoutManager.HORIZONTAL,
                     false)
-            visibility = android.view.View.VISIBLE
+            visible()
         }
         detailsRecyclerView.layoutManager.scrollToPosition(position)
     }

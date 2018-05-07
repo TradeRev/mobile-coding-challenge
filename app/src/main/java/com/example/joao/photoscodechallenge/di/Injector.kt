@@ -2,7 +2,6 @@ package com.example.joao.photoscodechallenge.di
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.example.joao.photoscodechallenge.MyTransformer
 import com.example.joao.photoscodechallenge.service.MyService
 import com.example.joao.photoscodechallenge.viewModel.MyViewModel
 import com.example.joao.photoscodechallenge.webservice.MyWebServiceAPI
@@ -26,19 +25,16 @@ import java.util.concurrent.TimeUnit
  * Created by Joao Alvares Neto on 05/05/2018.
  */
 
-class Injector(val context: Context) {
+class Injector (val context: Context) {
 
     val dependencies = Kodein.Module(allowSilentOverride = true) {
 
-        bind<MyViewModel>() with provider {
+        bind<MyViewModel>() with provider{
             MyViewModel(myService = instance())
         }
 
         bind<MyService>() with provider {
             MyService(webServiceAPI = instance())
-        }
-        bind<MyTransformer>() with provider {
-            MyTransformer()
         }
 
         bind<NetworkService>() with provider {
@@ -95,5 +91,5 @@ class Injector(val context: Context) {
         private val LOG_INTERCEPTOR = "LogInterceptor"
         private val REQUEST_INTERCEPTOR = "RequestInterceptor"
     }
-}
 
+}

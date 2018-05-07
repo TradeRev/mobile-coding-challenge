@@ -1,6 +1,7 @@
 package com.example.joao.photoscodechallenge.adapter
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +23,14 @@ class MyImageDetailsAdapter(private val urls: MutableList<String>)
     }
 
     override fun getItemCount(): Int {
+        Log.i("AAAA", "adaptersize" + urls.size.toString())
+
         return urls.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val url = urls[position]
-
+        Log.i("AAAA DetailsADapter", position.toString())
         Picasso
                 .get()
                 .load(url)
