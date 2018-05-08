@@ -24,7 +24,7 @@ class HomeActivityTimeoutTest : AcceptanceTest<MainActivity>(MainActivity::class
         startActivity()
 
         robot {
-            withLoading()
+
         } withTimeout {
             errorHasBeenShown()
         }

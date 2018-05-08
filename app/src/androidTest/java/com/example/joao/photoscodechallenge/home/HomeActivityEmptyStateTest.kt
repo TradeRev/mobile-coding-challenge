@@ -24,7 +24,7 @@ class HomeActivityEmptyStateTest : AcceptanceTest<MainActivity>(MainActivity::cl
         startActivity()
 
         robot {
-            withLoading()
+
         } withEmptyState {
             errorHasBeenShown()
         }

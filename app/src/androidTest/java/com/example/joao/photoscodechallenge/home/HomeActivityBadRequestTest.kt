@@ -23,7 +23,7 @@ class HomeActivityBadRequestTest : AcceptanceTest<MainActivity>(MainActivity::cl
         startActivity()
 
         robot {
-            withLoading()
+
         } withBadRequest {
             errorHasBeenShown()
         }

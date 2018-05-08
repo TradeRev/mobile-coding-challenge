@@ -44,7 +44,7 @@ abstract class AcceptanceTest<T : Activity>(clazz: Class<T>){
         return testRule.launchActivity(intent)
     }
 
-    fun getJson(fileName : String) = FileHandler().invoke(fileName)
+    fun getJson(fileName : String) = FileHandler().readResource(InstrumentationRegistry.getInstrumentation().context,fileName)
 
     abstract val testDependencies: Kodein.Module
 

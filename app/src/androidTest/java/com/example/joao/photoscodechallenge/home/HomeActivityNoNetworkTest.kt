@@ -24,7 +24,7 @@ class HomeActivityNoNetworkTest : AcceptanceTest<MainActivity>(MainActivity::cla
         startActivity()
 
         robot {
-            withLoading()
+
         } withoutConnection {
             errorHasBeenShown()
         }

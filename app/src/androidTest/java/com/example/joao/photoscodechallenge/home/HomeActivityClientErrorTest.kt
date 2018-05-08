@@ -24,7 +24,7 @@ class HomeActivityClientErrorTest : AcceptanceTest<MainActivity>(MainActivity::c
         startActivity()
 
         robot {
-            withLoading()
+
         } withClientError {
             errorHasBeenShown()
         }

@@ -14,7 +14,7 @@ import org.junit.Test
 class HomeActivityContentTest : AcceptanceTest<MainActivity>(MainActivity::class.java) {
 
     @Test
-    fun testWithContentState() {
+        fun testWithContentState() {
 
         server.enqueue(MockResponse()
                 .setResponseCode(200)
@@ -23,7 +23,7 @@ class HomeActivityContentTest : AcceptanceTest<MainActivity>(MainActivity::class
         startActivity()
 
         robot{
-            withLoading()
+
         } withContent {
             isSuccess()
         }

@@ -1,6 +1,6 @@
 package com.example.joao.photoscodechallenge
 
-import java.io.File
+import android.content.Context
 import java.util.*
 
 /**
@@ -8,27 +8,23 @@ import java.util.*
  */
 class FileHandler {
 
-    operator fun invoke(fileName: String): String {
+    fun readResource(context: Context, fileName: String): String{
 
-        val result = StringBuilder()
-        val classLoader = FileHandler::class.java.classLoader
-        val file = File(classLoader.getResource(fileName).file)
+        val stream = context.resources.assets.open(fileName)
+        val sb = StringBuilder()
 
         try {
-            val scanner = Scanner(file)
+            val scanner = Scanner(stream)
             while (scanner.hasNextLine()) {
                 val line = scanner.nextLine()
-                result.append(line).append("\n")
+                sb.append(line).append("\n")
             }
-
-            scanner.close()
-            return result.toString()
-
-        } catch (e: Throwable) {
+        }catch (e: Exception){
             e.printStackTrace()
+        }finally {
+            stream.close()
         }
-
-        throw RuntimeException("Cannot read file $fileName")
+        return sb.toString()
     }
 
 }

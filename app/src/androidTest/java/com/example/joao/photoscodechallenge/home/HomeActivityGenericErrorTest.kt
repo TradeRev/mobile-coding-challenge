@@ -24,7 +24,7 @@ class HomeActivityGenericErrorTest : AcceptanceTest<MainActivity>(MainActivity::
         startActivity()
 
         robot {
-            withLoading()
+
         } withGenericError {
             errorHasBeenShown()
         }
