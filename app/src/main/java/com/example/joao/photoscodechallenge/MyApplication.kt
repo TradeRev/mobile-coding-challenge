@@ -30,4 +30,4 @@ class MyApplication: Application(), KodeinAware {
 
     private fun appDependencies() = Injector(this).dependencies
 }
-fun Context.asApp() = this.applicationContext as MyApplication
+fun Context.asApplication() = this.applicationContext as MyApplication
