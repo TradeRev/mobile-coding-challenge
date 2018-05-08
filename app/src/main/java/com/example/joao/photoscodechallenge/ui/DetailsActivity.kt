@@ -3,7 +3,6 @@ package com.example.joao.photoscodechallenge.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
@@ -13,7 +12,6 @@ import com.example.joao.photoscodechallenge.adapter.MyImageDetailsAdapter
 import com.example.joao.photoscodechallenge.extensions.visible
 import com.jakewharton.rxbinding2.view.RxView
 import kotlinx.android.synthetic.main.activity_details.*
-import kotlinx.android.synthetic.main.image_details_item.*
 
 /**
  * Created by Joao Alvares Neto on 05/05/2018.
@@ -63,9 +61,6 @@ class DetailsActivity: AppCompatActivity() {
 
         val listPhotoDetails = intent.extras.getStringArrayList(DETAILS)
         val position = intent.extras.getInt(POSITION)
-
-
-        ViewCompat.setTransitionName(image, VIEW_NAME_HEADER_IMAGE)
 
         snapHelper.attachToRecyclerView(detailsRecyclerView)
 
