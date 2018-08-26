@@ -1,18 +1,23 @@
 package com.senijoshua.picsrus
 
 import android.app.Application
+import android.content.Context
 import org.androidannotations.annotations.EApplication
 
 @EApplication
 class PicsRusApplication : Application() {
 
-    val appInstance: PicsRusApplication = this
-
-    override fun onCreate() {
-        super.onCreate()
+    init {
+        appInstance = this
     }
 
-    fun getAppContext() : PicsRusApplication{
-        return appInstance
+    companion object {
+        var appInstance: PicsRusApplication? = null
+
+        fun getApplicationContext(): Context{
+            return appInstance!!.applicationContext
+        }
     }
+
 }
+

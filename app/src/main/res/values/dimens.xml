@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Densities-->
+    <dimen name="density_1">1dp</dimen>
+    <dimen name="density_5">5dp</dimen>
+    <dimen name="density_130">130dp</dimen>
+
+    <!--Text Dimensions-->
+    <dimen name="text_14">14sp</dimen>
+</resources>

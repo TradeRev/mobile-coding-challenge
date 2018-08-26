@@ -1,3 +1,3 @@
 package com.senijoshua.picsrus.data.models
 
-class Urls(raw: String, full: String, regular: String, small: String, thumb: String)
+data class Urls(var raw: String, var full: String, var regular: String, var small: String, var thumb: String)

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pics R Us</string>
+    <string name="image_descriptor">unsplash image</string>
 </resources>
