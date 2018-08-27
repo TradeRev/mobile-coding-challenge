@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Pics R Us</string>
     <string name="image_descriptor">unsplash image</string>
+    <string name="username_prefix">Photo by</string>
+    <string name="social_prefix">instagram:</string>
+    <string name="likes_suffix">likes</string>
 </resources>

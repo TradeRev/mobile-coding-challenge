@@ -41,7 +41,7 @@ class PhotoListAdapter(var context: Context, var clickListener: PhotoClickListen
 
         holder.photoView.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {
-                clickListener.onPhotoClicked(holder.adapterPosition, photo, holder.photoView)
+                clickListener.onPhotoClicked(holder.adapterPosition, holder.photoView)
             }
         })
     }
