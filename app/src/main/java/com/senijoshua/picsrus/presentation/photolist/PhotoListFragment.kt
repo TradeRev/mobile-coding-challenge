@@ -15,7 +15,6 @@ import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.data.repo.PhotoRepoAPI
 import com.senijoshua.picsrus.data.repo.PhotoRepoImpl
 import com.senijoshua.picsrus.presentation.PhotoListActivity
-import com.senijoshua.picsrus.presentation.PhotoListActivity_
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment_
 import org.androidannotations.annotations.AfterViews
@@ -42,10 +41,10 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         photoList.layoutManager = gridLayoutManager
         photoList.adapter = photoListAdapter
         presenter.loadPhotoList()
+        scrollToPosition()
         initTransitions()
         postponeEnterTransition()
     }
-
 
     var photoClickListener: PhotoClickListener = object : PhotoClickListener {
         override fun onPhotoLoaded(position: Int) {
@@ -64,7 +63,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
                     .setReorderingAllowed(true)
                     .addSharedElement(sharedImageView, sharedImageView.transitionName)
                     .addToBackStack(null)
-                    .replace(R.id.photo_fragment_continer, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
+                    .replace(R.id.photo_fragment_container, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
                     .commit()
         }
     }
@@ -78,11 +77,27 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
             override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
                 super.onMapSharedElements(names, sharedElements)
 
-                // Locate the ViewHolder for the clicked position.
+                // Get the ViewHolder for the clicked position.
                 val selectedViewHolder: RecyclerView.ViewHolder = photoList.findViewHolderForAdapterPosition(PhotoListActivity.currentListPosition)
 
-                // Map the first shared element name to the child ImageView.
+                // Map the first shared element name to the said view's ImageView.
                 sharedElements!![names!![0]] = selectedViewHolder.itemView.findViewById(R.id.photo_item)
+            }
+        })
+    }
+
+    fun scrollToPosition(){
+        photoList.addOnLayoutChangeListener(object : View.OnLayoutChangeListener{
+            override fun onLayoutChange(view: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                photoList.removeOnLayoutChangeListener(this)
+                val layoutManager = photoList.layoutManager
+                val viewAtPosition = layoutManager.findViewByPosition(PhotoListActivity.currentListPosition)
+                // Scroll to position if the view for the current position is null (not currently part of
+                // layout manager children), or it's not completely visible.
+                if (viewAtPosition == null || layoutManager
+                                .isViewPartiallyVisible(viewAtPosition, false, true)) {
+                    photoList.post { layoutManager.scrollToPosition(PhotoListActivity.currentListPosition) }
+                }
             }
         })
     }

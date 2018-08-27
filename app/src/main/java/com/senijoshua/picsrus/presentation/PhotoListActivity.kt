@@ -15,7 +15,7 @@ class PhotoListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.photo_fragment_continer, PhotoListFragment_(), PhotoListFragment::class.java.name)
+                .add(R.id.photo_fragment_container, PhotoListFragment_(), PhotoListFragment::class.java.name)
                 .commit()
     }
 

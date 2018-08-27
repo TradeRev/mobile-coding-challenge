@@ -70,6 +70,7 @@ class PhotoDetailsFragment : Fragment(){
         override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
             //Prevent UI hangups even though loadFailed
             parentFragment!!.startPostponedEnterTransition()
+            infoContainer.visibility = View.VISIBLE
             return false
         }
 
@@ -77,6 +78,7 @@ class PhotoDetailsFragment : Fragment(){
             //the transition is postponed until this image finishes loading and when
             //it's done, we start the enter transition that was previously postponed.
             parentFragment!!.startPostponedEnterTransition()
+            infoContainer.visibility = View.VISIBLE
             return false
         }
     }
