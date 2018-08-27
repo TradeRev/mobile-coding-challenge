@@ -10,7 +10,8 @@ class PhotoDetailsPagerAdapter(var fragment: Fragment, var photoList: List<Photo
         val photo = photoList[position]
 
         return PhotoDetailsFragment_.builder().photoUrl(photo.urls.regular)
-                .userName(photo.user.name).socialAccount(photo.user.instagram_username).numberOfLikes(photo.likes.toString()).build()
+                .userName(photo.user.name).socialAccount(photo.user.instagram_username)
+                .numberOfLikes(photo.likes.toString()).transitionName(photo.id).build()
     }
 
     override fun getCount(): Int {

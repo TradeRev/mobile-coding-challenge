@@ -33,6 +33,9 @@ class PhotoDetailsFragment : Fragment(){
     @FragmentArg
     lateinit var numberOfLikes: String
 
+    @FragmentArg
+    lateinit var transitionName: String
+
     @ViewById(R.id.photo_full_screen)
     lateinit var fullScreenView: ImageView
 
@@ -51,6 +54,7 @@ class PhotoDetailsFragment : Fragment(){
     @SuppressLint("SetTextI18n")
     @AfterViews
     fun onViewCreated(){
+        fullScreenView.transitionName = transitionName
         GlideApp.with(activity!!)
                 .load(photoUrl)
                 .listener(requestListener)
@@ -64,6 +68,7 @@ class PhotoDetailsFragment : Fragment(){
 
     var requestListener = object : RequestListener<Drawable> {
         override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
+            //Prevent UI hangups even though loadFailed
             parentFragment!!.startPostponedEnterTransition()
             return false
         }

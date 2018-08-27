@@ -1,9 +1,13 @@
 package com.senijoshua.picsrus.presentation.photolist
 
 import android.support.v4.app.Fragment
+import android.support.v4.app.SharedElementCallback
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.transition.TransitionInflater
+import android.transition.TransitionSet
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import com.senijoshua.picsrus.R
 import com.senijoshua.picsrus.data.RetrofitFactory
@@ -38,19 +42,49 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         photoList.layoutManager = gridLayoutManager
         photoList.adapter = photoListAdapter
         presenter.loadPhotoList()
+        initTransitions()
+        postponeEnterTransition()
     }
 
 
     var photoClickListener: PhotoClickListener = object : PhotoClickListener {
-        override fun onPhotoClicked(position: Int, sharedImageView: View) {
+        override fun onPhotoLoaded(position: Int) {
+            if (PhotoListActivity.currentListPosition == position){
+                startPostponedEnterTransition()
+            }
+        }
+
+        override fun onPhotoClicked(position: Int, sharedImageView: ImageView) {
             PhotoListActivity.currentListPosition = position
+            //exclude the selected view from the fade-out
+            val fragmentExitTransition = exitTransition as TransitionSet
+            fragmentExitTransition.excludeTarget(sharedImageView, true)
             activity!!.supportFragmentManager
                     .beginTransaction()
-                    .addToBackStack(PhotoDetailsPagerFragment::class.java.name)
-                    .hide(this@PhotoListFragment)
-                    .add(R.id.photo_fragment_continer, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
+                    .setReorderingAllowed(true)
+                    .addSharedElement(sharedImageView, sharedImageView.transitionName)
+                    .addToBackStack(null)
+                    .replace(R.id.photo_fragment_continer, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
                     .commit()
         }
+    }
+
+    fun initTransitions(){
+        exitTransition = TransitionInflater.from(context)
+                .inflateTransition(R.transition.photo_list_transition)
+
+        //adjust the shared element mapping and map the shared element names to their appropriate views
+        setExitSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
+                super.onMapSharedElements(names, sharedElements)
+
+                // Locate the ViewHolder for the clicked position.
+                val selectedViewHolder: RecyclerView.ViewHolder = photoList.findViewHolderForAdapterPosition(PhotoListActivity.currentListPosition)
+
+                // Map the first shared element name to the child ImageView.
+                sharedElements!![names!![0]] = selectedViewHolder.itemView.findViewById(R.id.photo_item)
+            }
+        })
     }
 
     override fun onPhotoListLoaded(list: List<Photos>) {
@@ -61,8 +95,6 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     override fun photoListLoadError() {
         Toast.makeText(activity, "Load error", Toast.LENGTH_LONG).show()
     }
-
-
 
 }
 

@@ -1,11 +1,16 @@
 package com.senijoshua.picsrus.presentation.photolist
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.senijoshua.picsrus.R
 import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.utils.GlideApp
@@ -20,7 +25,7 @@ class PhotoListAdapter(var context: Context, var clickListener: PhotoClickListen
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        var view: View = LayoutInflater.from(parent.context).inflate(R.layout.listitem_photo, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.listitem_photo, parent, false)
         return PhotoViewHolder(view)
     }
 
@@ -33,20 +38,35 @@ class PhotoListAdapter(var context: Context, var clickListener: PhotoClickListen
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        var photo: Photos = photosList[position]
+        val photo: Photos = photosList[position]
+        val photoView = holder.photoView
         GlideApp.with(context)
                 .load(photo.urls.regular)
+                .listener(requestListener(holder.adapterPosition))
                 .error(R.drawable.ic_broken_image_black_24dp)
-                .into(holder.photoView)
-
-        holder.photoView.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(p0: View?) {
-                clickListener.onPhotoClicked(holder.adapterPosition, holder.photoView)
-            }
-        })
+                .into(photoView)
+        photoView.transitionName = photo.id
+        photoView.setOnClickListener {clickListener.onPhotoClicked(holder.adapterPosition, photoView)}
     }
 
-    inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private fun requestListener(adapterPosition: Int) : RequestListener<Drawable> {
+        return object : RequestListener<Drawable> {
+            override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
+                //Prevent UI hangups even though loadFailed
+                clickListener.onPhotoLoaded(adapterPosition)
+                return false
+            }
+
+            override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                //the transition is postponed until this image finishes loading and when
+                //it's done, we start the enter transition that was previously postponed.
+                clickListener.onPhotoLoaded(adapterPosition)
+                return false
+            }
+        }
+    }
+
+    class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var photoView: ImageView = itemView.findViewById(R.id.photo_item)
     }
 }
