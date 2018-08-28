@@ -59,7 +59,7 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onItemClick(v, mPhotoData, position);
+                mListener.onItemClick(v, mPhotoData, holder.getAdapterPosition());
             }
         });
 

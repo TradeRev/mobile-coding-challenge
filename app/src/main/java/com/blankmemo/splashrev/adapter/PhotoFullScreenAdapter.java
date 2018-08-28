@@ -56,12 +56,13 @@ public class PhotoFullScreenAdapter extends PagerAdapter{
                 .into(photoFullScreenImageView);
 
 //Go back to Gallery view when click on a photo
-        photoFullScreenImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mActivity.onBackPressed();
-            }
-        });
+//        photoFullScreenImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mActivity.onBackPressed();
+//
+//            }
+//        });
         container.addView(view);
 
         return view;
@@ -72,4 +73,6 @@ public class PhotoFullScreenAdapter extends PagerAdapter{
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((RelativeLayout) object);
     }
+
+
 }

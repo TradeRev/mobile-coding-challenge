@@ -1,5 +1,6 @@
 package com.blankmemo.splashrev;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,13 @@ public class PhotoFullScreenActivity extends AppCompatActivity {
         mPhotoFullScreenViewPager.setCurrentItem(position);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent position = new Intent();
+        position.putExtra(intentConstants.VIEW_PAGER_PHOTO_POSITION, mPhotoFullScreenViewPager.getCurrentItem());
+        setResult(RESULT_OK, position);
+        super.onBackPressed();
+    }
 
 
 }
