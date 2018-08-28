@@ -6,4 +6,5 @@ package com.blankmemo.splashrev.constants;
 
 public final class intentConstants {
     public static final String FULL_SCREEN_PHOTO_DETAILS = "full_screen_photo_details";
+    public static final String FULL_SCREEN_PHOTO_POSITION = "position";
 }

@@ -12,7 +12,7 @@ import com.blankmemo.splashrev.R;
 import com.blankmemo.splashrev.datamodel.PhotoData;
 import com.bumptech.glide.Glide;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by hongyuchen on 2018-08-26.
@@ -20,17 +20,17 @@ import java.util.List;
 
 public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryViewHolder> {
 
-    private List<PhotoData> mPhotoData;
+    private ArrayList<PhotoData> mPhotoData;
     private PhotoClickListener mListener;
     private Context mContext;
 
 
     //Photo click listener interface
     public interface PhotoClickListener{
-        void onItemClick(View v, PhotoData photoData);
+        void onItemClick(View v, ArrayList<PhotoData> photoData, int position);
     }
 
-    public PhotoGalleryAdapter(Context context, List<PhotoData> photoData, PhotoClickListener mListener) {
+    public PhotoGalleryAdapter(Context context, ArrayList<PhotoData> photoData, PhotoClickListener mListener) {
         this.mContext = context;
         this.mPhotoData = photoData;
         this.mListener = mListener;
@@ -45,7 +45,7 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final PhotoGalleryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final PhotoGalleryViewHolder holder, final int position) {
 
         final PhotoData photoData = mPhotoData.get(holder.getAdapterPosition());
         ImageView photoView = holder.mPhotoView;
@@ -59,7 +59,7 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onItemClick(v, photoData);
+                mListener.onItemClick(v, mPhotoData, position);
             }
         });
 

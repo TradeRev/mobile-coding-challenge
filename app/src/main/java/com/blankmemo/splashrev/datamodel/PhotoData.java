@@ -56,11 +56,34 @@ public class PhotoData implements Parcelable {
     public static ArrayList<PhotoData> getPhotoData() {
 
         ArrayList<PhotoData> photoData = new ArrayList<>();
-        photoData.add(new PhotoData("https://goo.gl/hC3WrG", "john"));
-        photoData.add(new PhotoData("https://goo.gl/iKQjUy", "smith"));
-        photoData.add(new PhotoData("https://goo.gl/V13vQH", "mark"));
-        photoData.add(new PhotoData("https://goo.gl/Kuszxy", "tina"));
-        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "coco"));
+        photoData.add(new PhotoData("https://goo.gl/hC3WrG", "1"));
+        photoData.add(new PhotoData("https://goo.gl/iKQjUy", "2"));
+        photoData.add(new PhotoData("https://goo.gl/V13vQH", "3"));
+        photoData.add(new PhotoData("https://goo.gl/Kuszxy", "4"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "5"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "6"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "7"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "8"));
+        photoData.add(new PhotoData("https://goo.gl/Kuszxy", "9"));
+        photoData.add(new PhotoData("https://goo.gl/Kuszxy", "10"));
+        photoData.add(new PhotoData("https://goo.gl/Kuszxy", "11"));
+        photoData.add(new PhotoData("https://goo.gl/Kuszxy", "12"));
+        photoData.add(new PhotoData("https://goo.gl/iKQjUy", "13"));
+        photoData.add(new PhotoData("https://goo.gl/iKQjUy", "14"));
+        photoData.add(new PhotoData("https://goo.gl/V13vQH", "15"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "16"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "17"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "18"));
+        photoData.add(new PhotoData("https://goo.gl/GjNyyh", "19"));
+        photoData.add(new PhotoData("https://goo.gl/Kuszxy", "20"));
+        photoData.add(new PhotoData("https://goo.gl/PoYnzA", "21"));
+        photoData.add(new PhotoData("https://goo.gl/9oJauM", "22"));
+        photoData.add(new PhotoData("https://goo.gl/9oJauM", "23"));
+        photoData.add(new PhotoData("https://goo.gl/9oJauM", "24"));
+        photoData.add(new PhotoData("https://goo.gl/PoYnzA", "25"));
+        photoData.add(new PhotoData("https://goo.gl/PoYnzA", "26"));
+        photoData.add(new PhotoData("https://goo.gl/PoYnzA", "27"));
+
 
         return photoData;
 
