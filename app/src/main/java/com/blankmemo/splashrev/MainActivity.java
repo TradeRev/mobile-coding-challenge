@@ -2,7 +2,6 @@ package com.blankmemo.splashrev;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements PhotoGalleryAdapt
 
         mSplashrevMain.setLayoutManager(new GridLayoutManager(this, 3));
         mSplashrevMain.setAdapter(new PhotoGalleryAdapter(this, PhotoData.getPhotoData(), this));
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements PhotoGalleryAdapt
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, v, "profile");
         //Log.d(TAG, "Image Title is: " + photoData.getTitle());
-            startActivityForResult(intent, intentConstants.START_FULL_SCREEN_REQUEST_CODE, options.toBundle());
+        startActivityForResult(intent, intentConstants.START_FULL_SCREEN_REQUEST_CODE, options.toBundle());
 
 
     }
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements PhotoGalleryAdapt
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == intentConstants.START_FULL_SCREEN_REQUEST_CODE) {
-            Log.d(TAG, "Result code is " + resultCode);
+            Log.d(TAG, "Default Position is  " + defaultPosition);
             if (resultCode == RESULT_OK) {
                 int gridPosition = data.getIntExtra(intentConstants.VIEW_PAGER_PHOTO_POSITION, defaultPosition);
                 mSplashrevMain.scrollToPosition(gridPosition);
