@@ -1,5 +1,6 @@
 package com.senijoshua.picsrus.presentation.photolist
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.SharedElementCallback
 import android.support.v7.widget.GridLayoutManager
@@ -17,6 +18,7 @@ import com.senijoshua.picsrus.data.repo.PhotoRepoImpl
 import com.senijoshua.picsrus.presentation.PhotoListActivity
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment_
+import com.senijoshua.picsrus.utils.EndlessScrollListener
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
@@ -31,7 +33,14 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     lateinit var photoListAdapter: PhotoListAdapter
     lateinit var gridLayoutManager: GridLayoutManager
     var pageNumber: Int = 1
-    var itemsPerPage: Int = 20
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //on orientation change, save the loaded page
+        //on restart, load the same page and send it to the scroll listener
+        //if savedinstancestate is null, only then will we load stuff
+    }
 
     @AfterViews
     fun onViewCreated(){
@@ -42,8 +51,10 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         gridLayoutManager = GridLayoutManager(activity!!, 2)
         photoList.layoutManager = gridLayoutManager
         photoList.adapter = photoListAdapter
-        presenter.loadPhotoList(pageNumber, itemsPerPage)
-        scrollToPosition()
+        scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
+        photoList.addOnScrollListener(scrollListener)
+        presenter.loadPhotoList(pageNumber)
+        //scrollToPosition()
         initTransitions()
         postponeEnterTransition()
     }
@@ -70,6 +81,13 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         }
     }
 
+    var scrollListener: EndlessScrollListener = object : EndlessScrollListener() {
+        override fun onLoadMore(pageToLoad: Int) {
+            pageNumber = pageToLoad
+            presenter.loadPhotoList(pageNumber)
+        }
+    }
+
     fun initTransitions(){
         exitTransition = TransitionInflater.from(context)
                 .inflateTransition(R.transition.photo_list_transition)
@@ -92,6 +110,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         photoList.addOnLayoutChangeListener(object : View.OnLayoutChangeListener{
             override fun onLayoutChange(view: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
                 photoList.removeOnLayoutChangeListener(this)
+                //also disable the scroll listener before this
                 val layoutManager = photoList.layoutManager
                 val viewAtPosition = layoutManager.findViewByPosition(PhotoListActivity.currentListPosition)
                 // Scroll to position if the view for the current position is null (not currently part of
@@ -100,6 +119,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
                                 .isViewPartiallyVisible(viewAtPosition, false, true)) {
                     photoList.post { layoutManager.scrollToPosition(PhotoListActivity.currentListPosition) }
                 }
+                //put it enable it again afterwards
             }
         })
     }

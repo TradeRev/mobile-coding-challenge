@@ -9,7 +9,7 @@ import rx.Observable
 interface PhotoRepoAPI {
 
     @GET("/photos")
-    fun getPhotos(@Query("page") pageNumber: Int, @Query("per_page") itemsPerPage: Int,
+    fun getPhotos(@Query("page") pageNumber: Int, @Query("per_page") itemsPerPage: Int = 20,
                   @Query("order_by") order: String = "popular",
                   @Query("client_id") clientId: String = GlobalConstants.AUTH_ID) : Observable<List<Photos>>
 

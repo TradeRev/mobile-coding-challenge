@@ -10,9 +10,8 @@ class PhotoListPresenter(private val photoRepo: PhotoRepoImpl,
                          private val resultThread: Scheduler,
                          private val processThread: Scheduler) : PhotoListContract.PhotoPresenter {
 
-
-    override fun loadPhotoList(pageNumber: Int, itemsPerPage: Int) {
-        photoRepo.getPhotosList(pageNumber, itemsPerPage)
+    override fun loadPhotoList(pageNumber: Int) {
+        photoRepo.getPhotosList(pageNumber)
                 .subscribeOn(processThread)
                 .observeOn(resultThread)
                 .subscribe({

@@ -20,8 +20,13 @@ class PhotoListAdapter(var context: Context, var clickListener: PhotoClickListen
     var photosList: MutableList<Photos> = ArrayList()
 
     fun setList(photoList: List<Photos>) {
-        photosList.addAll(photoList)
-        notifyDataSetChanged()
+        if (photosList.isNotEmpty()){
+            photosList.addAll(photoList)
+            notifyItemRangeInserted(photosList.size, photoList.size)
+        } else {
+            photosList.addAll(photoList)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
