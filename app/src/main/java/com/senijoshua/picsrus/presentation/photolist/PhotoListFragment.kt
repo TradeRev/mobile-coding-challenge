@@ -34,29 +34,28 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     lateinit var gridLayoutManager: GridLayoutManager
     var pageNumber: Int = 1
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //on orientation change, save the loaded page
-        //on restart, load the same page and send it to the scroll listener
-        //if savedinstancestate is null, only then will we load stuff
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter = PhotoListPresenter(PhotoRepoImpl(RetrofitFactory().createRetrofitInstance()
+                .create(PhotoRepoAPI::class.java)), this, AndroidSchedulers.mainThread(), Schedulers.io())
     }
 
     @AfterViews
     fun onViewCreated(){
-        presenter = PhotoListPresenter(PhotoRepoImpl(RetrofitFactory().createRetrofitInstance()
-                .create(PhotoRepoAPI::class.java)),
-                this, AndroidSchedulers.mainThread(), Schedulers.io())
+        initListComponents()
+        updateScrollPosition()
+        initTransitions()
+        postponeEnterTransition()
+    }
+
+    fun initListComponents() {
         photoListAdapter = PhotoListAdapter(activity!!, photoClickListener)
         gridLayoutManager = GridLayoutManager(activity!!, 2)
         photoList.layoutManager = gridLayoutManager
         photoList.adapter = photoListAdapter
-        //scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
-        //photoList.addOnScrollListener(scrollListener)
+        scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
+        photoList.addOnScrollListener(scrollListener)
         presenter.loadPhotoList(pageNumber)
-        scrollToPosition()
-        initTransitions()
-        postponeEnterTransition()
     }
 
     var photoClickListener: PhotoClickListener = object : PhotoClickListener {
@@ -76,7 +75,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
                     .setReorderingAllowed(true)
                     .addSharedElement(sharedImageView, sharedImageView.transitionName)
                     .addToBackStack(null)
-                    .replace(R.id.photo_fragment_container, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
+                    .add(R.id.photo_fragment_container, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
                     .commit()
         }
     }
@@ -106,23 +105,16 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         })
     }
 
-    fun scrollToPosition(){
-        photoList.addOnLayoutChangeListener(object : View.OnLayoutChangeListener{
-            override fun onLayoutChange(view: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                photoList.removeOnLayoutChangeListener(this)
-                //also disable the scroll listener before this
-                val layoutManager = photoList.layoutManager
-                val currentPosition = PhotoListActivity.currentListPosition
-                val viewAtPosition = layoutManager.findViewByPosition(currentPosition)
-                // Scroll to position if the view for the current position is null (not currently part of
-                // layout manager children), or it's not completely visible.
-                if (viewAtPosition == null || layoutManager
-                                .isViewPartiallyVisible(viewAtPosition, false, true)) {
-                    photoList.post { layoutManager.scrollToPosition(currentPosition) }
-                }
-                //put it enable it again afterwards
-            }
-        })
+    fun updateScrollPosition(){
+        val layoutManager = photoList.layoutManager
+        val currentPosition = PhotoListActivity.currentListPosition
+        val viewAtPosition = layoutManager.findViewByPosition(currentPosition)
+        // Scroll to position if the view for the current position is null (not currently part of
+        // layout manager children), or it's not completely visible.
+        if (viewAtPosition == null || layoutManager
+                        .isViewPartiallyVisible(viewAtPosition, false, true)) {
+            photoList.post { layoutManager.scrollToPosition(currentPosition) }
+        }
     }
 
     override fun onPhotoListLoaded(list: List<Photos>) {

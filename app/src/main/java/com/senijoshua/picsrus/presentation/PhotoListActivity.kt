@@ -22,6 +22,7 @@ class PhotoListActivity : AppCompatActivity() {
     companion object {
         lateinit var currentPhotoList: List<Photos>
         var currentListPosition: Int = 0
+        var currentItemPage: Int = 0
     }
 
 }
