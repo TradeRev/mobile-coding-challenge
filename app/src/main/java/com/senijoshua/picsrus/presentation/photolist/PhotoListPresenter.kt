@@ -23,8 +23,4 @@ class PhotoListPresenter(private val photoRepo: PhotoRepoImpl,
 
                 })
     }
-
-    override fun loadMorePhotos() {
-
-    }
 }

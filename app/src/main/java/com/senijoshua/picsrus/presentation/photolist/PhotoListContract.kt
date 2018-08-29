@@ -11,6 +11,5 @@ interface PhotoListContract {
 
     interface PhotoPresenter{
         fun loadPhotoList(pageNumber: Int)
-        fun loadMorePhotos()
     }
 }

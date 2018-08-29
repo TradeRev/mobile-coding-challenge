@@ -57,6 +57,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         photoList.addOnScrollListener(scrollListener)
         if (PhotoListActivity.shouldLoad) {
             presenter.loadPhotoList(pageNumber)
+            PhotoListActivity.shouldLoad = false
         } else {
             photoListAdapter.photosList.clear()
             photoListAdapter.setList(PhotoListActivity.currentPhotoList)
@@ -75,7 +76,6 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
             //exclude the selected view from the fade-out
             val fragmentExitTransition = exitTransition as TransitionSet
             fragmentExitTransition.excludeTarget(sharedImageView, true)
-            PhotoListActivity.shouldLoad = false
             activity!!.supportFragmentManager
                     .beginTransaction()
                     .setReorderingAllowed(true)
@@ -94,10 +94,15 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     }
 
     fun initTransitions(){
+        // Defines how the shared photo view transitions
+        //when it animates to a new position.
         exitTransition = TransitionInflater.from(context)
                 .inflateTransition(R.transition.photo_list_transition)
 
         //adjust the shared element mapping and map the shared element names to their appropriate views
+        //See reference:
+        //https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html
+        //A converse mapping is present at the PagerFragment
         setExitSharedElementCallback(object : SharedElementCallback() {
             override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
                 super.onMapSharedElements(names, sharedElements)
@@ -115,8 +120,6 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         val layoutManager = photoList.layoutManager
         val currentPosition = PhotoListActivity.currentListPosition
         val viewAtPosition = layoutManager.findViewByPosition(currentPosition)
-        // Scroll to position if the view for the current position is null (not currently part of
-        // layout manager children), or it's not completely visible.
         if (viewAtPosition == null || layoutManager
                         .isViewPartiallyVisible(viewAtPosition, false, true)) {
             photoList.post { layoutManager.scrollToPosition(currentPosition) }

@@ -25,8 +25,7 @@ class ErrorHandler {
             }
 
             if (throwable is HttpException) {
-                //chain errors together
-                errorMessage = parseError(throwable.response().errorBody()?.string()).errors[0]
+                errorMessage = parseError(throwable.response().errorBody()?.string()).errors.joinToString(limit = 5, truncated = "...!")
             }
 
             if (throwable is IOException){

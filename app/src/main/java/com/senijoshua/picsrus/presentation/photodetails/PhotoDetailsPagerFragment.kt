@@ -1,5 +1,6 @@
 package com.senijoshua.picsrus.presentation.photodetails
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.SharedElementCallback
 import android.support.v4.view.ViewPager
@@ -19,6 +20,13 @@ class PhotoDetailsPagerFragment : Fragment() {
 
     lateinit var photoPagerAdapter: PhotoDetailsPagerAdapter
 
+    var savedState: Bundle? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        savedState = savedInstanceState
+    }
+
     @AfterViews
     fun onViewCreated(){
         photoPagerAdapter = PhotoDetailsPagerAdapter(this, PhotoListActivity.currentPhotoList)
@@ -27,16 +35,16 @@ class PhotoDetailsPagerFragment : Fragment() {
         photoPager.addOnPageChangeListener(pageChangeListener)
         initSharedElementTransition()
         //prevents the fragment's enter transition from overriding the shared element transition
-        postponeEnterTransition()
+        if (savedState == null) {
+            postponeEnterTransition()
+        }
     }
 
     fun initSharedElementTransition(){
-        // Defines how the shared photo view transitions
-        //when it animates to a new position. See source:
-        //https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html
         sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(R.transition.photo_detail_transition)
 
+        //mirror of the callback at the list fragment
         setEnterSharedElementCallback(object : SharedElementCallback(){
             override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
                 super.onMapSharedElements(names, sharedElements)
