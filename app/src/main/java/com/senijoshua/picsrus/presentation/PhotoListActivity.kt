@@ -2,6 +2,7 @@ package com.senijoshua.picsrus.presentation
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.senijoshua.picsrus.R
 import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.presentation.photolist.PhotoListFragment
@@ -20,6 +21,7 @@ class PhotoListActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             //state was saved
             currentListPosition = savedInstanceState.getInt(KEY_CURRENT_POSITION, 0)
+            Log.i("Photoact", currentListPosition.toString())
             shouldLoad = savedInstanceState.getBoolean(KEY_SHOULD_LOAD, false)
             currentPhotoList = savedInstanceState.getParcelableArrayList(KEY_CURRENT_PHOTO_LIST)
             return
@@ -31,7 +33,7 @@ class PhotoListActivity : AppCompatActivity() {
     }
 
     companion object {
-        lateinit var currentPhotoList: List<Photos>
+        var currentPhotoList: List<Photos> = ArrayList()
         var currentListPosition: Int = 0
         var shouldLoad: Boolean = true //Load only when the activity is first created
     }
@@ -39,6 +41,7 @@ class PhotoListActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_CURRENT_POSITION, currentListPosition)
+        Log.i("Photoact", currentListPosition.toString()+ "save")
         outState.putBoolean(KEY_SHOULD_LOAD, shouldLoad)
         outState.putParcelableArrayList(KEY_CURRENT_PHOTO_LIST,  ArrayList(currentPhotoList))
     }

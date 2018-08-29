@@ -132,7 +132,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     }
 
     override fun photoListLoadError(errorMessage: String) {
-        Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
 }

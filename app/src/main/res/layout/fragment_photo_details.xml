@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/image_descriptor"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitCenter" />
 
     <RelativeLayout
         android:id="@+id/photo_detail_info_container"

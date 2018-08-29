@@ -20,7 +20,6 @@ class PhotoListPresenter(private val photoRepo: PhotoRepoImpl,
                     it.printStackTrace()
                     viewInstance.photoListLoadError(ErrorHandler
                             .onError(PicsRusApplication.getApplicationContext(), it))
-
                 })
     }
 }

@@ -23,7 +23,6 @@ class RetrofitFactory {
 
         httpLoggingInterceptor.level = HTTP_LOG_LEVEL
         okHttpClient.addInterceptor(httpLoggingInterceptor)
-        okHttpClient.addInterceptor(AuthorizationHeaderInterceptor())
 
         return retrofitClient.baseUrl(API_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -32,16 +31,6 @@ class RetrofitFactory {
                 .build()
 
 
-    }
-
-    private class AuthorizationHeaderInterceptor : Interceptor {
-        @Throws(IOException::class)
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val builder: Request.Builder = chain.request()
-                    .newBuilder().header("Authorization", AUTH_ID)
-            val newRequest = builder.build()
-            return chain.proceed(newRequest)
-        }
     }
 
 }

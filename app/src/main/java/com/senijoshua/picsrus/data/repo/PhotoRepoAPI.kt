@@ -2,10 +2,11 @@ package com.senijoshua.picsrus.data.repo
 
 import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.utils.GlobalConstants
+import com.senijoshua.picsrus.utils.Mockable
 import retrofit2.http.GET
 import retrofit2.http.Query
 import rx.Observable
-
+@Mockable
 interface PhotoRepoAPI {
 
     @GET("/photos")
