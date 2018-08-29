@@ -28,8 +28,8 @@ public class PhotoFullScreenActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         int position = getIntent().getIntExtra(intentConstants.FULL_SCREEN_PHOTO_POSITION,0);
-        ArrayList<PhotoData> photoData = getIntent().getParcelableArrayListExtra(intentConstants.FULL_SCREEN_PHOTO_DETAILS);
-        mPhotoFullScreenViewPager.setAdapter(new PhotoFullScreenAdapter(this, photoData));
+        //ArrayList<PhotoData> photoData = getIntent().getParcelableArrayListExtra(intentConstants.FULL_SCREEN_PHOTO_DETAILS);
+        //mPhotoFullScreenViewPager.setAdapter(new PhotoFullScreenAdapter(this, photoData));
         // displaying selected image first
         mPhotoFullScreenViewPager.setCurrentItem(position);
     }

@@ -48,21 +48,13 @@ public class PhotoFullScreenAdapter extends PagerAdapter{
 
         ImageView photoFullScreenImageView = view.findViewById(R.id.rl_photo_full_screen_imageview);
 
-        Log.d(TAG, mPhotoData.get(position).getAuthor() );
+        //Log.d(TAG, mPhotoData.get(position).getAuthor() );
 
-        Glide.with(mActivity)
-                .load(mPhotoData.get(position).getUrl())
-                .error(R.drawable.ic_cloud_off)
-                .into(photoFullScreenImageView);
+//        Glide.with(mActivity)
+//                .load(mPhotoData.get(position).getUrl())
+//                .error(R.drawable.ic_cloud_off)
+//                .into(photoFullScreenImageView);
 
-//Go back to Gallery view when click on a photo
-//        photoFullScreenImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mActivity.onBackPressed();
-//
-//            }
-//        });
         container.addView(view);
 
         return view;

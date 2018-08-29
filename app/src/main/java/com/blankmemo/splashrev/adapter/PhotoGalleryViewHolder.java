@@ -1,5 +1,6 @@
 package com.blankmemo.splashrev.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,14 +14,23 @@ import butterknife.ButterKnife;
  * Created by hongyuchen on 2018-08-26.
  */
 
-public class PhotoGalleryViewHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.ll_photo)
+public class PhotoGalleryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     ImageView mPhotoView;
+    private ListItemClickListener mListener;
 
 
-    public PhotoGalleryViewHolder(View itemView) {
+    public PhotoGalleryViewHolder(@NonNull View itemView, ListItemClickListener mListener) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
-
+        this.mListener=mListener;
+        mPhotoView = itemView.findViewById(R.id.ll_photo);
+        mPhotoView.setOnClickListener(this);
     }
+
+
+    @Override
+    public void onClick(View view) {
+        if(mListener!=null) {
+            mListener.onItemClick(view, getAdapterPosition());
+        }
+    };
 }
