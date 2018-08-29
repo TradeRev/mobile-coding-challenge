@@ -64,5 +64,4 @@ class PhotosListPresenterTest {
 
         verify(viewInstance).photoListLoadError(ArgumentMatchers.anyString())
     }
-
 }

@@ -12,6 +12,10 @@ import org.mockito.MockitoAnnotations
 import rx.Observable
 import rx.observers.TestSubscriber
 import junit.framework.Assert.assertEquals
+import okhttp3.MediaType
+import okhttp3.ResponseBody
+import retrofit2.HttpException
+import retrofit2.Response
 
 
 class PhotoRepoImplTest {
@@ -52,7 +56,30 @@ class PhotoRepoImplTest {
         //verify that the emitted items match expectations
         assertEquals(dummyPhotos[0].id, photos[0].id)
         //verify that the api had the proper query parameters
-        verify(apiInterface).getPhotos(eq(pageNumber), ArgumentMatchers.anyInt(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())
+        verify(apiInterface).getPhotos(pageNumber)
+    }
+
+    /**
+     * Given that the apiInterface requests photos
+     * from the remote source and a httpException is thrown,
+     * test that there was a terminating error on the subscriber
+     */
+    @Test
+    fun getPhotos_returnsHttpError(){
+        val pageNumber = 1
+
+        `when`(apiInterface.getPhotos(pageNumber)).thenReturn(get422UnprocessableError())
+
+        photoRepoImpl.getPhotosList(pageNumber).subscribe(testSubscriber)
+
+        testSubscriber.assertError(HttpException::class.java)
+    }
+
+
+    private fun get422UnprocessableError(): Observable<List<Photos>> {
+        return Observable.error<List<Photos>>(HttpException(
+                Response.error<Any>(422, ResponseBody.create(MediaType.parse("application/json"), "Unprocessable Entity"))))
+
     }
 
 }
