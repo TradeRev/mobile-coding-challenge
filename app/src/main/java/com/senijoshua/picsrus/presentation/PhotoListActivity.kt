@@ -20,7 +20,7 @@ class PhotoListActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             //state was saved
             currentListPosition = savedInstanceState.getInt(KEY_CURRENT_POSITION, 0)
-            shouldLoad = savedInstanceState.getBoolean(KEY_SHOULD_LOAD, true)
+            shouldLoad = savedInstanceState.getBoolean(KEY_SHOULD_LOAD, false)
             currentPhotoList = savedInstanceState.getParcelableArrayList(KEY_CURRENT_PHOTO_LIST)
             return
         }
