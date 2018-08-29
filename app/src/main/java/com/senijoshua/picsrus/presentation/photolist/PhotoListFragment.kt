@@ -55,7 +55,12 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         photoList.adapter = photoListAdapter
         scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
         photoList.addOnScrollListener(scrollListener)
-        presenter.loadPhotoList(pageNumber)
+        if (PhotoListActivity.shouldLoad) {
+            presenter.loadPhotoList(pageNumber)
+        } else {
+            photoListAdapter.photosList.clear()
+            photoListAdapter.setList(PhotoListActivity.currentPhotoList)
+        }
     }
 
     var photoClickListener: PhotoClickListener = object : PhotoClickListener {
@@ -70,12 +75,13 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
             //exclude the selected view from the fade-out
             val fragmentExitTransition = exitTransition as TransitionSet
             fragmentExitTransition.excludeTarget(sharedImageView, true)
+            PhotoListActivity.shouldLoad = false
             activity!!.supportFragmentManager
                     .beginTransaction()
                     .setReorderingAllowed(true)
                     .addSharedElement(sharedImageView, sharedImageView.transitionName)
                     .addToBackStack(null)
-                    .add(R.id.photo_fragment_container, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
+                    .replace(R.id.photo_fragment_container, PhotoDetailsPagerFragment_(), PhotoDetailsPagerFragment::class.java.name)
                     .commit()
         }
     }
