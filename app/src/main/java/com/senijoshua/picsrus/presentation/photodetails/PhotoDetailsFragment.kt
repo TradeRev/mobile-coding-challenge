@@ -28,7 +28,7 @@ class PhotoDetailsFragment : Fragment(){
     lateinit var userName: String
 
     @FragmentArg
-    lateinit var socialAccount: String
+    var socialAccount: String? = null
 
     @FragmentArg
     lateinit var numberOfLikes: String

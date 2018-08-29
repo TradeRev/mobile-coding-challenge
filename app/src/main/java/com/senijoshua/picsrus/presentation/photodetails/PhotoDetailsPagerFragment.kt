@@ -32,7 +32,8 @@ class PhotoDetailsPagerFragment : Fragment() {
 
     fun initSharedElementTransition(){
         // Defines how the shared photo view transitions
-        //when it animates to a new position
+        //when it animates to a new position. See source:
+        //https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html
         sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(R.transition.photo_detail_transition)
 
@@ -53,6 +54,5 @@ class PhotoDetailsPagerFragment : Fragment() {
             super.onPageSelected(position)
             PhotoListActivity.currentListPosition = position
         }
-
     }
 }

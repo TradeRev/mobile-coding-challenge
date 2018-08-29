@@ -4,4 +4,8 @@
     <string name="username_prefix">Photo by</string>
     <string name="social_prefix">instagram:</string>
     <string name="likes_suffix">likes</string>
-</resources>
+
+    <!--Api errors-->
+    <string name="network_connection_error">Connection Lost! please verify that your internet connection is stable.</string>
+    <string name="unexpected_error">An unexpected error occured. Please try again later</string>
+    </resources>

@@ -6,11 +6,11 @@ interface PhotoListContract {
 
     interface PhotoView{
         fun onPhotoListLoaded(list: List<Photos>)
-        fun photoListLoadError()
+        fun photoListLoadError(errorMessage: String)
     }
 
     interface PhotoPresenter{
-        fun loadPhotoList()
+        fun loadPhotoList(pageNumber: Int, itemsPerPage: Int)
         fun loadMorePhotos()
     }
 }

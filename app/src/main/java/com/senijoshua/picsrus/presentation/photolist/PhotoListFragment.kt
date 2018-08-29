@@ -30,6 +30,8 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     lateinit var presenter: PhotoListPresenter
     lateinit var photoListAdapter: PhotoListAdapter
     lateinit var gridLayoutManager: GridLayoutManager
+    var pageNumber: Int = 1
+    var itemsPerPage: Int = 20
 
     @AfterViews
     fun onViewCreated(){
@@ -40,7 +42,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         gridLayoutManager = GridLayoutManager(activity!!, 2)
         photoList.layoutManager = gridLayoutManager
         photoList.adapter = photoListAdapter
-        presenter.loadPhotoList()
+        presenter.loadPhotoList(pageNumber, itemsPerPage)
         scrollToPosition()
         initTransitions()
         postponeEnterTransition()
@@ -107,8 +109,8 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         PhotoListActivity.currentPhotoList = photoListAdapter.photosList
     }
 
-    override fun photoListLoadError() {
-        Toast.makeText(activity, "Load error", Toast.LENGTH_LONG).show()
+    override fun photoListLoadError(errorMessage: String) {
+        Toast.makeText(activity, errorMessage, Toast.LENGTH_LONG).show()
     }
 
 }
