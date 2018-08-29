@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Pics R Us</string>
     <string name="image_descriptor">unsplash image</string>
-    <string name="username_prefix">Photo by</string>
-    <string name="social_prefix">instagram:</string>
-    <string name="likes_suffix">likes</string>
+    <string name="username_prefix">Photo by\u0020</string>
+    <string name="social_prefix">instagram: @</string>
+    <string name="likes_suffix">\u0020likes</string>
 
     <!--Api errors-->
     <string name="network_connection_error">Connection Lost! please verify that your internet connection is stable.</string>
-    <string name="unexpected_error">An unexpected error occured. Please try again later</string>
+    <string name="unexpected_error">An unexpected error occurred. Please try again later</string>
+    <string name="no_social_text">No Social accounts</string>
+    <string name="no_likes">No photo likes</string>
     </resources>

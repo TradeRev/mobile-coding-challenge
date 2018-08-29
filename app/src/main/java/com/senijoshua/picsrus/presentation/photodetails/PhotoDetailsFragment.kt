@@ -28,7 +28,7 @@ class PhotoDetailsFragment : Fragment(){
     lateinit var userName: String
 
     @FragmentArg
-    var socialAccount: String? = null
+    lateinit var socialAccount: String
 
     @FragmentArg
     lateinit var numberOfLikes: String
@@ -51,7 +51,7 @@ class PhotoDetailsFragment : Fragment(){
     @ViewById(R.id.photo_detail_likes)
     lateinit var userLikes: TextView
 
-    @SuppressLint("SetTextI18n")
+
     @AfterViews
     fun onViewCreated(){
         fullScreenView.transitionName = transitionName
@@ -60,9 +60,9 @@ class PhotoDetailsFragment : Fragment(){
                 .listener(requestListener)
                 .error(R.drawable.ic_broken_image_black_24dp)
                 .into(fullScreenView)
-        userNameText.text = getString(R.string.username_prefix) + " " + userName
-        userSocialText.text = getString(R.string.social_prefix) + " @" + socialAccount
-        userLikes.text = numberOfLikes + " " + getString(R.string.likes_suffix)
+        userNameText.text = userName
+        userSocialText.text = socialAccount
+        userLikes.text = numberOfLikes
         infoContainer.visibility = View.VISIBLE
     }
 

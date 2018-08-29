@@ -51,10 +51,10 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         gridLayoutManager = GridLayoutManager(activity!!, 2)
         photoList.layoutManager = gridLayoutManager
         photoList.adapter = photoListAdapter
-        scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
-        photoList.addOnScrollListener(scrollListener)
+        //scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
+        //photoList.addOnScrollListener(scrollListener)
         presenter.loadPhotoList(pageNumber)
-        //scrollToPosition()
+        scrollToPosition()
         initTransitions()
         postponeEnterTransition()
     }
@@ -112,12 +112,13 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
                 photoList.removeOnLayoutChangeListener(this)
                 //also disable the scroll listener before this
                 val layoutManager = photoList.layoutManager
-                val viewAtPosition = layoutManager.findViewByPosition(PhotoListActivity.currentListPosition)
+                val currentPosition = PhotoListActivity.currentListPosition
+                val viewAtPosition = layoutManager.findViewByPosition(currentPosition)
                 // Scroll to position if the view for the current position is null (not currently part of
                 // layout manager children), or it's not completely visible.
                 if (viewAtPosition == null || layoutManager
                                 .isViewPartiallyVisible(viewAtPosition, false, true)) {
-                    photoList.post { layoutManager.scrollToPosition(PhotoListActivity.currentListPosition) }
+                    photoList.post { layoutManager.scrollToPosition(currentPosition) }
                 }
                 //put it enable it again afterwards
             }
