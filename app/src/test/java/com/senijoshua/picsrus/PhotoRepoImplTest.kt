@@ -38,10 +38,11 @@ class PhotoRepoImplTest {
      */
     @Test
     fun getPhotos_returnsPhotosList(){
+        val pageNumber = 1
         `when`(apiInterface.getPhotos(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(),
         ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Observable.just(dummyPhotos))
 
-        photoRepoImpl.getPhotosList(1).subscribe(testSubscriber)
+        photoRepoImpl.getPhotosList(pageNumber).subscribe(testSubscriber)
 
         testSubscriber.assertNoErrors()
 
@@ -51,7 +52,7 @@ class PhotoRepoImplTest {
         //verify that the emitted items match expectations
         assertEquals(dummyPhotos[0].id, photos[0].id)
         //verify that the api had the proper query parameters
-        verify(apiInterface).getPhotos(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())
+        verify(apiInterface).getPhotos(eq(pageNumber), ArgumentMatchers.anyInt(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())
     }
 
 }
