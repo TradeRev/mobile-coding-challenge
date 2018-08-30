@@ -9,5 +9,5 @@ public final class intentConstants {
     public static final String FULL_SCREEN_PHOTO_POSITION = "position";
     public static final String VIEW_PAGER_PHOTO_POSITION = "view_pager_position";
     public static final int START_FULL_SCREEN_REQUEST_CODE = 1;
-    public static final String FULL_SCREEN_PHOTO_SIZE = "full_screen_photo_size";
+
 }

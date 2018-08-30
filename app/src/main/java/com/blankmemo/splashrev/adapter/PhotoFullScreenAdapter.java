@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.blankmemo.splashrev.R;
 import com.blankmemo.splashrev.datamodel.PhotoData;
+import com.blankmemo.splashrev.utils.CommonUtils;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -46,11 +48,15 @@ public class PhotoFullScreenAdapter extends PagerAdapter{
         View view = layoutInflater.inflate(R.layout.photo_full_screen, container,false);
 
         ImageView photoFullScreenImageView = view.findViewById(R.id.rl_photo_full_screen_imageview);
+        TextView photoUser = view.findViewById(R.id.rl_photo_user);
         //Log.d(TAG, "The URL is " + (mPhotoData.get(position)).getUrls().getRegular());
 
         Glide.with(view.getContext())
                 .load((mPhotoData.get(position)).getUrls().getRegular())
                 .into(photoFullScreenImageView);
+        photoUser.setText("By: " + mPhotoData.get(position).getUser().getUsername()
+                                + "  "
+                                +"Created on: " + CommonUtils.convertDate(mPhotoData.get(position).getCreatedAt()));
 
         container.addView(view);
 

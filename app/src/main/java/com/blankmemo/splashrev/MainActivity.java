@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements ListItemClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == intentConstants.START_FULL_SCREEN_REQUEST_CODE) {
-            Log.d(TAG, "Default Position is  " + defaultPosition);
+            //Log.d(TAG, "Default Position is  " + defaultPosition);
             if (resultCode == RESULT_OK) {
                 int gridPosition = data.getIntExtra(intentConstants.VIEW_PAGER_PHOTO_POSITION, defaultPosition);
                 mSplashrevMain.scrollToPosition(gridPosition);
