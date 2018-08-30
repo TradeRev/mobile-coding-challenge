@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/photo_full_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/density_300"
+        android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:contentDescription="@string/image_descriptor"
         android:scaleType="fitCenter" />

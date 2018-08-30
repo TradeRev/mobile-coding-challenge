@@ -5,6 +5,7 @@
     <dimen name="density_1">1dp</dimen>
     <dimen name="density_80">80dp</dimen>
     <dimen name="density_130">130dp</dimen>
+    <dimen name="density_300">300dp</dimen>
 
     <!--Text Sizes-->
     <dimen name="text_14">14sp</dimen>
