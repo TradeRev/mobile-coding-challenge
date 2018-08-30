@@ -1,6 +1,7 @@
 package com.senijoshua.picsrus.presentation.photodetails
 
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.support.v4.app.Fragment
 import android.view.View
@@ -12,30 +13,15 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.senijoshua.picsrus.R
+import com.senijoshua.picsrus.data.models.Photos
+import com.senijoshua.picsrus.presentation.SharedStates.DETAIL_PHOTO
 import com.senijoshua.picsrus.utils.GlideApp
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.FragmentArg
 import org.androidannotations.annotations.ViewById
 
 @EFragment(R.layout.fragment_photo_details)
 class PhotoDetailsFragment : Fragment(){
-
-    @FragmentArg
-    lateinit var photoUrl: String
-
-    @FragmentArg
-    lateinit var userName: String
-
-    @FragmentArg
-    lateinit var socialAccount: String
-
-    @FragmentArg
-    lateinit var numberOfLikes: String
-
-    @FragmentArg
-    lateinit var transitionName: String
-
     @ViewById(R.id.photo_full_screen)
     lateinit var fullScreenView: ImageView
 
@@ -50,19 +36,16 @@ class PhotoDetailsFragment : Fragment(){
 
     @ViewById(R.id.photo_detail_likes)
     lateinit var userLikes: TextView
-
+    lateinit var photoUrl: String
 
     @AfterViews
     fun onViewCreated(){
-        fullScreenView.transitionName = transitionName
+        mapArgumentValuesToViews()
         GlideApp.with(activity!!)
                 .load(photoUrl)
                 .listener(requestListener)
                 .error(R.drawable.ic_broken_image_black_24dp)
                 .into(fullScreenView)
-        userNameText.text = userName
-        userSocialText.text = socialAccount
-        userLikes.text = numberOfLikes
         infoContainer.visibility = View.VISIBLE
     }
 
@@ -81,5 +64,18 @@ class PhotoDetailsFragment : Fragment(){
             infoContainer.visibility = View.VISIBLE
             return false
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun mapArgumentValuesToViews(){
+        val photo: Photos = arguments!!.getParcelable(DETAIL_PHOTO)
+        val social: String? = photo.user.instagram_username
+        val likes: Int? = photo.likes
+        photoUrl = photo.urls.regular
+        fullScreenView.transitionName = photo.id
+        userNameText.text = getString(R.string.username_prefix) + photo.user.name
+        userSocialText.text = if (social == null) getString(R.string.no_social_text) else getString(R.string.social_prefix) + photo.user.instagram_username
+        userLikes.text = if (likes == 0 || likes == null) getString(R.string.no_likes) else photo.likes.toString()+ getString(R.string.likes_suffix)
+
     }
 }

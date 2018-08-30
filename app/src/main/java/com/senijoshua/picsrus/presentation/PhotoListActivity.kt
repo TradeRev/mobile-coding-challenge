@@ -3,9 +3,9 @@ package com.senijoshua.picsrus.presentation
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.senijoshua.picsrus.R
+import com.senijoshua.picsrus.presentation.SharedStates.KEY_RELOAD_BUFFER
 import com.senijoshua.picsrus.presentation.photolist.PhotoListFragment
 import com.senijoshua.picsrus.presentation.photolist.PhotoListFragment_
-import com.senijoshua.picsrus.utils.GlobalConstants.KEY_RELOAD_BUFFER
 import org.androidannotations.annotations.EActivity
 
 
