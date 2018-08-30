@@ -2,28 +2,23 @@ package com.senijoshua.picsrus.presentation
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.senijoshua.picsrus.R
-import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.presentation.photolist.PhotoListFragment
 import com.senijoshua.picsrus.presentation.photolist.PhotoListFragment_
-import com.senijoshua.picsrus.utils.GlobalConstants.KEY_CURRENT_PHOTO_LIST
-import com.senijoshua.picsrus.utils.GlobalConstants.KEY_CURRENT_POSITION
-import com.senijoshua.picsrus.utils.GlobalConstants.KEY_SHOULD_LOAD
+import com.senijoshua.picsrus.utils.GlobalConstants.KEY_RELOAD_BUFFER
 import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.InstanceState
+
 
 @EActivity(R.layout.activity_photo_list)
 class PhotoListActivity : AppCompatActivity() {
+
+    var reloadBuffer = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
             //state was saved
-            currentListPosition = savedInstanceState.getInt(KEY_CURRENT_POSITION, 0)
-            Log.i("Photoact", currentListPosition.toString())
-            shouldLoad = savedInstanceState.getBoolean(KEY_SHOULD_LOAD, false)
-            currentPhotoList = savedInstanceState.getParcelableArrayList(KEY_CURRENT_PHOTO_LIST)
+            reloadBuffer = savedInstanceState.getInt(KEY_RELOAD_BUFFER, 0)
             return
         }
         supportFragmentManager
@@ -32,17 +27,9 @@ class PhotoListActivity : AppCompatActivity() {
                 .commit()
     }
 
-    companion object {
-        var currentPhotoList: List<Photos> = ArrayList()
-        var currentListPosition: Int = 0
-        var shouldLoad: Boolean = true //Load only when the activity is first created
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(KEY_CURRENT_POSITION, currentListPosition)
-        Log.i("Photoact", currentListPosition.toString()+ "save")
-        outState.putBoolean(KEY_SHOULD_LOAD, shouldLoad)
-        outState.putParcelableArrayList(KEY_CURRENT_PHOTO_LIST,  ArrayList(currentPhotoList))
+        outState.putInt(KEY_RELOAD_BUFFER, reloadBuffer)
     }
+
 }

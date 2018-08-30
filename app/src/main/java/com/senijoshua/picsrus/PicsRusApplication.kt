@@ -4,10 +4,13 @@ import android.app.Application
 import android.content.Context
 import org.androidannotations.annotations.EApplication
 
+
+
 @EApplication
 class PicsRusApplication : Application() {
 
-    init {
+    override fun onCreate() {
+        super.onCreate()
         appInstance = this
     }
 

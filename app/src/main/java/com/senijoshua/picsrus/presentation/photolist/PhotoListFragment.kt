@@ -16,6 +16,10 @@ import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.data.repo.PhotoRepoAPI
 import com.senijoshua.picsrus.data.repo.PhotoRepoImpl
 import com.senijoshua.picsrus.presentation.PhotoListActivity
+import com.senijoshua.picsrus.presentation.SharedStates
+import com.senijoshua.picsrus.presentation.SharedStates.currentListPosition
+import com.senijoshua.picsrus.presentation.SharedStates.currentPhotoList
+import com.senijoshua.picsrus.presentation.SharedStates.shouldLoad
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment_
 import com.senijoshua.picsrus.utils.EndlessScrollListener
@@ -33,6 +37,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     lateinit var photoListAdapter: PhotoListAdapter
     lateinit var gridLayoutManager: GridLayoutManager
     var pageNumber: Int = 1
+    var isPhotoPressed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,24 +60,25 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         photoList.adapter = photoListAdapter
         scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
         photoList.addOnScrollListener(scrollListener)
-        if (PhotoListActivity.shouldLoad) {
+        if (shouldLoad) {
             presenter.loadPhotoList(pageNumber)
-            PhotoListActivity.shouldLoad = false
+            shouldLoad = false
         } else {
             photoListAdapter.photosList.clear()
-            photoListAdapter.setList(PhotoListActivity.currentPhotoList)
+            photoListAdapter.setList(currentPhotoList)
         }
     }
 
     var photoClickListener: PhotoClickListener = object : PhotoClickListener {
         override fun onPhotoLoaded(position: Int) {
-            if (PhotoListActivity.currentListPosition == position){
+            if (currentListPosition == position){
                 startPostponedEnterTransition()
             }
         }
 
         override fun onPhotoClicked(position: Int, sharedImageView: ImageView) {
-            PhotoListActivity.currentListPosition = position
+            currentListPosition = position
+            isPhotoPressed = true
             //exclude the selected view from the fade-out
             val fragmentExitTransition = exitTransition as TransitionSet
             fragmentExitTransition.excludeTarget(sharedImageView, true)
@@ -108,7 +114,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
                 super.onMapSharedElements(names, sharedElements)
 
                 // Get the ViewHolder for the clicked position.
-                val selectedViewHolder: RecyclerView.ViewHolder = photoList.findViewHolderForAdapterPosition(PhotoListActivity.currentListPosition)
+                val selectedViewHolder: RecyclerView.ViewHolder = photoList.findViewHolderForAdapterPosition(currentListPosition)
 
                 // Map the first shared element name to the said view's ImageView.
                 sharedElements!![names!![0]] = selectedViewHolder.itemView.findViewById(R.id.photo_item)
@@ -116,9 +122,16 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         })
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (!isPhotoPressed) {
+            currentListPosition = gridLayoutManager.findFirstCompletelyVisibleItemPosition()
+        }
+    }
+
     fun updateScrollPosition(){
         val layoutManager = photoList.layoutManager
-        val currentPosition = PhotoListActivity.currentListPosition
+        val currentPosition = currentListPosition
         val viewAtPosition = layoutManager.findViewByPosition(currentPosition)
         if (viewAtPosition == null || layoutManager
                         .isViewPartiallyVisible(viewAtPosition, false, true)) {
@@ -128,7 +141,7 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
 
     override fun onPhotoListLoaded(list: List<Photos>) {
         photoListAdapter.setList(list)
-        PhotoListActivity.currentPhotoList = photoListAdapter.photosList
+        currentPhotoList = photoListAdapter.photosList
     }
 
     override fun photoListLoadError(errorMessage: String) {

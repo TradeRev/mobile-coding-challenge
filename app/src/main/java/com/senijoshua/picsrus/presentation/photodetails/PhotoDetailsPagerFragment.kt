@@ -8,6 +8,8 @@ import android.transition.TransitionInflater
 import android.view.View
 import com.senijoshua.picsrus.R
 import com.senijoshua.picsrus.presentation.PhotoListActivity
+import com.senijoshua.picsrus.presentation.SharedStates.currentListPosition
+import com.senijoshua.picsrus.presentation.SharedStates.currentPhotoList
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
@@ -28,10 +30,10 @@ class PhotoDetailsPagerFragment : Fragment() {
     }
 
     @AfterViews
-    fun onViewCreated(){
-        photoPagerAdapter = PhotoDetailsPagerAdapter(this, PhotoListActivity.currentPhotoList)
+    fun onViewCreated() {
+        photoPagerAdapter = PhotoDetailsPagerAdapter(this, currentPhotoList)
         photoPager.adapter = photoPagerAdapter
-        photoPager.currentItem = PhotoListActivity.currentListPosition
+        photoPager.currentItem = currentListPosition
         photoPager.addOnPageChangeListener(pageChangeListener)
         initSharedElementTransition()
         //prevents the fragment's enter transition from overriding the shared element transition
@@ -40,17 +42,17 @@ class PhotoDetailsPagerFragment : Fragment() {
         }
     }
 
-    fun initSharedElementTransition(){
+    fun initSharedElementTransition() {
         sharedElementEnterTransition = TransitionInflater.from(context)
                 .inflateTransition(R.transition.photo_detail_transition)
 
         //mirror of the callback at the list fragment
-        setEnterSharedElementCallback(object : SharedElementCallback(){
+        setEnterSharedElementCallback(object : SharedElementCallback() {
             override fun onMapSharedElements(names: MutableList<String>?, sharedElements: MutableMap<String, View>?) {
                 super.onMapSharedElements(names, sharedElements)
 
                 var currentPhotoDetailFragment: Fragment =
-                        photoPager.adapter!!.instantiateItem(photoPager, PhotoListActivity.currentListPosition) as Fragment
+                        photoPager.adapter!!.instantiateItem(photoPager, currentListPosition) as Fragment
 
                 sharedElements!![names!![0]] = currentPhotoDetailFragment.view!!.findViewById(R.id.photo_full_screen)
             }
@@ -60,7 +62,7 @@ class PhotoDetailsPagerFragment : Fragment() {
     var pageChangeListener = object : ViewPager.SimpleOnPageChangeListener() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            PhotoListActivity.currentListPosition = position
+            currentListPosition = position
         }
     }
 }
