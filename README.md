@@ -16,9 +16,18 @@ This is a coding challenge for prospective mobile developer applicants applying 
 - [ ] When user swipes on a photo in full screen, it should show the the next photo and preserve current photo's location on the grid, so when she dismisses the full screen, grid of photos should contain the last photo she saw in photo details.
 
 ### Evaluation:
-- [ ] Solution compiles. If there are necessary steps required to get it to compile, those should be covered in README.md.
+- [] Solution compiles. If there are necessary steps required to get it to compile, those should be covered in README.md.
 - [ ] No crashes, bugs, compiler warnings
 - [ ] App operates as intended
 - [ ] Conforms to SOLID principles
 - [ ] Code is easily understood and communicative
 - [ ] Commit history is consistent, easy to follow and understand
+
+### Challenge Finished
+Worthy of note is that, there's a Gradle Sync warning about kapt's generated folders. This is an issue with Google's Android studio for which further information is denoted here: https://androidstudio.googleblog.com/2018/06/android-studio-32-beta-1-available.html with respect to supefluous warnings of Android Studio.
+
+I tested primarily on an Android Nougat 7.1.1 Device. 
+
+No further frameworks are needed for the unit tests or project compilation.
+
+
