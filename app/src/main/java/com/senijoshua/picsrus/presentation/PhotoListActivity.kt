@@ -17,7 +17,7 @@ class PhotoListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            //state was not saved
+            //state was not saved, add fragment
             supportFragmentManager
                     .beginTransaction()
                     .add(R.id.photo_fragment_container, PhotoListFragment_(), PhotoListFragment::class.java.name)

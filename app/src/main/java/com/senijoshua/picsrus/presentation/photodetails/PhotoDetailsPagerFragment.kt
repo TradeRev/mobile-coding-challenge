@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager
 import android.transition.TransitionInflater
 import android.view.View
 import com.senijoshua.picsrus.R
-import com.senijoshua.picsrus.presentation.PhotoListActivity
 import com.senijoshua.picsrus.presentation.SharedStates.currentListPosition
 import com.senijoshua.picsrus.presentation.SharedStates.currentPhotoList
 import org.androidannotations.annotations.AfterViews
@@ -38,6 +37,7 @@ class PhotoDetailsPagerFragment : Fragment() {
         initSharedElementTransition()
         //prevents the fragment's enter transition from overriding the shared element transition
         if (savedState == null) {
+            //postpone only on the first instance of creation
             postponeEnterTransition()
         }
     }

@@ -30,11 +30,16 @@ import rx.schedulers.Schedulers
 
 @EFragment(R.layout.fragment_photo_list)
 class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
+
     @ViewById(R.id.photos_list)
     lateinit var photoList: RecyclerView
+
     lateinit var presenter: PhotoListPresenter
+
     lateinit var photoListAdapter: PhotoListAdapter
+
     lateinit var gridLayoutManager: GridLayoutManager
+
     var isPhotoPressed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,10 +59,13 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     fun initListComponents() {
         photoListAdapter = PhotoListAdapter(activity!!, photoClickListener)
         gridLayoutManager = GridLayoutManager(activity!!, 2)
+
         photoList.layoutManager = gridLayoutManager
         photoList.adapter = photoListAdapter
+
         scrollListener.initScrollComponents(gridLayoutManager, pageNumber)
         photoList.addOnScrollListener(scrollListener)
+
         if (shouldLoad) {
             presenter.loadPhotoList(pageNumber)
             shouldLoad = false
@@ -123,6 +131,8 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (!isPhotoPressed) {
+            //control for ensuring that the recenty clicked photo is visible on
+            //orientation change
             currentListPosition = gridLayoutManager.findFirstCompletelyVisibleItemPosition()
         }
     }
