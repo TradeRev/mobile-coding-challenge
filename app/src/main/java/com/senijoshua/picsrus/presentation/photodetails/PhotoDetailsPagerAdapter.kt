@@ -7,7 +7,7 @@ import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.presentation.SharedStates.DETAIL_PHOTO
 
 
-class PhotoDetailsPagerAdapter(var fragment: Fragment, var photoList: List<Photos>) : FragmentStatePagerAdapter(fragment.childFragmentManager) {
+class PhotoDetailsPagerAdapter(fragment: Fragment, var photoList: List<Photos>) : FragmentStatePagerAdapter(fragment.childFragmentManager) {
 
     override fun getItem(position: Int): Fragment {
         val photo = photoList[position]

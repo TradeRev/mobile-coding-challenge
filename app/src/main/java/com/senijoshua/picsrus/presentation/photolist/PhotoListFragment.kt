@@ -85,9 +85,11 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
         override fun onPhotoClicked(position: Int, sharedImageView: ImageView) {
             currentListPosition = position
             isPhotoPressed = true
+
             //exclude the selected view from the fade-out
             val fragmentExitTransition = exitTransition as TransitionSet
             fragmentExitTransition.excludeTarget(sharedImageView, true)
+
             activity!!.supportFragmentManager
                     .beginTransaction()
                     .setReorderingAllowed(true)

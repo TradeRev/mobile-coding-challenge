@@ -36,6 +36,7 @@ class PhotoDetailsFragment : Fragment(){
 
     @ViewById(R.id.photo_detail_likes)
     lateinit var userLikes: TextView
+
     lateinit var photoUrl: String
 
     @AfterViews
