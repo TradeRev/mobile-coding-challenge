@@ -15,10 +15,9 @@ import com.senijoshua.picsrus.data.RetrofitFactory
 import com.senijoshua.picsrus.data.models.Photos
 import com.senijoshua.picsrus.data.repo.PhotoRepoAPI
 import com.senijoshua.picsrus.data.repo.PhotoRepoImpl
-import com.senijoshua.picsrus.presentation.PhotoListActivity
-import com.senijoshua.picsrus.presentation.SharedStates
 import com.senijoshua.picsrus.presentation.SharedStates.currentListPosition
 import com.senijoshua.picsrus.presentation.SharedStates.currentPhotoList
+import com.senijoshua.picsrus.presentation.SharedStates.pageNumber
 import com.senijoshua.picsrus.presentation.SharedStates.shouldLoad
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment
 import com.senijoshua.picsrus.presentation.photodetails.PhotoDetailsPagerFragment_
@@ -36,7 +35,6 @@ class PhotoListFragment : Fragment(), PhotoListContract.PhotoView {
     lateinit var presenter: PhotoListPresenter
     lateinit var photoListAdapter: PhotoListAdapter
     lateinit var gridLayoutManager: GridLayoutManager
-    var pageNumber: Int = 1
     var isPhotoPressed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

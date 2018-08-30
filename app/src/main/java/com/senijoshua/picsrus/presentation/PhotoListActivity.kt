@@ -1,7 +1,7 @@
 package com.senijoshua.picsrus.presentation
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.senijoshua.picsrus.R
 import com.senijoshua.picsrus.presentation.SharedStates.KEY_RELOAD_BUFFER
 import com.senijoshua.picsrus.presentation.photolist.PhotoListFragment
@@ -16,15 +16,13 @@ class PhotoListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            //state was saved
-            reloadBuffer = savedInstanceState.getInt(KEY_RELOAD_BUFFER, 0)
-            return
+        if (savedInstanceState == null) {
+            //state was not saved
+            supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.photo_fragment_container, PhotoListFragment_(), PhotoListFragment::class.java.name)
+                    .commit()
         }
-        supportFragmentManager
-                .beginTransaction()
-                .add(R.id.photo_fragment_container, PhotoListFragment_(), PhotoListFragment::class.java.name)
-                .commit()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
