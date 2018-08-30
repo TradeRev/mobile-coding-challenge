@@ -16,7 +16,7 @@ This is a coding challenge for prospective mobile developer applicants applying 
 - [ ] When user swipes on a photo in full screen, it should show the the next photo and preserve current photo's location on the grid, so when she dismisses the full screen, grid of photos should contain the last photo she saw in photo details.
 
 ### Evaluation:
-- [] Solution compiles. If there are necessary steps required to get it to compile, those should be covered in README.md.
+- [ ] Solution compiles. If there are necessary steps required to get it to compile, those should be covered in README.md.
 - [ ] No crashes, bugs, compiler warnings
 - [ ] App operates as intended
 - [ ] Conforms to SOLID principles
