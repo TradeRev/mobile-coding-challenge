@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -17,10 +16,10 @@ import com.blankmemo.splashrev.adapter.ListItemClickListener;
 import com.blankmemo.splashrev.adapter.PhotoGalleryAdapter;
 import com.blankmemo.splashrev.api.ApiConstants;
 import com.blankmemo.splashrev.api.ApiFactory;
-import com.blankmemo.splashrev.api.ApiInterface;
 import com.blankmemo.splashrev.constants.intentConstants;
 import com.blankmemo.splashrev.datamodel.PhotoData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,6 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements ListItemClickListener{
@@ -135,11 +133,11 @@ public class MainActivity extends AppCompatActivity implements ListItemClickList
     public void onItemClick(View v, int position) {
         defaultPosition = position;
         Intent intent = new Intent(getApplicationContext(), PhotoFullScreenActivity.class);
-        //intent.putParcelableArrayListExtra(intentConstants.FULL_SCREEN_PHOTO_DETAILS, photoData);
-        intent.putExtra(intentConstants.FULL_SCREEN_PHOTO_POSITION,position);
+
+        intent.putExtra(intentConstants.FULL_SCREEN_PHOTO_DETAILS,(Serializable)mPhotoData);
+        intent.putExtra(intentConstants.FULL_SCREEN_PHOTO_POSITION, position);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, v, "profile");
-        //Log.d(TAG, "Image Title is: " + photoData.getTitle());
         startActivityForResult(intent, intentConstants.START_FULL_SCREEN_REQUEST_CODE, options.toBundle());
 
 

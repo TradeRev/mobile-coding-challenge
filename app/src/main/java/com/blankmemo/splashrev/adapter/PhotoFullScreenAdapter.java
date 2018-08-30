@@ -3,7 +3,6 @@ package com.blankmemo.splashrev.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,13 +46,11 @@ public class PhotoFullScreenAdapter extends PagerAdapter{
         View view = layoutInflater.inflate(R.layout.photo_full_screen, container,false);
 
         ImageView photoFullScreenImageView = view.findViewById(R.id.rl_photo_full_screen_imageview);
+        //Log.d(TAG, "The URL is " + (mPhotoData.get(position)).getUrls().getRegular());
 
-        //Log.d(TAG, mPhotoData.get(position).getAuthor() );
-
-//        Glide.with(mActivity)
-//                .load(mPhotoData.get(position).getUrl())
-//                .error(R.drawable.ic_cloud_off)
-//                .into(photoFullScreenImageView);
+        Glide.with(view.getContext())
+                .load((mPhotoData.get(position)).getUrls().getRegular())
+                .into(photoFullScreenImageView);
 
         container.addView(view);
 

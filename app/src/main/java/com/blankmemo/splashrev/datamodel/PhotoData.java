@@ -1,18 +1,15 @@
 package com.blankmemo.splashrev.datamodel;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Created by hongyuchen on 2018-08-25.
  */
 
-public class PhotoData {
+public class PhotoData implements Serializable{
     @SerializedName("id")
     @Expose
     private String id;

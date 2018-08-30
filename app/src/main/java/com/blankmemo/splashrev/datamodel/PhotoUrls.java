@@ -3,7 +3,9 @@ package com.blankmemo.splashrev.datamodel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PhotoUrls {
+import java.io.Serializable;
+
+public class PhotoUrls implements Serializable {
     @SerializedName("raw")
     @Expose
     private String raw;

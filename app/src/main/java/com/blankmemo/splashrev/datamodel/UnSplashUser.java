@@ -3,7 +3,9 @@ package com.blankmemo.splashrev.datamodel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UnSplashUser {
+import java.io.Serializable;
+
+public class UnSplashUser implements Serializable {
     @SerializedName("id")
     @Expose
     private String id;

@@ -2,7 +2,6 @@ package com.blankmemo.splashrev.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ public class PhotoGalleryAdapter extends RecyclerView.Adapter<PhotoGalleryViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final PhotoGalleryViewHolder holder, int position) {
-        Log.d("****Adapter****", "Ready to load Images" + mPhotoData.get(holder.getAdapterPosition()).getUrls().getSmall());
             Glide.with(holder.mPhotoView.getContext())
                     .load(mPhotoData.get(holder.getAdapterPosition()).getUrls().getSmall())
                     .into(holder.mPhotoView);

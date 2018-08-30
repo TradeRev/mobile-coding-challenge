@@ -9,7 +9,7 @@ import com.blankmemo.splashrev.adapter.PhotoFullScreenAdapter;
 import com.blankmemo.splashrev.constants.intentConstants;
 import com.blankmemo.splashrev.datamodel.PhotoData;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,9 +17,9 @@ import butterknife.ButterKnife;
 public class PhotoFullScreenActivity extends AppCompatActivity {
     @BindView(R.id.rl_photo_full_screen_view_pager)
     ViewPager mPhotoFullScreenViewPager;
-    private PhotoFullScreenAdapter mPhotoFullScreenAdapter;
+    List<PhotoData> mPhotoData;
+    private static final String TAG="PhotoFull Activity";
 
-    private static final String TAG="PhotoDetails Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,10 @@ public class PhotoFullScreenActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         int position = getIntent().getIntExtra(intentConstants.FULL_SCREEN_PHOTO_POSITION,0);
-        //ArrayList<PhotoData> photoData = getIntent().getParcelableArrayListExtra(intentConstants.FULL_SCREEN_PHOTO_DETAILS);
-        //mPhotoFullScreenViewPager.setAdapter(new PhotoFullScreenAdapter(this, photoData));
+        mPhotoData = (List<PhotoData>)getIntent().getSerializableExtra(intentConstants.FULL_SCREEN_PHOTO_DETAILS);
+        mPhotoFullScreenViewPager.setAdapter(new PhotoFullScreenAdapter(this, mPhotoData));
+        //Log.d(TAG,"the position and url is " + position + url);
+
         // displaying selected image first
         mPhotoFullScreenViewPager.setCurrentItem(position);
     }
