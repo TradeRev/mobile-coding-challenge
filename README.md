@@ -1,33 +1,17 @@
-# Mobile Developer Coding Challenge
+# Android App Coding Challenge
 
-This is a coding challenge for prospective mobile developer applicants applying through http://work.traderev.com/
+## Goal: Build simple app that allows viewing and interacting with a grid of curated photos from Unsplash
 
-## Goal:
+#### Requirements
 
-#### Build simple app that allows viewing and interacting with a grid of curated photos from Unsplash
+1. Grid of photos should preserve the aspect ratio of the photos it's displaying, meaning you shouldn't crop the image in any way.
+2. App should work in both portrait and landscape orientations of the device.
+3. Grid should support pagination, i.e. you can scroll on grid of photos infinitely.
+4. When user taps on a photo on the grid it should show only the tapped photo in full screen with more information about the photo.
+5. When user swipes on a photo in full screen, it should show the the next photo and preserve current photo's location on the grid, so when she dismisses the full screen, grid of photos should contain the last photo she saw in photo details.
 
-- [ ] Fork this repo. Keep it public until we have been able to review it.
-- [ ] Android: _Java_ or _Kotlin_ | iOS: _Swift 4_
-- [ ] Unsplash API docs are here: https://unsplash.com/documentation.
-- [ ] Grid of photos should preserve the aspect ratio of the photos it's displaying, meaning you shouldn't crop the image in any way.
-- [ ] App should work in both portrait and landscape orientations of the device.
-- [ ] Grid should support pagination, i.e. you can scroll on grid of photos infinitely.
-- [ ] When user taps on a photo on the grid it should show only the tapped photo in full screen with more information about the photo.
-- [ ] When user swipes on a photo in full screen, it should show the the next photo and preserve current photo's location on the grid, so when she dismisses the full screen, grid of photos should contain the last photo she saw in photo details.
 
-### Evaluation:
-- [ ] Solution compiles. If there are necessary steps required to get it to compile, those should be covered in README.md.
-- [ ] No crashes, bugs, compiler warnings
-- [ ] App operates as intended
-- [ ] Conforms to SOLID principles
-- [ ] Code is easily understood and communicative
-- [ ] Commit history is consistent, easy to follow and understand
 
-### Challenge Finished
-Worthy of note is that, there's a Gradle Sync warning about kapt's generated folders. This is an issue with Google's Android studio for which further information is denoted here: https://androidstudio.googleblog.com/2018/06/android-studio-32-beta-1-available.html with respect to supefluous warnings of Android Studio.
 
-I tested primarily on an Android Nougat 7.1.1 Device. 
-
-No further frameworks are needed for the unit tests or project compilation.
 
 
