@@ -58,11 +58,6 @@ class PhotoListActivity : AppCompatActivity() {
 
             photoListAdapter.submitList(it)
         })
-        viewModel.responsePhotos?.observe(this, Observer {
-
-        })
-
-
     }
 
     private fun transition(view: View, position: Int) {
@@ -110,7 +105,9 @@ class PhotoListActivity : AppCompatActivity() {
         )
         viewModel.getState().observe(this, Observer { state ->
             progress_bar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
-            tv_error.visibility = if (viewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE else View.GONE
+            tv_error.visibility = if (viewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE
+
+            else View.GONE
             if (!viewModel.listIsEmpty()) {
                 photoListAdapter.setState(state ?: State.DONE)
             }
