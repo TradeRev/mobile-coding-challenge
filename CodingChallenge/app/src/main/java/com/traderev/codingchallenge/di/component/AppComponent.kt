@@ -1,9 +1,9 @@
 package com.traderev.codingchallenge.di.component
 
-import com.practice.gallery.App
-import com.practice.gallery.di.module.AppModule
-import com.practice.gallery.di.module.BuildersModule
-import com.practice.gallery.di.module.NetModule
+import com.traderev.codingchallenge.App
+import com.traderev.codingchallenge.di.module.AppModule
+import com.traderev.codingchallenge.di.module.BuildersModule
+import com.traderev.codingchallenge.di.module.NetModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton

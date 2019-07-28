@@ -3,8 +3,8 @@ package com.traderev.codingchallenge.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.practice.gallery.model.Photos
-import com.practice.gallery.network.PhotoService
+import com.traderev.codingchallenge.model.Photos
+import com.traderev.codingchallenge.network.PhotoService
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 

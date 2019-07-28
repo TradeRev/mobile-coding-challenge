@@ -6,14 +6,12 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.practice.gallery.common.State
-import com.practice.gallery.model.Photos
-import com.practice.gallery.repository.PhotoDataSource
-import com.practice.gallery.repository.PhotoDataSourceFactory
+import com.traderev.codingchallenge.common.State
+import com.traderev.codingchallenge.model.Photos
+import com.traderev.codingchallenge.repository.PhotoDataSource
+import com.traderev.codingchallenge.repository.PhotoDataSourceFactory
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
-
-
 
 
 class PhotoListViewModel @Inject constructor(
@@ -27,6 +25,7 @@ class PhotoListViewModel @Inject constructor(
     var photoList: LiveData<PagedList<Photos>>
     var photos: MutableLiveData<ArrayList<Photos>> = MutableLiveData()
 
+    // Loading 20 items per call
     private val pageSize = 20
 
     private var photoDataSource: MutableLiveData<PhotoDataSource> = photosDataSourceFactory.photoDataSourceLiveData
@@ -34,9 +33,7 @@ class PhotoListViewModel @Inject constructor(
 
     init {
 
-
         responsePhotos = photoDataSource.value?.responsePhotos
-
 
         val config = PagedList.Config.Builder()
             .setPageSize(pageSize)
@@ -47,7 +44,6 @@ class PhotoListViewModel @Inject constructor(
 
 
     }
-
 
     fun getState(): LiveData<State> = Transformations.switchMap<PhotoDataSource,
             State>(photoDataSource, PhotoDataSource::state)
@@ -62,7 +58,6 @@ class PhotoListViewModel @Inject constructor(
     fun listIsEmpty(): Boolean {
         return photoList.value?.isEmpty() ?: true
     }
-
 
     override fun onCleared() {
         super.onCleared()

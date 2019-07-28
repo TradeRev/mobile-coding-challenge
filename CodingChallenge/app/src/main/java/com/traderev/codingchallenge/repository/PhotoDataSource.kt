@@ -2,12 +2,12 @@ package com.traderev.codingchallenge.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.practice.gallery.BuildConfig
-import com.practice.gallery.common.LogType
-import com.practice.gallery.common.State
-import com.practice.gallery.model.Photos
-import com.practice.gallery.network.PhotoService
-import com.practice.gallery.utility.UtilHelper
+import com.traderev.codingchallenge.BuildConfig
+import com.traderev.codingchallenge.common.LogType
+import com.traderev.codingchallenge.common.State
+import com.traderev.codingchallenge.model.Photos
+import com.traderev.codingchallenge.network.PhotoService
+import com.traderev.codingchallenge.utility.UtilHelper
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +18,6 @@ class PhotoDataSource(
     private val photoService: PhotoService,
     private val compositeDisposable: CompositeDisposable
 ) : PageKeyedDataSource<Int, Photos>() {
-
 
     var state: MutableLiveData<State> = MutableLiveData()
     private var retryCompletable: Completable? = null

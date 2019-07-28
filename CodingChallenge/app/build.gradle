@@ -56,6 +56,11 @@ dependencies {
     def retrofit_version = "2.6.0"
     def rx_android_version = "2.1.1"
     def dagger2_version = "2.15"
+    def javax_annotation = "1.0"
+    def javax_inject = "1"
+    def photo_view_version = "2.3.0"
+    def picasso_version = "2.71828"
+    def paging_version = "2.1.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -84,6 +89,20 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger2_version"
+
+    //Annotations
+    compileOnly "javax.annotation:jsr250-api:$javax_annotation"
+    implementation "javax.inject:javax.inject:$javax_inject"
+    implementation "androidx.annotation:annotation:$androidx_version"
+
+    //Picasso
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+
+    //Custom Photo View
+    implementation "com.github.chrisbanes:PhotoView:$photo_view_version"
+
+    //Paging
+    implementation "androidx.paging:paging-runtime:$paging_version"
 
     //Test Libraries
     testImplementation "junit:junit:$junit_version"

@@ -5,10 +5,11 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practice.gallery.R
-import com.practice.gallery.common.State
+import com.traderev.codingchallenge.R
+import com.traderev.codingchallenge.common.State
 import kotlinx.android.synthetic.main.item_list_footer.view.*
 
+//For showing the loader as the last item of the grid
 class ListFooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(status: State?) {

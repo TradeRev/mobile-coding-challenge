@@ -1,6 +1,6 @@
 package com.traderev.codingchallenge.di.module
 
-import com.practice.gallery.view.activities.PhotoListActivity
+import com.traderev.codingchallenge.view.activities.PhotoListActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

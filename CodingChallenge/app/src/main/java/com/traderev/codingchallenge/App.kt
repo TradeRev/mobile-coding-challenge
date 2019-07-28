@@ -1,16 +1,16 @@
-package com.practice.gallery
+package com.traderev.codingchallenge
 
 import android.app.Activity
 import android.app.Application
-import com.practice.gallery.di.component.DaggerAppComponent
-import com.practice.gallery.di.module.AppModule
-import com.practice.gallery.di.module.NetModule
+import com.traderev.codingchallenge.di.component.DaggerAppComponent
+import com.traderev.codingchallenge.di.module.AppModule
+import com.traderev.codingchallenge.di.module.NetModule
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-
+// Extends application class to configure dependency injection
 class App : Application(), HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>

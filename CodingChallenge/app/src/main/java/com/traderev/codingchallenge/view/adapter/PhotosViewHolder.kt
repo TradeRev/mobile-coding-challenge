@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
-import com.practice.gallery.R
-import com.practice.gallery.model.Photos
+import com.traderev.codingchallenge.R
+import com.traderev.codingchallenge.model.Photos
 import kotlinx.android.synthetic.main.item_photo_list.view.*
 import com.squareup.picasso.Picasso.get as picassoGet
 
@@ -19,7 +19,7 @@ class PhotosViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         if (photos != null) {
             picassoGet().run { load(photos.urls.small).into(itemView.iv_source) }
             with(set) {
-
+                // For maintaining the aspect ratio in staggered view
                 val posterRatio = String.format("%d:%d", photos.width, photos.height)
                 clone(itemView.parent_constraint)
                 setDimensionRatio(itemView.iv_source.id, posterRatio)

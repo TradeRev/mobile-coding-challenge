@@ -1,4 +1,4 @@
-package com.practice.gallery.di.module
+package com.traderev.codingchallenge.di.module
 
 import dagger.Module
 import dagger.Provides
@@ -10,7 +10,6 @@ import javax.inject.Singleton
 
 @Module
 class NetModule(private val baseUrl: String) {
-
 
     @Provides
     @Singleton

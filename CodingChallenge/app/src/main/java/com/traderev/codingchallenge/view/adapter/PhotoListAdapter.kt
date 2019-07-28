@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.practice.gallery.common.State
-import com.practice.gallery.model.Photos
+import com.traderev.codingchallenge.common.State
+import com.traderev.codingchallenge.model.Photos
 
 
 class PhotoListAdapter(
@@ -67,6 +67,10 @@ class PhotoListAdapter(
     fun setState(state: State) {
         this.state = state
         notifyItemChanged(super.getItemCount())
+    }
+
+    fun getState(): State {
+        return this.state
     }
 
     interface Listener {
