@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_list_footer.view.*
 class ListFooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(status: State?) {
-        itemView.progress_bar.visibility = if (status == State.LOADING) VISIBLE else View.INVISIBLE
+        itemView.pb_progress.visibility = if (status == State.LOADING) VISIBLE else View.INVISIBLE
         itemView.tv_error.visibility = if (status == State.ERROR) VISIBLE else View.INVISIBLE
     }
 

@@ -21,9 +21,9 @@ class PhotosViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             with(set) {
                 // For maintaining the aspect ratio in staggered view
                 val posterRatio = String.format("%d:%d", photos.width, photos.height)
-                clone(itemView.parent_constraint)
+                clone(itemView.cl_parent)
                 setDimensionRatio(itemView.iv_source.id, posterRatio)
-                applyTo(itemView.parent_constraint)
+                applyTo(itemView.cl_parent)
 
             }
         }

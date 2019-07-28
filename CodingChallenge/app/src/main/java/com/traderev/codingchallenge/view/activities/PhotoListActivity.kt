@@ -52,8 +52,8 @@ class PhotoListActivity : AppCompatActivity() {
 
         }) { viewModel.retry() }
 
-        rvPosters.layoutManager = staggeredGridLayoutManager
-        rvPosters.adapter = photoListAdapter
+        rv_posters.layoutManager = staggeredGridLayoutManager
+        rv_posters.adapter = photoListAdapter
         viewModel.photoList.observe(this, Observer {
 
             photoListAdapter.submitList(it)
@@ -77,7 +77,7 @@ class PhotoListActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val position: Int? = data?.getIntExtra(Constants.CURRENTPHOTOPOSITION, 0)
-        rvPosters.scrollToPosition(position as Int)
+        rv_posters.scrollToPosition(position as Int)
         UtilHelper.displayLog(
             "" + "" + data.getIntExtra(Constants.CURRENTPHOTOPOSITION, 0),
             PhotoListActivity::class.java.simpleName,
@@ -104,7 +104,7 @@ class PhotoListActivity : AppCompatActivity() {
             }
         )
         viewModel.getState().observe(this, Observer { state ->
-            progress_bar.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
+            pb_progress.visibility = if (viewModel.listIsEmpty() && state == State.LOADING) View.VISIBLE else View.GONE
             tv_error.visibility = if (viewModel.listIsEmpty() && state == State.ERROR) View.VISIBLE
 
             else View.GONE

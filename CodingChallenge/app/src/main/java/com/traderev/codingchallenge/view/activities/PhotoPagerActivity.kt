@@ -28,7 +28,7 @@ class PhotoPagerActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         val intent = Intent()
-        intent.putExtra(Constants.CURRENTPHOTOPOSITION, view_pager.currentItem)
+        intent.putExtra(Constants.CURRENTPHOTOPOSITION, vp_photos.currentItem)
         setResult(Constants.LASTPHOTOPOSITION, intent)
         super.onBackPressed()
     }
@@ -39,8 +39,8 @@ class PhotoPagerActivity : AppCompatActivity() {
         list.addAll(PhotoSingleton.getPhotos() as ArrayList)
         photoPagerAdapter = PhotoPagerAdapter(clickedPosition, list)
         photoPagerAdapter.notifyDataSetChanged()
-        view_pager.adapter = photoPagerAdapter
-        view_pager.setCurrentItem(clickedPosition, true)
+        vp_photos.adapter = photoPagerAdapter
+        vp_photos.setCurrentItem(clickedPosition, true)
 
     }
 

@@ -1,24 +1,31 @@
 # Mobile Developer Coding Challenge
 
-This is a coding challenge for prospective mobile developer applicants applying through http://work.traderev.com/
+This is an Android app based on the latest architecture guidelines and Jetpack components. The app uses Unsplash API to fetch the photos.
 
-## Goal:
+Following are the features of the application:
+  - Works in both portrait and landscape mode
+  - Infinite image scrolling
+  - Image full view with pinch to zoom
+  - View pager to view other photos in-line
+  - Maintains aspect ratio of images in both staggered view and full view
 
-#### Build simple app that allows viewing and interacting with a grid of curated photos from Unsplash
+# Programming practices followed: 
 
-- [ ] Fork this repo. Keep it public until we have been able to review it.
-- [ ] Android: _Java_ or _Kotlin_ | iOS: _Swift 4_
-- [ ] Unsplash API docs are here: https://unsplash.com/documentation.
-- [ ] Grid of photos should preserve the aspect ratio of the photos it's displaying, meaning you shouldn't crop the image in any way.
-- [ ] App should work in both portrait and landscape orientations of the device.
-- [ ] Grid should support pagination, i.e. you can scroll on grid of photos infinitely.
-- [ ] When user taps on a photo on the grid it should show only the tapped photo in full screen with more information about the photo.
-- [ ] When user swipes on a photo in full screen, it should show the the next photo and preserve current photo's location on the grid, so when she dismisses the full screen, grid of photos should contain the last photo she saw in photo details.
+  - MVVM Architectural pattern
+  - Kotlin
+  - Dependency Injection using Dagger2
+  - Reactive programming using RxAndroid
+  - Networking using Retrofit and Gson parser
+  - Image loading using Picasso
+  - Infinite scrolling using Paging Library
+  - Lifecycle awareness using Livedata
 
-### Evaluation:
-- [ ] Solution compiles. If there are necessary steps required to get it to compile, those should be covered in README.md.
-- [ ] No crashes, bugs, compiler warnings
-- [ ] App operates as intended
-- [ ] Conforms to SOLID principles
-- [ ] Code is easily understood and communicative
-- [ ] Commit history is consistent, easy to follow and understand
+# Screenshots
+<img src="/CodingChallenge/screenshots/Home_Portrait.png" width="346" height="615" alt="Home Portrait"/> 
+<img src="/CodingChallenge/screenshots/Home_Landscape.png" width="615" height="346" alt="Home Landscape"/>
+<img src="/CodingChallenge/screenshots/Full_View_Portrait.png" width="346" height="615" alt="Full View Portrait"/>
+<img src="/CodingChallenge/screenshots/Full View Landscape.png" width="615" height="346" alt="Full View Landscape"/>
+
+### References
+
+* [PhotoView by Chris Banes](https://github.com/chrisbanes/PhotoView)
