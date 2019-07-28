@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CodingChallenge</string>
+    <string name="error">Error. Retry.</string>
+    <string name="image_source">Images from Unsplash</string>
+</resources>
