@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Photos Code Challenge</string>
+
+    <string name="generic_error_message">An Error occurred. Please try again later</string>
+    <string name="empty_error_message">An Error occurred. Please try again later</string>
+    <string name="timeout_error_message">An Error occurred. Please try again later</string>
+    <string name="no_connection_error_message">No Internet, please check your settings</string>
+    <string name="bad_request_error_message">An Error occurred. Please try again later</string>
+    <string name="client_error_message">An Error occurred. Please try again later</string>
+    <string name="server_error_message">An Error occurred. Please try again later</string>
+    <string name="try_again">Please try again</string>
+</resources>
